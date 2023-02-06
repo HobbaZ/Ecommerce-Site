@@ -1,19 +1,19 @@
 # Ecommerce-Site
 
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](https://choosealicense.com/licenses/mit/)
-[![Github Commits](https://img.shields.io/github/commit-activity/w/HobbaZ/Worthly)](https://github.com/HobbaZ/Worthly/commits)
-[![GitHub latest commit](https://img.shields.io/github/last-commit/HobbaZ/Worthly)](https://github.com/HobbaZ/Worthly/branches)
+[![Github Commits](https://img.shields.io/github/commit-activity/w/HobbaZ/Ecommerce-Site)](https://github.com/HobbaZ/Ecommerce-Site/commits)
+[![GitHub latest commit](https://img.shields.io/github/last-commit/HobbaZ/Ecommerce-Site)](https://github.com/HobbaZ/Ecommerce-Site/branches)
 [![GitHub followers](https://img.shields.io/github/followers/HobbaZ.svg)]()
-![GitHub repo size](https://img.shields.io/github/repo-size/HobbaZ/Worthly)
-![[GitHub issues](https://img.shields.io/github/issues/HobbaZ/Worthly)](https://img.shields.io/github/issues/HobbaZ/Worthly)
-![GitHub forks](https://img.shields.io/github/forks/HobbaZ/Worthly)
-![GitHub language count](https://img.shields.io/github/languages/count/HobbaZ/Worthly)
+![GitHub repo size](https://img.shields.io/github/repo-size/HobbaZ/Ecommerce-Site)
+![[GitHub issues](https://img.shields.io/github/issues/HobbaZ/Ecommerce-Site)](https://img.shields.io/github/issues/HobbaZ/Ecommerce-Site)
+![GitHub forks](https://img.shields.io/github/forks/HobbaZ/Ecommerce-Site)
+![GitHub language count](https://img.shields.io/github/languages/count/HobbaZ/Ecommerce-Site)
 
 ## Description
 
 ### Project Aim
 
-Keeping track of your interesting and collectable things can be a challenge. What search term did I use? What was the price some months ago? Is the price the real selling price or the seller's opinion of the sale price? In comes Worthly, where you can search for your item and see the average sale price over a period of time to give you the best estimated sale price.
+Create an e commerce website.
 
 ### What Problem Does It Solve
 
@@ -67,11 +67,14 @@ First start your local MongoDB server by downloading [MongoDB community server](
 ## Technology
 
 - Express
-- AWS
+- will be deployed on AWS
 - React
 - JWT
+- Bootstrap
 - MongoDB
 - FontAwesome icons
+- ESLint
+- Prettier
 
 ## Contributors
 
