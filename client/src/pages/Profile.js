@@ -66,6 +66,7 @@ const Profile = () => {
           }
   
           const user = await response.json();
+          document.title = "Profile";
           setUserData(user);
         } catch (err) {
           console.error(err);

@@ -1,3 +1,11 @@
+.btn-primary {
+  background-color: blueviolet;
+}
+
+.btn-primary :hover {
+  background-color: rgb(63, 4, 119);
+}
+
 footer {
   align-items: center;
   margin-top: 10px;
@@ -31,6 +39,10 @@ header a {
 header a:hover {
   text-decoration: solid;
   color: yellow;
+}
+
+.img-large {
+  max-width: 100%;
 }
 
 main {

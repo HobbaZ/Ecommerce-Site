@@ -12,6 +12,10 @@ const Signup = () => {
   /* const [formInput, setFormInput] = useState({ username: '', email: '', password: '' ,firstname: '', lastname: ''});
     const [submittingForm, setSubmittingForm] = useState(false);
 
+useEffect(() => {
+    document.title = 'Signup';
+  }, [])
+
     const handleSubmit = async (event) => {
         event.preventDefault();
         setSubmittingForm(true);

@@ -84,6 +84,10 @@ You can also contribute by opening a pull request or submitting an issue.
 
 ## Acknowledgements
 
+[https://stackoverflow.com/questions/46160461/how-do-you-set-the-document-title-in-react](https://stackoverflow.com/questions/46160461/how-do-you-set-the-document-title-in-react)
+
+[https://getbootstrap.com/docs/4.2/components/spinners/](https://getbootstrap.com/docs/4.2/components/spinners/)
+
 ## Testing
 
 No tests at the moment

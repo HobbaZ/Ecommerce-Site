@@ -16,6 +16,10 @@ const Login = () => {
     // state for messages
     const [infoMessage, setInfoMessage] = useState('');
 
+  useEffect(() => {
+    document.title = 'Login';
+  }, [])
+
     const handleSubmit = async (event) => {
         event.preventDefault();
         setSubmittingForm(true);

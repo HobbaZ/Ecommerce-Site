@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import "react-bootstrap";
 import Product from "../components/Product";
+import { Loading } from "../components/Loading";
 
 const Home = () => {
   const [products, setProducts] = useState([]);
@@ -13,6 +14,8 @@ const Home = () => {
   const [infoMessage, setInfoMessage] = useState("");
 
   useEffect(() => {
+    document.title = "Home";
+
     const getData = async () => {
       setLoading(true);
       try {
@@ -42,7 +45,7 @@ const Home = () => {
           <h1>Featured Products</h1>
           <div className="products">
             {loading ? (
-              <div>loading</div>
+              <Loading />
             ) : infoMessage ? (
               <div className="text-center errMessage">{infoMessage}</div>
             ) : (
