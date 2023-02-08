@@ -57,6 +57,10 @@ main {
   max-height: 400px;
 }
 
+.productButton {
+  font-weight: 700;
+}
+
 .product img {
   width: 100%;
   max-width: 400px;

@@ -5,7 +5,10 @@ import Rating from "./Rating";
 function Product(props) {
   const { product, theme1, theme2 } = props;
   return (
-    <Card key={product.slug} className={`bg-dark text-light`}>
+    <Card
+      key={product.slug}
+      className={`bg-${theme1} text-${theme2} border border-${theme2}`}
+    >
       <Link to={`/product/${product.slug}`}>
         <img className="card-img-top" src={product.image} alt={product.name} />
       </Link>
@@ -18,7 +21,11 @@ function Product(props) {
           numberofReviews={product.numberofReviews}
         />
         <Card.Text>${product.price}</Card.Text>
-        <Button>Add to Cart</Button>
+        <Button
+          className={`bg-${theme1} text-${theme2} border border-${theme2} w-100 productButton`}
+        >
+          Add to Cart
+        </Button>
       </Card.Body>
     </Card>
   );

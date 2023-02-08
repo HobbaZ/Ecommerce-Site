@@ -34,7 +34,7 @@ function App() {
                 </Navbar.Brand>
 
                 <Button
-                  className={`bg-${theme1} text-${theme2}`}
+                  className={`bg-${theme1} text-${theme2} border border-${theme2}`}
                   onClick={() => {
                     setTheme1(theme1 === "dark" ? "light" : "dark");
                     setTheme2(theme2 === "light" ? "dark" : "light");
@@ -51,9 +51,7 @@ function App() {
                 <Route
                   exact
                   path="/"
-                  element={<Home />}
-                  theme2={theme2}
-                  theme1={theme1}
+                  element={<Home theme2={theme2} theme1={theme1} />}
                 />
                 <Route exact path="/signup" element={<Signup />} />
                 <Route exact path="/login" element={<Login />} />
