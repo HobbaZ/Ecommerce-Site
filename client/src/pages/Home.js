@@ -4,14 +4,16 @@ import "react-bootstrap";
 import Product from "../components/Product";
 import { Loading } from "../components/Loading";
 
-const Home = () => {
+const Home = (props) => {
+  const { theme1, theme2 } = props;
+
   const [products, setProducts] = useState([]);
 
   //loading state
   const [loading, setLoading] = useState(false);
 
   // state for messages
-  const [infoMessage, setInfoMessage] = useState("");
+  const [error, setError] = useState("");
 
   useEffect(() => {
     document.title = "Home";
@@ -24,7 +26,7 @@ const Home = () => {
         });
 
         if (!response.ok) {
-          setInfoMessage("something went wrong getting product data");
+          setLoading(false);
           throw new Error("something went wrong getting product data!");
         }
 
@@ -32,6 +34,7 @@ const Home = () => {
         setProducts(productData);
         setLoading(false);
       } catch (err) {
+        setError(err.message);
         console.error(err);
       }
     };
@@ -45,14 +48,22 @@ const Home = () => {
           <h1>Featured Products</h1>
           <div className="products">
             {loading ? (
-              <Loading />
-            ) : infoMessage ? (
-              <div className="text-center errMessage">{infoMessage}</div>
+              <div className="d-flex justify-content-center">
+                <Loading />
+              </div>
+            ) : error ? (
+              <div className="text-danger d-flex justify-content-center">
+                {error}
+              </div>
             ) : (
               <Row>
                 {products.map((product) => (
                   <Col key={product.slug} sm={6} md={4} lg={3}>
-                    <Product product={product}></Product>
+                    <Product
+                      product={product}
+                      theme1={theme1}
+                      theme2={theme2}
+                    ></Product>
                   </Col>
                 ))}
               </Row>

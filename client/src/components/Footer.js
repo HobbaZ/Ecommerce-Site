@@ -1,4 +1,3 @@
-import React from "react";
 import Container from "react-bootstrap/Container";
 
 //Change year automatically
@@ -7,20 +6,24 @@ function year() {
   return date.getFullYear();
 }
 
-const Footer = () => {
+const Footer = (props) => {
+  const { theme2 } = props;
   return (
     <>
-      <Container className="text-center" fluid>
+      <Container className={`text-center text-${theme2}`} fluid>
         <footer className=" fixed-bottom text-center">
           <p>
             Ecommerce Site, {year()}
-            <a href="https://www.linkedin.com/in/zachary-hobba-52aaa182/">
+            <a
+              href="https://www.linkedin.com/in/zachary-hobba-52aaa182/"
+              className={`text-${theme2}`}
+            >
               <i className="fab fa-linkedin icon"></i>
             </a>
-            <a href="mailto:zachobba@gmail.com">
+            <a href="mailto:zachobba@gmail.com" className={`text-${theme2}`}>
               <i className="fas fa-envelope-square icon"></i>
             </a>
-            <a href="https://github.com/HobbaZ">
+            <a href="https://github.com/HobbaZ" className={`text-${theme2}`}>
               <i className="fab fa-github icon"></i>
             </a>
           </p>

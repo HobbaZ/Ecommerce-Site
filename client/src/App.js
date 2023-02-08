@@ -9,36 +9,64 @@ import Product from "./pages/ProductPage";
 import Footer from "./components/Footer";
 
 import "./App.css";
-import { Container, Navbar } from "react-bootstrap";
+import { Button, Container, Navbar } from "react-bootstrap";
+import { createContext, useContext, useState } from "react";
+
+const ThemeContext = createContext(null);
 
 function App() {
+  const [theme1, setTheme1] = useState("light");
+  const [theme2, setTheme2] = useState("dark");
+
   return (
-    <Router>
-      <div className="d-flex flex-column site-container">
-        <header>
-          <Navbar bg="dark" varient="dark">
-            <Container>
-              <Navbar.Brand>
-                <Link to="/">E Commerce Site</Link>
-              </Navbar.Brand>
+    <ThemeContext.Provider value={theme1}>
+      <Router>
+        <div
+          className={`d-flex flex-column site-container bg-${theme1} text-${theme2}`}
+        >
+          <header className={`bg-${theme1} text-${theme2}`}>
+            <Navbar>
+              <Container>
+                <Navbar.Brand>
+                  <Link className={`bg-${theme1} text-${theme2}`} to="/">
+                    E Commerce Site
+                  </Link>
+                </Navbar.Brand>
+
+                <Button
+                  className={`bg-${theme1} text-${theme2}`}
+                  onClick={() => {
+                    setTheme1(theme1 === "dark" ? "light" : "dark");
+                    setTheme2(theme2 === "light" ? "dark" : "light");
+                  }}
+                >
+                  {theme1 === "light" ? "Dark Theme" : "Light Theme"}
+                </Button>
+              </Container>
+            </Navbar>
+          </header>
+          <main className={`bg-${theme1} text-${theme2}`}>
+            <Container className="mt-3">
+              <Routes>
+                <Route
+                  exact
+                  path="/"
+                  element={<Home />}
+                  theme2={theme2}
+                  theme1={theme1}
+                />
+                <Route exact path="/signup" element={<Signup />} />
+                <Route exact path="/login" element={<Login />} />
+                <Route exact path="/profile" element={<Profile />} />
+                <Route exact path="/product/:slug" element={<Product />} />
+                <Route render={() => <h1>404! This page doesn't exist</h1>} />
+              </Routes>
             </Container>
-          </Navbar>
-        </header>
-        <main>
-          <Container className="mt-3">
-            <Routes>
-              <Route exact path="/" element={<Home />} />
-              <Route exact path="/signup" element={<Signup />} />
-              <Route exact path="/login" element={<Login />} />
-              <Route exact path="/profile" element={<Profile />} />
-              <Route exact path="/product/:slug" element={<Product />} />
-              <Route render={() => <h1>404! This page doesn't exist</h1>} />
-            </Routes>
-          </Container>
-        </main>
-        <Footer />
-      </div>
-    </Router>
+          </main>
+          <Footer theme2={theme2} />
+        </div>
+      </Router>
+    </ThemeContext.Provider>
   );
 }
 

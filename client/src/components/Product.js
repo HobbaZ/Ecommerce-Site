@@ -3,15 +3,15 @@ import { Link } from "react-router-dom";
 import Rating from "./Rating";
 
 function Product(props) {
-  const { product } = props;
+  const { product, theme1, theme2 } = props;
   return (
-    <Card key={product.slug}>
+    <Card key={product.slug} className={`bg-dark text-light`}>
       <Link to={`/product/${product.slug}`}>
         <img className="card-img-top" src={product.image} alt={product.name} />
       </Link>
       <Card.Body>
         <Link to={`/product/${product.slug}`}>
-          <Card.Title className="card-text">{product.name}</Card.Title>
+          <Card.Title>{product.name}</Card.Title>
         </Link>
         <Rating
           rating={product.rating}

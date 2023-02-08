@@ -46,7 +46,7 @@ header a:hover {
 }
 
 main {
-  flex: 1;
+  height: 100vh;
 }
 
 .product {
@@ -60,6 +60,7 @@ main {
 .product img {
   width: 100%;
   max-width: 400px;
+  max-height: 300px;
   object-fit: cover;
 }
 
