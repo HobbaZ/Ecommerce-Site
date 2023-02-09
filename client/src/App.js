@@ -9,14 +9,18 @@ import Product from "./pages/ProductPage";
 import Footer from "./components/Footer";
 
 import "./App.css";
-import { Button, Container, Navbar } from "react-bootstrap";
+import { Badge, Button, Container, Nav, Navbar } from "react-bootstrap";
 import { createContext, useContext, useState } from "react";
+import { Store } from "./Store";
 
 const ThemeContext = createContext(null);
 
 function App() {
   const [theme1, setTheme1] = useState("light");
   const [theme2, setTheme2] = useState("dark");
+
+  const { state } = useContext(Store);
+  const { cart } = state;
 
   return (
     <ThemeContext.Provider value={theme1}>
@@ -32,6 +36,21 @@ function App() {
                     E Commerce Site
                   </Link>
                 </Navbar.Brand>
+
+                <Nav className="me-auto">
+                  <Link to="/cart" className="nav-link">
+                    Cart
+                    {cart.cartItems.length > 0 && (
+                      <Badge pill bg="danger">
+                        {cart.cartItems.reduce(
+                          (accumulator, currentItem) =>
+                            accumulator + currentItem.quantity,
+                          0
+                        )}
+                      </Badge>
+                    )}
+                  </Link>
+                </Nav>
 
                 <Button
                   className={`bg-${theme1} text-${theme2} border border-${theme2}`}
@@ -56,7 +75,11 @@ function App() {
                 <Route exact path="/signup" element={<Signup />} />
                 <Route exact path="/login" element={<Login />} />
                 <Route exact path="/profile" element={<Profile />} />
-                <Route exact path="/product/:slug" element={<Product />} />
+                <Route
+                  exact
+                  path="/product/:slug"
+                  element={<Product theme2={theme2} theme1={theme1} />}
+                />
                 <Route render={() => <h1>404! This page doesn't exist</h1>} />
               </Routes>
             </Container>

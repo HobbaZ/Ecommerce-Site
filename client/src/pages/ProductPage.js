@@ -1,19 +1,16 @@
-import { useEffect, useState } from "react";
+//Change addToCartHandler from using useReducer to using useState
+
+import { useEffect, useState, useContext } from "react";
 
 import { useParams } from "react-router-dom";
-import {
-  Badge,
-  Button,
-  Card,
-  Col,
-  Container,
-  ListGroup,
-  Row,
-} from "react-bootstrap";
+import { Badge, Button, Card, Col, Container, Row } from "react-bootstrap";
 import Rating from "../components/Rating";
 import { Loading } from "../components/Loading";
+import { Store } from "../Store";
 
-const ProductPage = () => {
+const ProductPage = (props) => {
+  const { theme1, theme2 } = props;
+
   const params = useParams();
   const { slug } = params;
 
@@ -29,7 +26,7 @@ const ProductPage = () => {
     const getData = async () => {
       setLoading(true);
       try {
-        const response = await fetch(`/api/products/${slug}`, {
+        const response = await fetch(`/api/products/item/${slug}`, {
           method: "GET",
         });
 
@@ -50,6 +47,40 @@ const ProductPage = () => {
     getData();
   }, []);
 
+  const { state, dispatch: ctxDispatch } = useContext(Store);
+  const { cart } = state;
+  const addToCartHandler = async () => {
+    //if product number of product exists it the cart, if so increase by 1
+    const itemQuantity = cart.cartItems.find(
+      (x) => parseInt(x._id) === product._id
+    );
+    const quantity = itemQuantity ? itemQuantity.quantity + 1 : 1;
+
+    const { data } = await fetch(`/api/products/${product._id}`, {
+      method: "GET",
+    });
+
+    /*const purchaseLimit =
+      itemQuantity.quantity > data.limit
+        ? itemQuantity.quantity
+        : itemQuantity.quantity + 1;
+
+    if (purchaseLimit > data.limit) {
+      window.alert(`Sorry, you are over the puchase limit for ${product.name}`);
+      return;
+    }*/
+
+    if (quantity > data.numberinStock) {
+      window.alert(`Sorry, ${product.name} is out of stock`);
+      return;
+    }
+
+    ctxDispatch({
+      type: "CART_ADD_ITEM",
+      payload: { ...product, quantity },
+    });
+  };
+
   return (
     <>
       <Container>
@@ -66,75 +97,70 @@ const ProductPage = () => {
             <Row>
               <Col md={6}>
                 <img
-                  className="img-large"
-                  scr={product.image}
+                  className="img-large mb-2"
+                  src={`${product.image}`}
                   alt={product.name}
                 ></img>
               </Col>
+              <Col md={6}>
+                <Card className={`bg-${theme1} text-${theme2} border border-0`}>
+                  <Card.Body>
+                    <Card.Title className="mx-auto w-75 text-center">
+                      {product.name}
+                    </Card.Title>
 
-              <Col md={3}>
-                <ListGroup variant="flush">
-                  <ListGroup.Item>
-                    <h1>{product.name}</h1>
-                  </ListGroup.Item>
-                  <ListGroup.Item>
-                    <Rating
-                      rating={product.rating}
-                      numberofReviews={product.numberofReviews}
-                    ></Rating>
-                  </ListGroup.Item>
+                    <div className="mx-auto w-50 text-center">
+                      <Rating
+                        rating={product.rating}
+                        numberofReviews={product.numberofReviews}
+                      />
+                    </div>
 
-                  <ListGroup.Item>
-                    <p>
-                      <b>Price: </b>${product.price}
-                    </p>
-                  </ListGroup.Item>
-
-                  <ListGroup.Item>
-                    <p>
+                    <Card.Text className="mx-auto w-50">
                       <b>Description: </b>
                       {product.description}
-                    </p>
-                  </ListGroup.Item>
-                </ListGroup>
-              </Col>
+                    </Card.Text>
 
-              <Col md={3}>
-                <Card>
-                  <Card.Body>
-                    <ListGroup variant="flush">
-                      <ListGroup.Item>
-                        <Row>
-                          <Col>
-                            <b>Price:</b>
-                          </Col>
-                          <Col>${product.price}</Col>
-                        </Row>
-                      </ListGroup.Item>
+                    <Card.Text className="mx-auto w-50">
+                      <b>Price:</b>
+                      <span className="float-right">${product.price}</span>
+                    </Card.Text>
 
-                      <ListGroup.Item>
-                        <Row>
-                          <Col>
-                            <b>Stock:</b>
-                          </Col>
-                          <Col>
-                            {product.numberinStock > 0 ? (
-                              <Badge bg="success">In Stock</Badge>
-                            ) : (
-                              <Badge bg="danger">Unavailable</Badge>
-                            )}
-                          </Col>
-                        </Row>
-                      </ListGroup.Item>
+                    <Card.Text className="mx-auto w-50">
+                      <b>Stock:</b>
+                      <span className="float-right">
+                        {product.numberinStock > 0 ? (
+                          <Badge bg="success">
+                            {product.numberinStock} Available
+                          </Badge>
+                        ) : (
+                          <Badge bg="danger">Unavailable</Badge>
+                        )}
+                      </span>
+                    </Card.Text>
 
+                    {/*<div className="mx-auto w-50">
+                      {product.numberinStock > 0 ? (
+                        <div>
+                          <b>Purchase Limit:</b>
+                          <span className="float-right">{`${product.limit} per customer`}</span>
+                        </div>
+                      ) : null}
+                      </div>*/}
+
+                    <br />
+                    <div className="mx-auto w-50">
                       {product.numberinStock > 0 && (
-                        <ListGroup.Item>
-                          <div className="d-grid">
-                            <Button variant="primary">Add to Cart</Button>
-                          </div>
-                        </ListGroup.Item>
+                        <div>
+                          <Button
+                            className={`bg-${theme1} text-${theme2} border border-${theme2} w-100`}
+                            onClick={addToCartHandler}
+                          >
+                            Add to Cart
+                          </Button>
+                        </div>
                       )}
-                    </ListGroup>
+                    </div>
                   </Card.Body>
                 </Card>
               </Col>
