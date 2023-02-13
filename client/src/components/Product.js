@@ -6,14 +6,14 @@ function Product(props) {
   const { product, theme1, theme2 } = props;
   return (
     <Card
-      key={product.slug}
+      key={product._id}
       className={`bg-${theme1} text-${theme2} border border-${theme2}`}
     >
-      <Link to={`/product/${product.slug}`}>
+      <Link to={`/product/${product._id}`}>
         <img className="card-img-top" src={product.image} alt={product.name} />
       </Link>
       <Card.Body>
-        <Link to={`/product/${product.slug}`}>
+        <Link to={`/product/${product._id}`}>
           <Card.Title>{product.name}</Card.Title>
         </Link>
         <Rating

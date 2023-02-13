@@ -1,12 +1,12 @@
-import express from "express";
+const express = require("express");
+const path = require("path");
+const routes = require("./routes");
+const data = require("./data.js");
 
-import path from "path";
-
-import data from "./data.js";
+const db = require("./config/connection");
 
 // Import `authMiddleware()` function to be configured with the Apollo Server
 //const { authMiddleware } = require("./utils/auth");
-//const db = require("./config/connection");
 
 const PORT = process.env.PORT || 3001;
 const app = express();
@@ -28,20 +28,16 @@ if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "../client/build")));
 }
 
+//Turn on routing
+app.use(routes);
+
+//Get all products
 app.get("/api/products", (req, res) => {
   res.send(data.products);
 });
 
-app.get("/api/products/item/:slug", (req, res) => {
-  const product = data.products.find((x) => x.slug === req.params.slug);
-  if (product) {
-    res.send(product);
-  } else {
-    res.status(404).send({ message: "Product Not Found" });
-  }
-});
-
-app.get("/api/products/:id", (req, res) => {
+//get 1 product by Id
+app.get("/api/product/:id", (req, res) => {
   const product = data.products.find((x) => x._id === req.params.id);
   if (product) {
     res.send(product);
@@ -50,10 +46,8 @@ app.get("/api/products/:id", (req, res) => {
   }
 });
 
-/*app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "../client/build/index.html"));
-});*/
-
-app.listen(PORT, () => {
-  console.log(`API server running on port ${PORT}!`);
+db.once("open", () => {
+  app.listen(PORT, () => {
+    console.log(`API server running on port ${PORT}!`);
+  });
 });

@@ -1,8 +1,7 @@
-//Change addToCartHandler from using useReducer to using useState
+//The Api for the slug is getting http://localhost:3000/product/adidas-shirt instead of http://localhost:3000/product/item/adidas-shirt
 
 import { useEffect, useState, useContext } from "react";
 
-import { useParams } from "react-router-dom";
 import { Badge, Button, Card, Col, Container, Row } from "react-bootstrap";
 import Rating from "../components/Rating";
 import { Loading } from "../components/Loading";
@@ -10,9 +9,6 @@ import { Store } from "../Store";
 
 const ProductPage = (props) => {
   const { theme1, theme2 } = props;
-
-  const params = useParams();
-  const { slug } = params;
 
   const [product, setProduct] = useState([]);
 
@@ -26,9 +22,7 @@ const ProductPage = (props) => {
     const getData = async () => {
       setLoading(true);
       try {
-        const response = await fetch(`/api/products/item/${slug}`, {
-          method: "GET",
-        });
+        const response = await fetch(`/api/product/${product._id}`);
 
         if (!response.ok) {
           setLoading(false);
@@ -45,41 +39,11 @@ const ProductPage = (props) => {
       }
     };
     getData();
-  }, []);
+  }, [product._id]);
 
-  const { state, dispatch: ctxDispatch } = useContext(Store);
-  const { cart } = state;
-  const addToCartHandler = async () => {
-    //if product number of product exists it the cart, if so increase by 1
-    const itemQuantity = cart.cartItems.find(
-      (x) => parseInt(x._id) === product._id
-    );
-    const quantity = itemQuantity ? itemQuantity.quantity + 1 : 1;
+  const { addToCart } = useContext(Store);
 
-    const { data } = await fetch(`/api/products/${product._id}`, {
-      method: "GET",
-    });
-
-    /*const purchaseLimit =
-      itemQuantity.quantity > data.limit
-        ? itemQuantity.quantity
-        : itemQuantity.quantity + 1;
-
-    if (purchaseLimit > data.limit) {
-      window.alert(`Sorry, you are over the puchase limit for ${product.name}`);
-      return;
-    }*/
-
-    if (quantity > data.numberinStock) {
-      window.alert(`Sorry, ${product.name} is out of stock`);
-      return;
-    }
-
-    ctxDispatch({
-      type: "CART_ADD_ITEM",
-      payload: { ...product, quantity },
-    });
-  };
+  function addToCartHandler() {}
 
   return (
     <>

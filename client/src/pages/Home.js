@@ -21,9 +21,7 @@ const Home = (props) => {
     const getData = async () => {
       setLoading(true);
       try {
-        const response = await fetch("/api/products", {
-          method: "GET",
-        });
+        const response = await fetch("/api/products");
 
         if (!response.ok) {
           setLoading(false);
@@ -58,7 +56,7 @@ const Home = (props) => {
             ) : (
               <Row>
                 {products.map((product) => (
-                  <Col key={product.slug} sm={6} md={4} lg={3}>
+                  <Col key={product._id} sm={6} md={4} lg={3}>
                     <Product
                       product={product}
                       theme1={theme1}

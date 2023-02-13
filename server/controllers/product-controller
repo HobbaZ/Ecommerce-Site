@@ -1,0 +1,49 @@
+const { Product } = require("../models/Product");
+
+module.exports = {
+  //Get all products
+  async allProducts(req, res) {
+    const productData = await Product.findAll();
+
+    if (!productData) {
+      return res.status(400).json({ message: "Can't find all products!" });
+    }
+
+    res.json("found all products", productData.sort({ date: -1 }));
+  },
+
+  //Create a product
+  async createProduct(req, res) {
+    const createproduct = new Product(req.body);
+
+    if (!createproduct) {
+      return res
+        .status(400)
+        .json({ message: "Error with creating the product" });
+    }
+    res.json("Created the product", createproduct);
+  },
+
+  async updateProduct(req, res) {
+    const updateproduct = Product.findByIdAndUpdate(
+      { _id: req.params.id },
+      req.body
+    );
+    if (!updateproduct) {
+      return res
+        .status(400)
+        .json({ message: "Error with updating the product" });
+    }
+    res.json("Updated the product", updateproduct);
+  },
+
+  async deleteProduct(req, res) {
+    const deleteproduct = Product.findByIdAndDelete({ _id: req.params.id });
+    if (!deleteproduct) {
+      return res
+        .status(400)
+        .json({ message: "Error with deleting the product" });
+    }
+    res.json("Deleted the product", deleteproduct);
+  },
+};

@@ -88,6 +88,8 @@ You can also contribute by opening a pull request or submitting an issue.
 
 [https://getbootstrap.com/docs/4.2/components/spinners/](https://getbootstrap.com/docs/4.2/components/spinners/)
 
+[https://javascript.plainenglish.io/lets-build-a-mern-stack-e-commerce-web-app-accb4c14ce71](https://javascript.plainenglish.io/lets-build-a-mern-stack-e-commerce-web-app-accb4c14ce71)
+
 ## Testing
 
 No tests at the moment

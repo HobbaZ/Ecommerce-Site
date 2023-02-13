@@ -11,16 +11,13 @@ import Footer from "./components/Footer";
 import "./App.css";
 import { Badge, Button, Container, Nav, Navbar } from "react-bootstrap";
 import { createContext, useContext, useState } from "react";
-import { Store } from "./Store";
+import Cart from "./pages/Cart";
 
 const ThemeContext = createContext(null);
 
 function App() {
   const [theme1, setTheme1] = useState("light");
   const [theme2, setTheme2] = useState("dark");
-
-  const { state } = useContext(Store);
-  const { cart } = state;
 
   return (
     <ThemeContext.Provider value={theme1}>
@@ -40,15 +37,11 @@ function App() {
                 <Nav className="me-auto">
                   <Link to="/cart" className="nav-link">
                     Cart
-                    {cart.cartItems.length > 0 && (
+                    {/*{cart.cartItems.length > 0 && (
                       <Badge pill bg="danger">
-                        {cart.cartItems.reduce(
-                          (accumulator, currentItem) =>
-                            accumulator + currentItem.quantity,
-                          0
-                        )}
+                        {cart.cartItems.reduce((a, c) => a + c.quantity, 0)}
                       </Badge>
-                    )}
+                    )}*/}
                   </Link>
                 </Nav>
 
@@ -77,8 +70,14 @@ function App() {
                 <Route exact path="/profile" element={<Profile />} />
                 <Route
                   exact
-                  path="/product/:slug"
+                  path="/product/:id"
                   element={<Product theme2={theme2} theme1={theme1} />}
+                />
+
+                <Route
+                  exact
+                  path="/cart"
+                  element={<Cart theme2={theme2} theme1={theme1} />}
                 />
                 <Route render={() => <h1>404! This page doesn't exist</h1>} />
               </Routes>
