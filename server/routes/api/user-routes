@@ -8,7 +8,7 @@ const {
   deleteUser,
   login,
   updateUser,
-} = require("../../controllers/user-controller");
+} = require("../../controllers/user-cont");
 
 // import middleware
 const { authMiddleware } = require("../../utils/auth");

@@ -43,8 +43,8 @@ const userSchema = new Schema(
     },
 
     // set savedBooks to be an array of data that adheres to the productSchema
-    savedProducts: [productSchema],
-    shoppingCart: [cartSchema],
+    //savedProducts: [productSchema],
+    //shoppingCart: [cartSchema],
   },
   // set this to use virtual below
   {
@@ -70,14 +70,14 @@ userSchema.methods.isCorrectPassword = async function (password) {
 };
 
 // when we query a user, we'll also get another field with the number of saved products we have
-userSchema.virtual("productCount").get(function () {
+/*userSchema.virtual("productCount").get(function () {
   return this.savedProducts.length;
 });
 
 // when we query a user, we'll also get another field with the contents of our shopping cart
 userSchema.virtual("shoppingCart").get(function () {
   return this.shoppingCart.length;
-});
+});*/
 
 const User = model("User", userSchema);
 

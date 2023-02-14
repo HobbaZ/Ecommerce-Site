@@ -8,7 +8,7 @@ const login = () => {
   window.location.replace("/login");
 };
 
-const Signup = () => {
+const Signup = ({ toggleTheme }) => {
   const [formInput, setFormInput] = useState({
     username: "",
     email: "",
@@ -58,10 +58,10 @@ const Signup = () => {
 
   return (
     <>
-      <Container className="fluid">
+      <Container className={`fluid bg-${toggleTheme}`}>
         <div>
           <h1 className="text-center">Sign Up</h1>
-          <Form onSubmit={handleSubmit} className="mx-auto">
+          <Form onSubmit={handleSubmit} className={`mx-auto bg-${toggleTheme}`}>
             <Form.Group className="mb-3" disabled={submittingForm}>
               <Form.Label>Username</Form.Label>
               <Form.Control
@@ -141,7 +141,7 @@ const Signup = () => {
 
             <div className="text-center">
               <Button
-                variant="primary"
+                variant={toggleTheme}
                 type="submit"
                 className="col-sm-8 col-md-4 col-lg-2 m-2"
                 disabled={!formInput.username}

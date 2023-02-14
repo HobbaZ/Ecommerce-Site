@@ -4,11 +4,9 @@ import { Link } from "react-router-dom";
 import { Store } from "../Store";
 
 const Cart = () => {
-  const { state, dispatch } = useContext(Store);
-  const {
-    cart: { cartItems },
-  } = state;
   document.title = "Your Cart";
+
+  let cartItems = [];
 
   return (
     <div>
@@ -37,7 +35,7 @@ const Cart = () => {
                             alt={item.name}
                             className="img-fluid rounded img-thumbnail"
                           />
-                          <Link to={`/product/${item.slug}`}>{item.name}</Link>
+                          <Link to={`/product/${item._id}`}>{item.name}</Link>
                         </td>
                         <td>
                           <Button
@@ -73,15 +71,12 @@ const Cart = () => {
         <Col md={4}>
           <Card>
             <Card.Body>
-              <Card.Title>
-                Subtotal ({cartItems.reduce((a, c) => a + c.quantity, 0)} items)
-                : ${cartItems.reduce((a, c) => a + c.price * c.quantity, 0)}
-              </Card.Title>
+              <Card.Title>Subtotal:</Card.Title>
 
               <Button
                 type="button"
                 variant="primary"
-                disabled={cartItems.length === 0}
+                // disabled={cartItems.length === 0}
               >
                 Proceed to Checkout
               </Button>
