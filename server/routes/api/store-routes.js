@@ -1,4 +1,4 @@
-const router = require("express").Router();
+/*const router = require("express").Router();
 
 const {
   createStore,
@@ -23,4 +23,4 @@ router.route("update/:id").put(authMiddleware, updateStore);
 
 router.route("/").get(allStores);
 
-module.exports = router;
+module.exports = router;*/

@@ -1,5 +1,5 @@
 import "bootstrap/dist/css/bootstrap.min.css";
-import { BrowserRouter as Router, Link, Route, Routes } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 import Home from "./pages/Home";
 import Signup from "./pages/Signup";
@@ -10,7 +10,6 @@ import Footer from "./components/Footer";
 
 import "./App.css";
 import { Container } from "react-bootstrap";
-import { useState } from "react";
 import Cart from "./pages/Cart";
 import AppNavbar from "./components/NavBar";
 

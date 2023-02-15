@@ -1,9 +1,12 @@
 import { useContext } from "react";
 import { Button, Card, Col, ListGroup, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { Store } from "../Store";
+
+import { ThemeContext } from "../Theme";
 
 const Cart = () => {
+  const { theme } = useContext(ThemeContext);
+
   document.title = "Your Cart";
 
   let cartItems = [];
@@ -39,14 +42,14 @@ const Cart = () => {
                         </td>
                         <td>
                           <Button
-                            variant="light"
+                            className={`background ${theme}`}
                             disabled={item.quantity === 1}
                           >
                             <i className="fas fa-minus-circle"></i>
                           </Button>
                           <span>{item.quantity}</span>
                           <Button
-                            variant="light"
+                            className={`background ${theme}`}
                             disabled={item.quantity === item.numberinStock}
                           >
                             <i className="fas fa-plus-circle"></i>
@@ -56,7 +59,7 @@ const Cart = () => {
                         <td>{item.price}</td>
 
                         <td>
-                          <Button variant="light">
+                          <Button className={`background ${theme}`}>
                             <i className="fas fa-trash"></i>
                           </Button>
                         </td>
@@ -69,17 +72,20 @@ const Cart = () => {
           )}
         </Col>
         <Col md={4}>
-          <Card>
+          <Card className={`bg-${theme}`}>
             <Card.Body>
-              <Card.Title>Subtotal:</Card.Title>
-
-              <Button
-                type="button"
-                variant="primary"
-                // disabled={cartItems.length === 0}
-              >
-                Proceed to Checkout
-              </Button>
+              <div className={`background ${theme}`}>
+                <Card.Title>Subtotal:</Card.Title>
+                <div className="text-center">
+                  <Button
+                    type="button"
+                    variant="primary"
+                    // disabled={cartItems.length === 0}
+                  >
+                    Proceed to Checkout
+                  </Button>
+                </div>
+              </div>
             </Card.Body>
           </Card>
         </Col>

@@ -8,13 +8,12 @@ const login = () => {
   window.location.replace("/login");
 };
 
-const Signup = ({ toggleTheme }) => {
+const Signup = () => {
   const [formInput, setFormInput] = useState({
     username: "",
     email: "",
     password: "",
-    firstname: "",
-    lastname: "",
+    name: "",
   });
   const [submittingForm, setSubmittingForm] = useState(false);
 
@@ -58,43 +57,17 @@ const Signup = ({ toggleTheme }) => {
 
   return (
     <>
-      <Container className={`fluid bg-${toggleTheme}`}>
+      <Container className={`fluid`}>
         <div>
           <h1 className="text-center">Sign Up</h1>
-          <Form onSubmit={handleSubmit} className={`mx-auto bg-${toggleTheme}`}>
+          <Form onSubmit={handleSubmit} className={`mx-auto`}>
             <Form.Group className="mb-3" disabled={submittingForm}>
-              <Form.Label>Username</Form.Label>
+              <Form.Label>Your Name</Form.Label>
               <Form.Control
                 type="text"
-                name="username"
-                value={formInput.username.trim() || ""}
-                placeholder="Username"
-                onChange={handleChange}
-                required
-                minLength={2}
-              />
-            </Form.Group>
-
-            <Form.Group className="mb-3" disabled={submittingForm}>
-              <Form.Label>First Name</Form.Label>
-              <Form.Control
-                type="text"
-                name="firstname"
-                value={formInput.firstname.trim() || ""}
-                placeholder="First Name"
-                onChange={handleChange}
-                required
-                minLength={2}
-              />
-            </Form.Group>
-
-            <Form.Group className="mb-3" disabled={submittingForm}>
-              <Form.Label>Last Name</Form.Label>
-              <Form.Control
-                type="text"
-                name="lastname"
-                value={formInput.lastname.trim() || ""}
-                placeholder="Last Name"
+                name="name"
+                value={formInput.name.trim() || ""}
+                placeholder="Your Name"
                 onChange={handleChange}
                 required
                 minLength={2}
@@ -141,7 +114,7 @@ const Signup = ({ toggleTheme }) => {
 
             <div className="text-center">
               <Button
-                variant={toggleTheme}
+                variant="primary"
                 type="submit"
                 className="col-sm-8 col-md-4 col-lg-2 m-2"
                 disabled={!formInput.username}

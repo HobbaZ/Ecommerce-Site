@@ -3,6 +3,8 @@ const bcrypt = require("bcrypt");
 
 const productSchema = require("./Product");
 const cartSchema = require("./Cart");
+const orderSchema = require("./Order");
+const storeSchema = require("./Store");
 
 const userSchema = new Schema(
   {
@@ -13,16 +15,10 @@ const userSchema = new Schema(
       unique: [true, "That username has already been taken, please try again"],
     },
 
-    firstname: {
+    name: {
       type: String,
-      required: [true, "Please enter your first name"],
-      minLength: [2, "Your firstname must be at least 2 characters"],
-    },
-
-    lastname: {
-      type: String,
-      required: [true, "Please enter your last name"],
-      minLength: [2, "Your lastname must be at least 2 characters"],
+      required: [true, "Please enter your name"],
+      minLength: [2, "Your name must be at least 2 characters"],
     },
 
     email: {
@@ -44,7 +40,9 @@ const userSchema = new Schema(
 
     // set savedBooks to be an array of data that adheres to the productSchema
     //savedProducts: [productSchema],
-    //shoppingCart: [cartSchema],
+    shoppingCart: [cartSchema],
+    stores: [storeSchema],
+    orders: [orderSchema],
   },
   // set this to use virtual below
   {

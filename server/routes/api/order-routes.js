@@ -10,6 +10,6 @@ const { authMiddleware } = require("../../utils/auth");
 
 // put authMiddleware anywhere we need to send a token for verification of user
 router.route("/:id").get(authMiddleware, allOrders);
-router.route("delete/:id").post(authMiddleware, createOrder);
+router.route("/:id").post(authMiddleware, createOrder);
 
 module.exports = router;

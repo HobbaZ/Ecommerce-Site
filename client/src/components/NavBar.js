@@ -1,5 +1,5 @@
-import { useState, useContext } from "react";
-import { NavLink, Link } from "react-router-dom";
+import { useContext } from "react";
+import { NavLink } from "react-router-dom";
 import { Container, Button } from "react-bootstrap";
 import Auth from "../utils/auth";
 
@@ -9,19 +9,28 @@ const AppNavbar = () => {
   const { toggleTheme } = useTheme();
   const { theme } = useContext(ThemeContext);
 
+  const setBodyBackground = () => {
+    document.body.style.backgroundColor =
+      theme === "light" ? "#F8f9fa" : "#000000";
+  };
+
+  setBodyBackground();
+
   return (
     <Container fluid>
-      <nav
-        className={`navbar fixed-top navbar-expand-lg navbar-light background ${theme}`}
-      >
-        <NavLink className={`text-white ml-3 nav-brand navLink`} to="/">
-          <div className={`background ${theme}`}>Ecommerce site</div>
+      <nav className={`navbar fixed-top navbar-expand-lg bg-${theme}`}>
+        <NavLink
+          className={`ml-3 nav-brand navLink background ${theme}`}
+          to="/"
+        >
+          <div>Ecommerce site</div>
         </NavLink>
 
         {/*Navbar collapse and expand */}
-        <button
+        <Button
           className="navbar-toggler"
           type="button"
+          variant={theme}
           data-toggle="collapse"
           data-target="#navbarNav"
           aria-controls="navbarNav"
@@ -31,11 +40,11 @@ const AppNavbar = () => {
           <span className="navbarToggler">
             <i className={`fas fa-bars background ${theme}`}></i>
           </span>
-        </button>
+        </Button>
 
         <div className="collapse navbar-collapse" id="navbarNav">
           <nav className="navbar-nav ml-auto mb-2 mb-lg-0">
-            <NavLink className="ml-3 my-2 nav-link" to="/search">
+            <NavLink className={`ml-3 my-2 nav-link`} to="/search">
               <div className={`background ${theme}`}>Search</div>
             </NavLink>
 
@@ -53,8 +62,8 @@ const AppNavbar = () => {
             </NavLink>
 
             <Button
-              className={`ml-3 background ${theme}`}
               onClick={toggleTheme}
+              className={`ml-3 my-2 background ${theme} bg-${theme} themebutton`}
             >
               {theme} Theme
             </Button>

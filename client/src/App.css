@@ -11,11 +11,20 @@ html {
 }
 
 .btn-primary {
-  background-color: blueviolet;
+  background-color: rgb(0, 163, 14);
+}
+
+.btn-primary:disabled {
+  background-color: rgb(0, 124, 10);
 }
 
 .btn-primary :hover {
   background-color: rgb(63, 4, 119);
+}
+
+.container {
+  width: 100vw;
+  height: 100%;
 }
 
 footer {
@@ -45,9 +54,14 @@ header {
   max-width: 100%;
 }
 
+.img_thumbnail {
+  height: 80px;
+}
+
 main {
   padding-top: 10%;
   height: 100%;
+  width: 100%;
 }
 
 .product {
@@ -84,16 +98,14 @@ main {
   min-height: 100%;
 }
 
-.img_thumbnail {
-  height: 80px;
+.themebutton {
+  width: fit-content;
 }
 
 .background.dark {
-  background-color: white;
-  color: black;
+  color: white;
 }
 
 .background.light {
-  background-color: black;
-  color: white;
+  color: black;
 }

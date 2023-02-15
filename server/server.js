@@ -1,9 +1,12 @@
 const express = require("express");
 const path = require("path");
 const routes = require("./routes");
-const data = require("./data.js");
+const dotenv = require("dotenv");
+dotenv.config();
 
 const db = require("./config/connection");
+const seedData = require("./routes/seedData");
+const { data } = require("./data");
 
 // Import `authMiddleware()` function to be configured with the Apollo Server
 //const { authMiddleware } = require("./utils/auth");
@@ -13,7 +16,7 @@ const app = express();
 
 //server.applyMiddleware({ app });
 
-app.use(express.urlencoded({ extended: false }));
+/*app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
@@ -26,25 +29,12 @@ app.use(function (req, res, next) {
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "../client/build")));
-}
+}*/
+
+app.use("/api/seed", seedData);
 
 //Turn on routing
 app.use(routes);
-
-//Get all products
-app.get("/api/products", (req, res) => {
-  res.send(data.products);
-});
-
-//get 1 product by Id
-app.get("/api/product/:id", (req, res) => {
-  const product = data.products.find((x) => x._id === req.params.id);
-  if (product) {
-    res.send(product);
-  } else {
-    res.status(404).send({ message: "Product Not Found" });
-  }
-});
 
 db.once("open", () => {
   app.listen(PORT, () => {

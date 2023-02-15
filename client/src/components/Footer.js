@@ -1,4 +1,6 @@
 import Container from "react-bootstrap/Container";
+import { useContext } from "react";
+import { ThemeContext } from "../Theme";
 
 //Change year automatically
 function year() {
@@ -6,24 +8,30 @@ function year() {
   return date.getFullYear();
 }
 
-const Footer = (props) => {
-  const { theme } = props;
+const Footer = () => {
+  const { theme } = useContext(ThemeContext);
   return (
     <>
-      <Container className={`text-center bg-${theme}`} fluid>
+      <Container className={`text-center`} fluid>
         <footer className=" fixed-bottom text-center">
           <p>
             Ecommerce Site, {year()}
             <a
               href="https://www.linkedin.com/in/zachary-hobba-52aaa182/"
-              className={`text-${theme}`}
+              className={`background ${theme}`}
             >
               <i className="fab fa-linkedin icon"></i>
             </a>
-            <a href="mailto:zachobba@gmail.com" className={`text-${theme}`}>
+            <a
+              href="mailto:zachobba@gmail.com"
+              className={`background ${theme}`}
+            >
               <i className="fas fa-envelope-square icon"></i>
             </a>
-            <a href="https://github.com/HobbaZ" className={`text-${theme}`}>
+            <a
+              href="https://github.com/HobbaZ"
+              className={`background ${theme}`}
+            >
               <i className="fab fa-github icon"></i>
             </a>
           </p>

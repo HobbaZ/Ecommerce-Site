@@ -1,15 +1,36 @@
-const { Product } = require("../models/Product");
+const Product = require("../models/Product.js");
 
 module.exports = {
   //Get all products
   async allProducts(req, res) {
-    const productData = await Product.findAll();
+    const productData = await Product.find();
 
     if (!productData) {
       return res.status(400).json({ message: "Can't find all products!" });
     }
 
-    res.json("found all products", productData.sort({ date: -1 }));
+    res.status(200).json({ message: "found all products" });
+  },
+
+  // Delete a user
+  async getSingleProduct(req, res) {
+    const getProduct = await User.findById(req.params.id);
+    if (!getProduct) {
+      return res
+        .status(400)
+        .json({ message: "Error with getting the product" });
+    }
+    res.json("Found the product", getProduct);
+  },
+
+  async getSingleProductBySlug(req, res) {
+    const getProduct = await User.findOne({ slug: req.params.slug });
+    if (!getProduct) {
+      return res
+        .status(400)
+        .json({ message: "Error with getting the product" });
+    }
+    res.json("Found the product", getProduct);
   },
 
   //Create a product

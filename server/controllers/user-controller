@@ -1,10 +1,9 @@
 // import user model
-const { User } = require("../models/User");
+const { User } = require("../models");
 // import sign token function from auth
 const { signToken } = require("../utils/auth");
 
 module.exports = {
-  // get a single user by either their id or their username
   // get a single user by either their id or their username
   async getSingleUser({ user = null, params }, res) {
     const singleUser = await User.findOne({
@@ -26,8 +25,7 @@ module.exports = {
   async createUser(req, res) {
     const user = await User.create({
       username: req.body.username,
-      firstname: req.body.firstname,
-      lastname: req.body.lastname,
+      name: req.body.name,
       email: req.body.email,
       password: req.body.password,
     });
@@ -47,7 +45,7 @@ module.exports = {
       return res.status(400).json({ message: "Can't find this user" });
     }
 
-    const correctPw = user.checkPassword(body.password);
+    const correctPw = user.isCorrectPassword(body.password);
 
     if (!correctPw) {
       return res
@@ -60,7 +58,9 @@ module.exports = {
 
   // Delete a user
   async deleteUser(req, res) {
-    const delUser = await User.destroy({ where: { id: req.params.id } });
+    const delUser = await User.findOneAndDelete({
+      where: { id: req.params.id },
+    });
 
     if (!delUser) {
       return res
@@ -78,7 +78,7 @@ module.exports = {
     try {
       const updatedUser = await User.findOneAndUpdate(
         { _id: user._id },
-        { $addToSet: { savedProduct: body } },
+        { $addToSet: { savedProducts: body } },
         { new: true, runValidators: true }
       );
       return res.json(updatedUser);
@@ -99,6 +99,21 @@ module.exports = {
         .status(404)
         .json({ message: "Couldn't find user with this id!" });
     }
+    return res.json(updatedUser);
+  },
+
+  //update user
+  async updateUser({ user, body }, res) {
+    const updatedUser = await User.findOneAndUpdate(
+      { _id: user._id },
+      { $set: body },
+      { new: true, runValidators: true }
+    );
+
+    if (!updatedUser) {
+      return res.status(400).json({ message: "Couldn't update user!" });
+    }
+
     return res.json(updatedUser);
   },
 };
