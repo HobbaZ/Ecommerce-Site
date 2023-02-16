@@ -33,6 +33,12 @@ const userSchema = new Schema(
       minLength: [8, "Minimum password must be 8 characters"],
     },
 
+    isAdmin: {
+      type: Boolean,
+      default: false,
+      required: true,
+    },
+
     register_date: {
       type: Date,
       default: Date.now,
@@ -49,6 +55,10 @@ const userSchema = new Schema(
     toJSON: {
       virtuals: true,
     },
+  },
+
+  {
+    timestamps: true,
   }
 );
 

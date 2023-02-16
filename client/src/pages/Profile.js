@@ -56,7 +56,7 @@ const Profile = () => {
           return false;
         }
 
-        const response = await fetch("/api/users/me", {
+        const response = await fetch(`/api/users/me`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -70,7 +70,7 @@ const Profile = () => {
         }
 
         const user = await response.json();
-        document.title = "Profile";
+        document.title = `${user.name}'s Profile`;
         setUserData(user);
       } catch (err) {
         console.error(err);

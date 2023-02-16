@@ -104,8 +104,10 @@ main {
 
 .background.dark {
   color: white;
+  background-color: black;
 }
 
 .background.light {
   color: black;
+  background-color: white;
 }

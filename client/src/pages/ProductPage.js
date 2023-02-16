@@ -1,11 +1,10 @@
 //The Api for the slug is getting http://localhost:3000/product/adidas-shirt instead of http://localhost:3000/product/item/adidas-shirt
 
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState } from "react";
 
 import { Badge, Button, Card, Col, Container, Row } from "react-bootstrap";
 import Rating from "../components/Rating";
 import { Loading } from "../components/Loading";
-import { Store } from "../Store";
 
 const ProductPage = (props) => {
   const { theme1, theme2 } = props;
@@ -40,8 +39,6 @@ const ProductPage = (props) => {
     };
     getData();
   }, [product._id]);
-
-  const { addToCart } = useContext(Store);
 
   function addToCartHandler() {}
 

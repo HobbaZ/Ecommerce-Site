@@ -41,9 +41,8 @@ const Login = () => {
         throw new Error("something went wrong trying to log in!");
       }
 
-      const { token, user } = await response.json();
+      const { token } = await response.json();
       setInfoMessage("Logging in!");
-      console.log("logging in", user);
       Auth.login(token);
 
       setFormInput("");

@@ -5,26 +5,26 @@ const productSchema = new Schema(
     name: {
       type: String,
       required: [true, "Please enter a name for the product"],
-      minLength: [20, "Product name must be at least 10 characters"],
+      minLength: [5, "Product name must be at least 5 characters"],
     },
 
     slug: {
       type: String,
       unqique: [true, "An item already uses that slug"],
       required: [true, "Please enter a description for the product"],
-      minLength: [20, "Description must be at least 20 characters"],
+      minLength: [2, "Description must be at least 2 characters"],
     },
 
     description: {
       type: String,
       required: [true, "Please enter a description for the product"],
-      minLength: [20, "Description must be at least 20 characters"],
+      minLength: [2, "Description must be at least 2 characters"],
     },
 
     brand: {
       type: String,
       required: [true, "Please enter a brand name for the product"],
-      minLength: [20, "Brand must be at least 2 characters"],
+      minLength: [2, "Brand must be at least 2 characters"],
     },
 
     image: {
@@ -36,7 +36,7 @@ const productSchema = new Schema(
       type: String,
       required: true,
       required: [true, "Please enter the products category"],
-      minLength: [20, "Category must be at least 2 characters"],
+      minLength: [2, "Category must be at least 2 characters"],
     },
     price: {
       type: Number,

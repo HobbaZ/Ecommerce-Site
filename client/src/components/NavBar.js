@@ -1,24 +1,57 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
-import { Container, Button } from "react-bootstrap";
+import { Container, Button, NavDropdown } from "react-bootstrap";
 import Auth from "../utils/auth";
 
 import { useTheme, ThemeContext } from "../Theme";
 
-const AppNavbar = () => {
+const AppNavbar = (props) => {
+  const { currentuser } = props;
+  const [userData, setUserData] = useState({});
+
   const { toggleTheme } = useTheme();
   const { theme } = useContext(ThemeContext);
 
   const setBodyBackground = () => {
     document.body.style.backgroundColor =
-      theme === "light" ? "#F8f9fa" : "#000000";
+      theme === "light" ? "#ffffff" : "#000000";
   };
 
   setBodyBackground();
 
+  useEffect(() => {
+    const getUserData = async () => {
+      try {
+        const token = Auth.loggedIn() ? Auth.getToken() : null;
+
+        if (!token) {
+          console.log("Need to be logged in to do this");
+          window.location.replace("/login");
+          return false;
+        }
+
+        const response = await fetch(`/api/users/me`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            authorization: `Bearer ${token}`,
+          },
+        });
+
+        const user = await response.json();
+        document.title = `${user.name}'s Profile`;
+        setUserData(user);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    getUserData();
+  }, []);
+
   return (
     <Container fluid>
-      <nav className={`navbar fixed-top navbar-expand-lg bg-${theme}`}>
+      <nav className={`navbar fixed-top navbar-expand-lg background ${theme}`}>
         <NavLink
           className={`ml-3 nav-brand navLink background ${theme}`}
           to="/"
@@ -28,7 +61,7 @@ const AppNavbar = () => {
 
         {/*Navbar collapse and expand */}
         <Button
-          className="navbar-toggler"
+          className={`navbar-toggler background ${theme}`}
           type="button"
           variant={theme}
           data-toggle="collapse"
@@ -37,8 +70,8 @@ const AppNavbar = () => {
           aria-expanded="false"
           aria-label="Toggle navigation"
         >
-          <span className="navbarToggler">
-            <i className={`fas fa-bars background ${theme}`}></i>
+          <span className={`navbarToggler`}>
+            <i className={`fas fa-bars`}></i>
           </span>
         </Button>
 
@@ -47,6 +80,13 @@ const AppNavbar = () => {
             <NavLink className={`ml-3 my-2 nav-link`} to="/search">
               <div className={`background ${theme}`}>Search</div>
             </NavLink>
+
+            <Button
+              onClick={toggleTheme}
+              className={`ml-3 my-2 background ${theme} themebutton`}
+            >
+              {theme} Theme
+            </Button>
 
             <NavLink
               to="/cart"
@@ -61,30 +101,41 @@ const AppNavbar = () => {
                     )}*/}
             </NavLink>
 
-            <Button
-              onClick={toggleTheme}
-              className={`ml-3 my-2 background ${theme} bg-${theme} themebutton`}
-            >
-              {theme} Theme
-            </Button>
-
             {/*Only show if user logged in*/}
             {Auth.loggedIn() ? (
               <>
-                <NavLink className="ml-3 my-2 nav-link" to="/saved">
-                  <div className={`background ${theme}`}>My Collection</div>
-                </NavLink>
-
-                <NavLink className="ml-3 my-2 nav-link" to="/profile">
-                  <div className={`background ${theme}`}>My Profile</div>
-                </NavLink>
-
-                <Button
-                  className={`btn form-btn navBtn ml-3 col-3 col-sm-2 col-lg-auto background ${theme}`}
-                  onClick={Auth.logout}
+                <NavDropdown
+                  title={
+                    <span className={`background ${theme}`}>
+                      {`${userData.name}`}
+                    </span>
+                  }
+                  id="basic-nav-dropdown"
+                  className={`ml-3 my-2 background ${theme}`}
                 >
-                  Logout
-                </Button>
+                  {userData.isAdmin ? (
+                    <NavDropdown.Item to="/saved">
+                      <div className={`background ${theme}`}>My Store</div>
+                    </NavDropdown.Item>
+                  ) : null}
+                  <NavDropdown.Item to="/saved">
+                    <div className={`background ${theme}`}>Saved Products</div>
+                  </NavDropdown.Item>
+                  <NavDropdown.Item to="/profile">
+                    <div className={`background ${theme}`}>My Profile</div>
+                  </NavDropdown.Item>
+                  <NavDropdown.Item to="/saved">
+                    <div className={`background ${theme}`}>Order History</div>
+                  </NavDropdown.Item>
+                  <div className="text-center">
+                    <Button
+                      className={`btn form-btn navBtn w-75 background ${theme}`}
+                      onClick={Auth.logout}
+                    >
+                      Logout
+                    </Button>
+                  </div>
+                </NavDropdown>
               </>
             ) : (
               <>
