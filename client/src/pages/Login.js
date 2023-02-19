@@ -42,8 +42,8 @@ const Login = () => {
       }
 
       const { token } = await response.json();
-      setInfoMessage("Logging in!");
       Auth.login(token);
+      setInfoMessage("Logging in!");
 
       setFormInput("");
     } catch (err) {
@@ -58,8 +58,8 @@ const Login = () => {
 
   return (
     <>
-      <Container>
-        <div>
+      <Container fluid>
+        <div className="col-sm-8 col-md-4 mt-5 mx-auto">
           <h1 className="text-center">Login</h1>
           <Form onSubmit={handleSubmit} className="mx-auto">
             <Form.Group className="mb-3" disabled={submittingForm}>
@@ -92,7 +92,7 @@ const Login = () => {
               <Button
                 variant="primary"
                 type="submit"
-                className="col-sm-8 col-md-4 col-lg-2 m-2"
+                className="my-2 w-50"
                 disabled={!(formInput.email && formInput.password)}
               >
                 Login
@@ -101,11 +101,13 @@ const Login = () => {
           </Form>
 
           <div className="text-center">
-            <Button
-              variant="primary"
-              className="col-sm-8 col-md-4 col-lg-2 m-2"
-              onClick={signup}
-            >
+            <Button variant="primary" className="my-2 w-50" onClick={signup}>
+              Forgot Password
+            </Button>
+          </div>
+
+          <div className="text-center">
+            <Button variant="primary" className="my-2 w-50" onClick={signup}>
               Sign Up instead
             </Button>
           </div>

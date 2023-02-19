@@ -14,7 +14,7 @@ module.exports = {
 
   // Delete a user
   async getSingleProduct(req, res) {
-    const getProduct = await User.findById(req.params.id);
+    const getProduct = await Product.findById(req.params.id);
     if (!getProduct) {
       return res
         .status(400)
@@ -24,7 +24,7 @@ module.exports = {
   },
 
   async getSingleProductBySlug(req, res) {
-    const getProduct = await User.findOne({ slug: req.params.slug });
+    const getProduct = await Product.findOne({ slug: req.params.slug });
     if (!getProduct) {
       return res
         .status(400)

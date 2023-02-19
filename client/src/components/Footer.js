@@ -12,8 +12,8 @@ const Footer = () => {
   const { theme } = useContext(ThemeContext);
   return (
     <>
-      <Container className={`text-center`} fluid>
-        <footer className=" fixed-bottom text-center">
+      <Container fluid>
+        <footer className={`background ${theme} fixed-bottom text-center`}>
           <p>
             Ecommerce Site, {year()}
             <a

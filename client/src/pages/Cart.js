@@ -11,6 +11,17 @@ const Cart = () => {
 
   let cartItems = [];
 
+  const total = () => {
+    let ordertotal = 0;
+    cartItems.length > 0
+      ? cartItems.map((item) => {
+          let itemTotal = item.quantity * item.price;
+          return (ordertotal += itemTotal);
+        })
+      : (ordertotal = 0);
+    return ordertotal;
+  };
+
   return (
     <div>
       <h1>Shopping Cart</h1>
@@ -75,7 +86,7 @@ const Cart = () => {
           <Card className={`bg-${theme}`}>
             <Card.Body>
               <div className={`background ${theme}`}>
-                <Card.Title>Subtotal:</Card.Title>
+                <Card.Title>Subtotal: ${total()}</Card.Title>
                 <div className="text-center">
                   <Button
                     type="button"

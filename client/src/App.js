@@ -14,35 +14,31 @@ import Cart from "./pages/Cart";
 import AppNavbar from "./components/NavBar";
 
 import { ThemeProvider } from "./Theme";
-import { UserProvider, useCurrentUser } from "./LoggedInUser";
 
 function App() {
-  const { currentUser, fetchCurrentUser } = useCurrentUser() ?? {};
   return (
     <ThemeProvider>
-      <UserProvider>
-        <Router>
-          <div>
-            <AppNavbar currentuser={currentUser} />
-          </div>
+      <Router>
+        <div>
+          <AppNavbar />
+        </div>
 
-          <main>
-            <Container>
-              <Routes>
-                <Route exact path="/" element={<Home />} />
-                <Route exact path="/signup" element={<Signup />} />
-                <Route exact path="/login" element={<Login />} />
-                <Route exact path="/profile" element={<Profile />} />
-                <Route exact path="/product/:id" element={<Product />} />
+        <main>
+          <Container>
+            <Routes>
+              <Route exact path="/" element={<Home />} />
+              <Route exact path="/signup" element={<Signup />} />
+              <Route exact path="/login" element={<Login />} />
+              <Route exact path="/profile" element={<Profile />} />
+              <Route exact path="/product/:id" element={<Product />} />
 
-                <Route exact path="/cart" element={<Cart />} />
-                <Route render={() => <h1>404! This page doesn't exist</h1>} />
-              </Routes>
-            </Container>
-          </main>
-          <Footer />
-        </Router>
-      </UserProvider>
+              <Route exact path="/cart" element={<Cart />} />
+              <Route render={() => <h1>404! This page doesn't exist</h1>} />
+            </Routes>
+          </Container>
+        </main>
+        <Footer />
+      </Router>
     </ThemeProvider>
   );
 }

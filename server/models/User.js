@@ -39,6 +39,12 @@ const userSchema = new Schema(
       required: true,
     },
 
+    isVerified: {
+      type: Boolean,
+      default: false,
+      required: true,
+    },
+
     register_date: {
       type: Date,
       default: Date.now,

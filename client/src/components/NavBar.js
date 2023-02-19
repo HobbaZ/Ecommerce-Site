@@ -1,53 +1,24 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 import { NavLink } from "react-router-dom";
-import { Container, Button, NavDropdown } from "react-bootstrap";
+import { Container, Button, NavbarBrand } from "react-bootstrap";
 import Auth from "../utils/auth";
 
 import { useTheme, ThemeContext } from "../Theme";
 
-const AppNavbar = (props) => {
-  const { currentuser } = props;
-  const [userData, setUserData] = useState({});
-
+const AppNavbar = () => {
   const { toggleTheme } = useTheme();
   const { theme } = useContext(ThemeContext);
 
-  const setBodyBackground = () => {
+  useEffect(() => {
     document.body.style.backgroundColor =
       theme === "light" ? "#ffffff" : "#000000";
-  };
+    document.body.style.color = theme === "light" ? "#000000" : "#ffffff";
+  }, [theme]);
 
-  setBodyBackground();
-
-  useEffect(() => {
-    const getUserData = async () => {
-      try {
-        const token = Auth.loggedIn() ? Auth.getToken() : null;
-
-        if (!token) {
-          console.log("Need to be logged in to do this");
-          window.location.replace("/login");
-          return false;
-        }
-
-        const response = await fetch(`/api/users/me`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            authorization: `Bearer ${token}`,
-          },
-        });
-
-        const user = await response.json();
-        document.title = `${user.name}'s Profile`;
-        setUserData(user);
-      } catch (err) {
-        console.error(err);
-      }
-    };
-
-    getUserData();
-  }, []);
+  //Gets the logged in user's name, if it has a space it will display the first letters of the first and second word, if it doesn't it will display the first and second letter of the first word
+  function getUserInitial() {
+    return Auth.getProfile().data.name[0] + Auth.getProfile().data.name[1];
+  }
 
   return (
     <Container fluid>
@@ -56,7 +27,7 @@ const AppNavbar = (props) => {
           className={`ml-3 nav-brand navLink background ${theme}`}
           to="/"
         >
-          <div>Ecommerce site</div>
+          <NavbarBrand>Ecommerce site</NavbarBrand>
         </NavLink>
 
         {/*Navbar collapse and expand */}
@@ -77,65 +48,89 @@ const AppNavbar = (props) => {
 
         <div className="collapse navbar-collapse" id="navbarNav">
           <nav className="navbar-nav ml-auto mb-2 mb-lg-0">
-            <NavLink className={`ml-3 my-2 nav-link`} to="/search">
-              <div className={`background ${theme}`}>Search</div>
-            </NavLink>
+            <form className="form-inline my-2 my-lg-0">
+              <input
+                className="form-control mr-sm-2"
+                type="search"
+                placeholder="Search"
+                aria-label="Search"
+              />
+              <Button
+                className={`btn background ${theme} themebutton`}
+                type="submit"
+              >
+                Search
+              </Button>
 
-            <Button
-              onClick={toggleTheme}
-              className={`ml-3 my-2 background ${theme} themebutton`}
-            >
-              {theme} Theme
-            </Button>
-
-            <NavLink
-              to="/cart"
-              className={`ml-3 my-2 nav-link background ${theme}`}
-            >
-              <div className={`background ${theme}`}>Cart</div>
-
-              {/*{cart.cartItems.length > 0 && (
-                      <Badge pill bg="danger">
-                        {cart.cartItems.reduce((a, c) => a + c.quantity, 0)}
-                      </Badge>
-                    )}*/}
-            </NavLink>
+              <Button
+                onClick={toggleTheme}
+                className={` ml-3 btn background ${theme} themebutton`}
+              >
+                {theme} Theme
+              </Button>
+            </form>
 
             {/*Only show if user logged in*/}
             {Auth.loggedIn() ? (
               <>
-                <NavDropdown
-                  title={
-                    <span className={`background ${theme}`}>
-                      {`${userData.name}`}
-                    </span>
-                  }
-                  id="basic-nav-dropdown"
-                  className={`ml-3 my-2 background ${theme}`}
+                <NavLink
+                  to="/cart"
+                  className={`ml-3 my-2 nav-link background ${theme}`}
                 >
-                  {userData.isAdmin ? (
-                    <NavDropdown.Item to="/saved">
-                      <div className={`background ${theme}`}>My Store</div>
-                    </NavDropdown.Item>
-                  ) : null}
-                  <NavDropdown.Item to="/saved">
-                    <div className={`background ${theme}`}>Saved Products</div>
-                  </NavDropdown.Item>
-                  <NavDropdown.Item to="/profile">
-                    <div className={`background ${theme}`}>My Profile</div>
-                  </NavDropdown.Item>
-                  <NavDropdown.Item to="/saved">
-                    <div className={`background ${theme}`}>Order History</div>
-                  </NavDropdown.Item>
-                  <div className="text-center">
-                    <Button
-                      className={`btn form-btn navBtn w-75 background ${theme}`}
-                      onClick={Auth.logout}
-                    >
-                      Logout
-                    </Button>
+                  <div className={`background ${theme}`}>Cart</div>
+
+                  {/*{cart.cartItems.length > 0 && (
+                      <Badge pill bg="danger">
+                        {cart.cartItems.reduce((a, c) => a + c.quantity, 0)}
+                      </Badge>
+                    )}*/}
+                </NavLink>
+
+                <div
+                  className={`mx-3 my-2 nav-item dropdown background ${theme}`}
+                >
+                  <Button
+                    className={`nav-link dropdown-toggle background ${theme}`}
+                    id="navbarDropdown"
+                    type="button"
+                    data-toggle="dropdown"
+                    aria-haspopup="true"
+                    aria-expanded="false"
+                  >
+                    <div className={`background ${theme}`}>
+                      <span className={`btn-primary circle`}>
+                        {getUserInitial()}
+                      </span>
+
+                      {Auth.getProfile().data.name}
+                    </div>
+                  </Button>
+                  <div
+                    className={`background ${theme} dropdown-menu text-center border-0`}
+                    aria-labelledby="navbarDropdown"
+                  >
+                    <NavLink to="/saved" className={`nav-link`}>
+                      <div className={`background ${theme}`}>
+                        Saved Products
+                      </div>
+                    </NavLink>
+                    <NavLink to="/profile" className={`nav-link`}>
+                      <div className={`background ${theme}`}>My Profile</div>
+                    </NavLink>
+                    <NavLink to="/saved" className={`nav-link`}>
+                      <div className={`background ${theme}`}>Order History</div>
+                    </NavLink>
+
+                    <div className="mx-auto">
+                      <Button
+                        className={`btn-primary px-4`}
+                        onClick={Auth.logout}
+                      >
+                        Logout
+                      </Button>
+                    </div>
                   </div>
-                </NavDropdown>
+                </div>
               </>
             ) : (
               <>

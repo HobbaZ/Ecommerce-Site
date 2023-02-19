@@ -1,8 +1,6 @@
 const express = require("express");
 const path = require("path");
 const routes = require("./routes");
-const dotenv = require("dotenv");
-dotenv.config();
 
 const db = require("./config/connection");
 
@@ -25,10 +23,6 @@ app.use(function (req, res, next) {
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "../client/build")));
 }
-
-app.use((err, req, res, next) => {
-  res.status(500).send({ message: err.message });
-});
 
 //Turn on routing
 app.use(routes);
