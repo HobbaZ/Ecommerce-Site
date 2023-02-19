@@ -23,11 +23,10 @@ const AppNavbar = () => {
   return (
     <Container fluid>
       <nav className={`navbar fixed-top navbar-expand-lg background ${theme}`}>
-        <NavLink
-          className={`ml-3 nav-brand navLink background ${theme}`}
-          to="/"
-        >
-          <NavbarBrand>Ecommerce site</NavbarBrand>
+        <NavLink className={`ml-3 nav-brand nav-link `} to="/">
+          <NavbarBrand className={`background ${theme}`}>
+            Ecommerce site
+          </NavbarBrand>
         </NavLink>
 
         {/*Navbar collapse and expand */}
@@ -48,7 +47,7 @@ const AppNavbar = () => {
 
         <div className="collapse navbar-collapse" id="navbarNav">
           <nav className="navbar-nav ml-auto mb-2 mb-lg-0">
-            <form className="form-inline my-2 my-lg-0">
+            <form className="form-inline nav-link">
               <input
                 className="form-control mr-sm-2"
                 type="search"
@@ -61,14 +60,14 @@ const AppNavbar = () => {
               >
                 Search
               </Button>
-
-              <Button
-                onClick={toggleTheme}
-                className={` ml-3 btn background ${theme} themebutton`}
-              >
-                {theme} Theme
-              </Button>
             </form>
+
+            <Button
+              onClick={toggleTheme}
+              className={` ml-3 my-3 nav-link btn background ${theme} themebutton`}
+            >
+              {theme} Theme
+            </Button>
 
             {/*Only show if user logged in*/}
             {Auth.loggedIn() ? (

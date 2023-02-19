@@ -22,11 +22,16 @@ function Greeting(props) {
         <h1 className="text-center">
           {currentGreeting} {props.name}
         </h1>
+        <hr />
         <h4 className="text-center">Your current details are:</h4>
         <div className="w-75 mx-auto">
           <p>Name: {props.name}</p>
           <p>Username: {props.username}</p>
           <p>Email: {props.email}</p>
+          <p>
+            Selling status:
+            {!!props.isAdmin ? " Seller Account Active" : " No Seller Account"}
+          </p>
         </div>
       </div>
     </>
@@ -39,10 +44,9 @@ const Profile = () => {
   const [formInput, setFormInput] = useState({
     username: userData.username,
     email: userData.email,
-    name: userData.tname,
+    name: userData.name,
+    isAdmin: userData.isAdmin,
   });
-
-  const [submittingForm, setSubmittingForm] = useState(false);
 
   const [showEditForm, setShowEditForm] = useState(false);
 
@@ -54,11 +58,11 @@ const Profile = () => {
       try {
         const token = Auth.loggedIn()
           ? Auth.getToken()
-          : window.location.assign("/login");
+          : window.location.replace("/login");
 
         if (!token) {
           console.log("Need to be logged in to do this");
-          window.location.assign("/login");
+          window.location.replace("/login");
           return false;
         }
 
@@ -77,6 +81,7 @@ const Profile = () => {
 
         const user = await response.json();
         document.title = `${user.name}'s Profile`;
+        console.log(user);
         setUserData(user);
       } catch (err) {
         console.error(err);
@@ -91,7 +96,7 @@ const Profile = () => {
     try {
       const token = Auth.loggedIn()
         ? Auth.getToken()
-        : window.location.assign("/login");
+        : window.location.replace("/login");
 
       const response = await fetch(`/api/users/${userData.id}`, {
         method: "DELETE",
@@ -109,7 +114,7 @@ const Profile = () => {
       setInfoMessage("Account deleted!");
       console.log("user deleted");
       Auth.logout();
-      window.location.assign("/signup");
+      window.location.replace("/signup");
     } catch (err) {
       console.error(err);
     }
@@ -123,7 +128,6 @@ const Profile = () => {
   //Update function for form
   const handleSubmit = async (event) => {
     event.preventDefault();
-    setSubmittingForm(true);
 
     if (!formInput) {
       return false;
@@ -133,7 +137,7 @@ const Profile = () => {
     try {
       const token = Auth.loggedIn()
         ? Auth.getToken()
-        : window.location.assign("/login");
+        : window.location.replace("/login");
 
       const response = await fetch(`/api/users/${userData.id}`, {
         method: "PUT",
@@ -151,7 +155,7 @@ const Profile = () => {
 
       const user = await response.json();
       setInfoMessage("Details updated!");
-      window.location.assign("/profile");
+      window.location.replace("/profile");
       console.log(user);
 
       setFormInput("");
@@ -161,8 +165,11 @@ const Profile = () => {
   };
 
   const handleChange = async (event) => {
-    const { name, value } = event.target;
-    setFormInput({ ...formInput, [name]: value });
+    const { name, value, checked } = event.target;
+    setFormInput({
+      ...formInput,
+      [name]: event.target.type === "checkbox" ? checked : value,
+    });
   };
 
   const welcome = (
@@ -170,6 +177,7 @@ const Profile = () => {
       name={userData.name}
       username={userData.username}
       email={userData.email}
+      isAdmin={userData.isAdmin}
     />
   );
 
@@ -177,10 +185,11 @@ const Profile = () => {
     <Container fluid>
       <div className="col-sm-8 col-md-4 mt-5 mx-auto">
         <>
-          {Auth && (
+          {Auth.loggedIn() && (
             <>
               <div>{welcome}</div>
               {infoMessage && <div className="text-center">{infoMessage}</div>}
+
               <div className="text-center">
                 <Button
                   variant="primary"
@@ -198,7 +207,7 @@ const Profile = () => {
                     <div className="w-100 m-auto">
                       <h3 className="text-center">Update Your Details</h3>
                       <Form onSubmit={handleSubmit} className="mx-auto">
-                        <Form.Group className="mb-3" disabled={submittingForm}>
+                        <Form.Group className="mb-3">
                           <Form.Label>Update First Name</Form.Label>
                           <Form.Control
                             type="text"
@@ -210,7 +219,7 @@ const Profile = () => {
                           />
                         </Form.Group>
 
-                        <Form.Group className="mb-3" disabled={submittingForm}>
+                        <Form.Group className="mb-3">
                           <Form.Label>Update Username</Form.Label>
                           <Form.Control
                             type="text"
@@ -222,7 +231,7 @@ const Profile = () => {
                           />
                         </Form.Group>
 
-                        <Form.Group className="mb-3" disabled={submittingForm}>
+                        <Form.Group className="mb-3">
                           <Form.Label>Update Email address</Form.Label>
                           <Form.Control
                             type="email"
@@ -232,6 +241,22 @@ const Profile = () => {
                             onChange={handleChange}
                             minLength={2}
                           />
+                        </Form.Group>
+
+                        <Form.Group className="mb-3">
+                          <Form.Label>Update Selling Status </Form.Label>
+                          <div className="ml-3">
+                            <div className="form-check">
+                              <input
+                                className="form-check-input"
+                                type="checkbox"
+                                name="isAdmin"
+                                checked={formInput.isAdmin || userData.isAdmin}
+                                onChange={handleChange}
+                              ></input>
+                            </div>
+                            I want a selling account
+                          </div>
                         </Form.Group>
 
                         {infoMessage && (

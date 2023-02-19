@@ -7,8 +7,6 @@ import Rating from "../components/Rating";
 import { Loading } from "../components/Loading";
 
 const ProductPage = (props) => {
-  const { theme1, theme2 } = props;
-
   const [product, setProduct] = useState([]);
 
   //loading state
@@ -64,7 +62,7 @@ const ProductPage = (props) => {
                 ></img>
               </Col>
               <Col md={6}>
-                <Card className={`bg-${theme1} text-${theme2} border border-0`}>
+                <Card className={``}>
                   <Card.Body>
                     <Card.Title className="mx-auto w-75 text-center">
                       {product.name}
@@ -113,10 +111,7 @@ const ProductPage = (props) => {
                     <div className="mx-auto w-50">
                       {product.numberinStock > 0 && (
                         <div>
-                          <Button
-                            className={`bg-${theme1} text-${theme2} border border-${theme2} w-100`}
-                            onClick={addToCartHandler}
-                          >
+                          <Button className={``} onClick={addToCartHandler}>
                             Add to Cart
                           </Button>
                         </div>

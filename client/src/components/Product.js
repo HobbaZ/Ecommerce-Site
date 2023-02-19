@@ -3,11 +3,11 @@ import { Link } from "react-router-dom";
 import Rating from "./Rating";
 
 function Product(props) {
-  const { product, theme1, theme2 } = props;
+  const { product } = props;
   return (
     <Card
       key={product._id}
-      className={`bg-${theme1} text-${theme2} border border-${theme2}`}
+      //className={`bg-${theme1} text-${theme2} border border-${theme2}`}
     >
       <Link to={`/product/${product._id}`}>
         <img className="card-img-top" src={product.image} alt={product.name} />
@@ -22,7 +22,7 @@ function Product(props) {
         />
         <Card.Text>${product.price}</Card.Text>
         <Button
-          className={`bg-${theme1} text-${theme2} border border-${theme2} w-100 productButton`}
+        //className={`bg-${theme1} text-${theme2} border border-${theme2} w-100 productButton`}
         >
           Add to Cart
         </Button>
