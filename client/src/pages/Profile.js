@@ -25,16 +25,35 @@ function Greeting(props) {
         <hr />
         <h4 className="text-center">Your current details are:</h4>
         <div className="w-75 mx-auto">
-          <p>Name: {props.name}</p>
-          <p>Username: {props.username}</p>
-          <p>Email: {props.email}</p>
           <p>
-            Selling status:
+            <b>Name:</b> {props.name}
+          </p>
+          <p>
+            <b>Username:</b> {props.username}
+          </p>
+
+          <p>
+            <b>Email:</b> {props.email}
+          </p>
+          <p>
+            <b>Selling status:</b>
             {!!props.isAdmin ? " Seller Account Active" : " No Seller Account"}
           </p>
         </div>
       </div>
     </>
+  );
+}
+
+function StoreCreatorButton(props) {
+  return (
+    props.isAdmin && (
+      <div className="text-center">
+        <Button variant="primary" className="my-2 w-50" onClick={""}>
+          Store Creator
+        </Button>
+      </div>
+    )
   );
 }
 
@@ -45,7 +64,6 @@ const Profile = () => {
     username: userData.username,
     email: userData.email,
     name: userData.name,
-    isAdmin: userData.isAdmin,
   });
 
   const [showEditForm, setShowEditForm] = useState(false);
@@ -178,6 +196,7 @@ const Profile = () => {
       username={userData.username}
       email={userData.email}
       isAdmin={userData.isAdmin}
+      isVerified={userData.isVerified}
     />
   );
 
@@ -190,15 +209,25 @@ const Profile = () => {
               <div>{welcome}</div>
               {infoMessage && <div className="text-center">{infoMessage}</div>}
 
-              <div className="text-center">
-                <Button
-                  variant="primary"
-                  className="my-2 w-50"
-                  onClick={() => setShowEditForm(!showEditForm)}
-                >
-                  Edit Details
-                </Button>
-              </div>
+              {userData.isVerified ? (
+                <>
+                  <StoreCreatorButton isAdmin={userData.isAdmin} />
+
+                  <div className="text-center">
+                    <Button
+                      variant="primary"
+                      className="my-2 w-50"
+                      onClick={() => setShowEditForm(!showEditForm)}
+                    >
+                      Edit Details
+                    </Button>
+                  </div>
+                </>
+              ) : (
+                <div className="text-center text-danger">
+                  You must have a verified email to edit your information
+                </div>
+              )}
 
               {showEditForm && (
                 <>
