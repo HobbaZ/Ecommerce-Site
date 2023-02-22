@@ -49,9 +49,14 @@ function StoreCreatorButton(props) {
   return (
     props.isAdmin && (
       <div className="text-center">
-        <Button variant="primary" className="my-2 w-50" onClick={""}>
+        <a
+          role="button"
+          variant="primary"
+          className="my-2 w-50"
+          href="./storecreator"
+        >
           Store Creator
-        </Button>
+        </a>
       </div>
     )
   );

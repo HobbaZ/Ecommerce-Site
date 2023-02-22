@@ -1,4 +1,114 @@
 const Store = require("../models/Store");
-const Product = require("../models/Product");
+const User = require("../models/User");
 
-module.exports = {};
+module.exports = {
+  //Get all stores
+  async allStores(req, res) {
+    const storeData = await store.find();
+    if (!storeData) {
+      return res.status(400).json({ message: "Can't find all stores!" });
+    }
+    res.status(200).json({ message: "found all stores" });
+  },
+
+  // Delete a user
+  async getSingleStore(req, res) {
+    const getstore = await Store.findById(req.params.id);
+    if (!getstore) {
+      return res.status(400).json({ message: "Error with getting the store" });
+    }
+    res.json("Found the store", getstore);
+  },
+
+  //Create a store
+  async createStore(req, res) {
+    const createstore = new Store(req.body);
+
+    if (!createstore) {
+      return res.status(400).json({ message: "Error with creating the store" });
+    }
+    res.json("Created the store", createstore).then(() => {
+      User.findOneAndUpdate(
+        { _id: req.body.userId },
+        { $push: { stores: createstore } },
+        { new: true }
+      )
+        .then((store) =>
+          !store
+            ? res.status(404).json({ message: "no user with that ID" })
+            : res.status(200).json({
+                message: `${createstore.storeName} has been created and added to the user`,
+              })
+        )
+        .catch((err) =>
+          res
+            .status(500)
+            .json({ message: "Error creating and adding the store", err })
+        );
+    });
+  },
+
+  async updatestore(req, res) {
+    const updatestore = Store.findByIdAndUpdate(
+      { _id: req.params.id },
+      { $et: req.body },
+      { new: true }
+    );
+    if (!updatestore) {
+      return res.status(400).json({ message: "Error with updating the store" });
+    }
+    res.json("Updated the store", updatestore);
+  },
+
+  //Add product to store
+  addProduct(req, res) {
+    Store.findOneAndUpdate(
+      //add reaction to product
+      { _id: req.params.productId },
+      { $push: { products: req.body } },
+      { new: true }
+    )
+      .then((product) =>
+        !product
+          ? res.status(404).json({ message: "No store with that id!" })
+          : res
+              .status(200)
+              .json({ message: `added a product to the store`, product })
+      )
+      .catch((err) =>
+        res.status(500).json({ message: "Error adding product", err })
+      );
+  },
+
+  //delete product from store
+  addProduct(req, res) {
+    Store.findOneAndUpdate(
+      //add reaction to product
+      { _id: req.params.productId },
+      { $pull: { products: { _id: req.params.productId } } },
+      { new: true }
+    )
+      .then((product) =>
+        !product
+          ? res.status(404).json({ message: "No store with that id!" })
+          : res
+              .status(200)
+              .json({ message: `removed a product to the store`, product })
+      )
+      .catch((err) =>
+        res.status(500).json({ message: "Error removingg product", err })
+      );
+  },
+
+  async deleteStore(req, res) {
+    const deletestore = Store.findByIdAndDelete(
+      { _id: req.params.id },
+      { $pull: { products: { _id: req.params.productId } } },
+      { new: true }
+    );
+    if (!deletestore) {
+      return res.status(400).json({ message: "Error with deleting the store" });
+    }
+    res.json("Deleted the store", deletestore);
+  },
+};

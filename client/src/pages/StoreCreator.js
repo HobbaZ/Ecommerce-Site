@@ -10,7 +10,7 @@ const StoreCreator = () => {
   const [formInput, setFormInput] = useState({
     storeName: "",
     storeDescription: "",
-    storeOwner: "",
+    storeOwner: Auth.getProfile().data.username,
     storeImage: "",
     storeRating: "",
   });
@@ -26,19 +26,23 @@ const StoreCreator = () => {
 
     //Send data to create user endpoint
     try {
+      const token = Auth.loggedIn()
+        ? Auth.getToken()
+        : window.location.replace("/login");
+
       const response = await fetch(`api/store/create`, {
         method: "POST",
         body: JSON.stringify({ ...formInput }),
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          authorization: `Bearer ${token}`,
+        },
       });
 
       if (!response.ok) {
         console.log(response);
         throw new Error("something went wrong!");
       }
-
-      const { token } = await response.json();
-      Auth.login(token);
 
       setFormInput("");
     } catch (err) {
@@ -53,7 +57,7 @@ const StoreCreator = () => {
 
   return (
     <>
-      {Auth.loggedIn() ? (
+      {Auth.loggedIn() && (
         <Container fluid>
           <div className="col-sm-8 col-md-4 mt-5 mx-auto">
             <div>
@@ -88,7 +92,7 @@ const StoreCreator = () => {
                 <Form.Group className="mb-3">
                   <Form.Label>Store Image</Form.Label>
                   <Form.Control
-                    type="email"
+                    type="file"
                     name="storeImage"
                     value={formInput.storeImage.trim() || ""}
                     onChange={handleChange}
@@ -102,8 +106,7 @@ const StoreCreator = () => {
                     disabled={
                       !formInput.storeName ||
                       !formInput.storeDescription ||
-                      !formInput.storeImage ||
-                      !formInput.storeRating
+                      !formInput.storeImage
                     }
                     variant="primary"
                     type="submit"
@@ -116,9 +119,9 @@ const StoreCreator = () => {
             </div>
           </div>
         </Container>
-      ) : (
-        window.location.replace("/login")
       )}
+
+      {!Auth.loggedIn() && window.location.replace("/login")}
     </>
   );
 };

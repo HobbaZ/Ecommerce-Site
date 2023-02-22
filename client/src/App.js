@@ -7,6 +7,8 @@ import Login from "./pages/Login";
 import Profile from "./pages/Profile";
 import Product from "./pages/ProductPage";
 import Footer from "./components/Footer";
+import StoreCreator from "./pages/StoreCreator";
+import ProductCreator from "./pages/ProductCreator";
 
 import "./App.css";
 import { Container } from "react-bootstrap";
@@ -31,6 +33,12 @@ function App() {
               <Route exact path="/login" element={<Login />} />
               <Route exact path="/profile" element={<Profile />} />
               <Route exact path="/product/:id" element={<Product />} />
+              <Route exact path="/storecreator" element={<StoreCreator />} />
+              <Route
+                exact
+                path="/productcreator"
+                element={<ProductCreator />}
+              />
 
               <Route exact path="/cart" element={<Cart />} />
               <Route render={() => <h1>404! This page doesn't exist</h1>} />
