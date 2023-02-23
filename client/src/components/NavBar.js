@@ -62,6 +62,10 @@ const AppNavbar = () => {
               </Button>
             </form>
 
+            <NavLink className="ml-3 my-2 nav-link" to="/contactus">
+              <div className={`background ${theme}`}>Contact Us</div>
+            </NavLink>
+
             <Button
               onClick={toggleTheme}
               className={` ml-3 my-3 nav-link btn background ${theme} themebutton`}
@@ -105,7 +109,7 @@ const AppNavbar = () => {
                     </div>
                   </Button>
                   <div
-                    className={`background ${theme} dropdown-menu text-center border-0`}
+                    className={`background ${theme} dropdown-menu p-1 mx-3 border-0`}
                     aria-labelledby="navbarDropdown"
                   >
                     <NavLink to="/saved" className={`nav-link`}>

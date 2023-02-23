@@ -15,6 +15,8 @@
     "nodemon": "^2.0.20"
   },
   "dependencies": {
+    "@stripe/react-stripe-js": "^1.16.5",
+    "@stripe/stripe-js": "^1.47.0",
     "bcrypt": "^5.1.0",
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",

@@ -67,11 +67,11 @@ module.exports = {
         .json({ message: "Cannot find a user with this id!" });
     }
 
-    Cart.deleteMany({ _id: { $in: delUser.cart } }),
-      Order.deleteMany({ _id: { $in: delUser.orders } }),
-      //Store.deleteMany({ _id: { $in: delUser.stores } }),
-      Product.deleteMany({ _id: { $in: delUser.products } }),
-      res.status(200).json(delUser);
+    //Cart.deleteMany({ _id: { $in: delUser.cart } }),
+    //Order.deleteMany({ _id: { $in: delUser.orders } }),
+    //Store.deleteMany({ _id: { $in: delUser.stores } }),
+    //Product.deleteMany({ _id: { $in: delUser.products } }),
+    res.status(200).json(delUser);
   },
 
   // save a product to a user's `savedProducts` field by adding it to the set (to prevent duplicates)
