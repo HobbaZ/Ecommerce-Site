@@ -4,7 +4,7 @@ const User = require("../models/User");
 module.exports = {
   //Get all stores
   async allStores(req, res) {
-    const storeData = await store.find();
+    const storeData = await Store.find();
     if (!storeData) {
       return res.status(400).json({ message: "Can't find all stores!" });
     }
@@ -22,33 +22,30 @@ module.exports = {
 
   //Create a store
   async createStore(req, res) {
-    const createstore = new Store(req.body);
+    try {
+      const createstore = await Store.create(req.body);
 
-    if (!createstore) {
-      return res.status(400).json({ message: "Error with creating the store" });
-    }
-    res.json("Created the store", createstore).then(() => {
-      User.findOneAndUpdate(
-        { _id: req.body.userId },
+      if (!createstore) {
+        return res.status(404).json({ message: "Error in creating store" });
+      }
+      const updatedUser = await User.findOneAndUpdate(
+        { _id: req.body._id },
         { $push: { stores: createstore } },
         { new: true }
-      )
-        .then((store) =>
-          !store
-            ? res.status(404).json({ message: "no user with that ID" })
-            : res.status(200).json({
-                message: `${createstore.storeName} has been created and added to the user`,
-              })
-        )
-        .catch((err) =>
-          res
-            .status(500)
-            .json({ message: "Error creating and adding the store", err })
-        );
-    });
+      );
+      if (!updatedUser) {
+        return res.status(404).json({ message: "No user with that ID" });
+      }
+      return res.status(200).json({
+        message: `Created the store, ${createstore.name}`,
+        createstore,
+      });
+    } catch (err) {
+      return res.status(500).json({ message: "Error creating a store", err });
+    }
   },
 
-  async updatestore(req, res) {
+  /* async updatestore(req, res) {
     const updatestore = Store.findByIdAndUpdate(
       { _id: req.params.id },
       { $et: req.body },
@@ -58,7 +55,7 @@ module.exports = {
       return res.status(400).json({ message: "Error with updating the store" });
     }
     res.json("Updated the store", updatestore);
-  },
+  },*/
 
   //Add product to store
   addProduct(req, res) {
@@ -81,7 +78,7 @@ module.exports = {
   },
 
   //delete product from store
-  addProduct(req, res) {
+  deleteProduct(req, res) {
     Store.findOneAndUpdate(
       //add reaction to product
       { _id: req.params.productId },
@@ -100,7 +97,7 @@ module.exports = {
       );
   },
 
-  async deleteStore(req, res) {
+  /* async deleteStore(req, res) {
     const deletestore = Store.findByIdAndDelete(
       { _id: req.params.id },
       { $pull: { products: { _id: req.params.productId } } },
@@ -110,5 +107,5 @@ module.exports = {
       return res.status(400).json({ message: "Error with deleting the store" });
     }
     res.json("Deleted the store", deletestore);
-  },
+  },*/
 };

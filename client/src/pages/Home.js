@@ -6,6 +6,7 @@ import { Loading } from "../components/Loading";
 
 const Home = () => {
   const [products, setProducts] = useState([]);
+  //const [users, setUsers] = useState([]);
 
   //loading state
   const [loading, setLoading] = useState(false);
@@ -23,7 +24,10 @@ const Home = () => {
 
         if (!response.ok) {
           setLoading(false);
-          throw new Error("something went wrong getting product data!");
+          throw new Error(
+            "something went wrong getting product data!",
+            response
+          );
         }
 
         const productData = await response.json();
@@ -34,6 +38,23 @@ const Home = () => {
         setError(err.message);
         console.error(err);
       }
+
+      /*try {
+        const response = await fetch("/api/users");
+
+        if (!response.ok) {
+          setLoading(false);
+          throw new Error("something went wrong getting user data!", response);
+        }
+
+        const userData = await response.json();
+        setUsers(userData);
+        console.log(userData);
+        setLoading(false);
+      } catch (err) {
+        setError(err.message);
+        console.error(err);
+      }*/
     };
     getData();
   }, []);
@@ -41,7 +62,6 @@ const Home = () => {
   return (
     <>
       <Container>
-        <h1>Featured Products</h1>
         <div className="products">
           {loading ? (
             <div className="d-flex justify-content-center">
@@ -53,8 +73,8 @@ const Home = () => {
             </div>
           ) : (
             <Row>
-              {products.length > 0 ? (
-                products.map((product) => (
+              {products.products?.length > 0 ? (
+                products.products.map((product) => (
                   <Col key={product._id} sm={6} md={4} lg={3}>
                     <Product product={product}></Product>
                   </Col>

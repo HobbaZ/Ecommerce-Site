@@ -1,4 +1,4 @@
-/*const router = require("express").Router();
+const router = require("express").Router();
 
 const {
   createStore,
@@ -17,10 +17,10 @@ router.route("/").post(createStore).put(authMiddleware);
 
 router.route("/:id").get(getSingleStore);
 
-router.route("delete/:id").delete(authMiddleware, deleteStore);
+//router.route("delete/:id").delete(authMiddleware, deleteStore);
 
-router.route("update/:id").put(authMiddleware, updateStore);
+//router.route("update/:id").put(authMiddleware, updateStore);
 
 router.route("/").get(allStores);
 
-module.exports = router;*/
+module.exports = router;

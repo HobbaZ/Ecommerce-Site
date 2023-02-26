@@ -10,7 +10,6 @@ import Footer from "./components/Footer";
 import StoreCreator from "./pages/StoreCreator";
 import ProductCreator from "./pages/ProductCreator";
 import ContactMe from "./pages/ContactMe";
-import Payment from "./pages/Payment";
 
 import "./App.css";
 import { Container } from "react-bootstrap";
@@ -38,7 +37,6 @@ function App() {
                 <Route exact path="/product/:id" element={<Product />} />
                 <Route exact path="/storecreator" element={<StoreCreator />} />
                 <Route exact path="/contactus" element={<ContactMe />} />
-                <Route exact path="/payment" element={<Payment />} />
                 <Route
                   exact
                   path="/productcreator"

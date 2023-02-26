@@ -12,6 +12,8 @@ const {
 // import middleware
 const { authMiddleware } = require("../../utils/auth");
 
+router.route("/").get(allProducts);
+
 // put authMiddleware anywhere we need to send a token for verification of user
 router.route("/create").post(createProduct).put(authMiddleware);
 
@@ -20,7 +22,5 @@ router.route("/:id").get(getSingleProduct);
 router.route("delete/:id").delete(authMiddleware, deleteProduct);
 
 router.route("update/:id").put(authMiddleware, updateProduct);
-
-router.route("/").get(allProducts);
 
 module.exports = router;

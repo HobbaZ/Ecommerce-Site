@@ -10,7 +10,7 @@ const StoreCreator = () => {
   const [formInput, setFormInput] = useState({
     storeName: "",
     storeDescription: "",
-    storeOwner: Auth.getProfile().data.username,
+    storeOwner: Auth.getProfile().data._id,
     storeImage: "",
     storeRating: "",
   });
@@ -30,7 +30,7 @@ const StoreCreator = () => {
         ? Auth.getToken()
         : window.location.replace("/login");
 
-      const response = await fetch(`api/store/create`, {
+      const response = await fetch(`api/store`, {
         method: "POST",
         body: JSON.stringify({ ...formInput }),
         headers: {
@@ -41,7 +41,7 @@ const StoreCreator = () => {
 
       if (!response.ok) {
         console.log(response);
-        throw new Error("something went wrong!");
+        throw new Error("something went wrong creating store!", response);
       }
 
       setFormInput("");

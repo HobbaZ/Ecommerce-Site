@@ -7,17 +7,17 @@ const storeSchema = new Schema(
       type: String,
       required: true,
       required: [true, "Please enter a title for the store"],
-      minLength: [20, "Title must be at least 10 characters"],
+      minLength: [5, "Title must be at least 5 characters"],
     },
     storeDescription: {
       type: String,
       required: [true, "Please enter a description for the store"],
-      minLength: [20, "Description must be at least 20 characters"],
+      minLength: [5, "Description must be at least 5 characters"],
     },
 
     storeOwner: {
       type: String,
-      required: [true, "Please enter your username"],
+      required: true,
     },
 
     storeImage: {

@@ -8,8 +8,10 @@ module.exports = {
     if (!productData) {
       return res.status(400).json({ message: "Can't find all products!" });
     }
-
-    res.status(200).json({ message: "found all products" });
+    console.log(productData);
+    res
+      .status(200)
+      .json({ message: "found all products", products: productData });
   },
 
   // Delete a user

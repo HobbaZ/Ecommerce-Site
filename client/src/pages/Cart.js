@@ -1,7 +1,6 @@
 import { useContext } from "react";
 import { Button, Card, Col, ListGroup, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { PaymentElement } from "@stripe/react-stripe-js";
 
 import { ThemeContext } from "../Theme";
 
@@ -97,11 +96,6 @@ const Cart = () => {
                     Proceed to Checkout
                   </Button>
                 </div>
-
-                <form>
-                  <PaymentElement total={total} />
-                  <button>Submit</button>
-                </form>
               </div>
             </Card.Body>
           </Card>

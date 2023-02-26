@@ -1,6 +1,7 @@
 const router = require("express").Router();
 
 const {
+  allUsers,
   createUser,
   deleteAllUsers,
   getSingleUser,
@@ -23,5 +24,8 @@ router.route("/:id").delete(authMiddleware, deleteUser);
 
 // Update user information
 router.route("/:id").put(authMiddleware, updateUser);
+
+// all users
+router.route("/").get(allUsers);
 
 module.exports = router;
