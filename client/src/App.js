@@ -34,7 +34,7 @@ function App() {
                 <Route exact path="/signup" element={<Signup />} />
                 <Route exact path="/login" element={<Login />} />
                 <Route exact path="/profile" element={<Profile />} />
-                <Route exact path="/product/:id" element={<Product />} />
+                <Route exact path="/products/:id" element={<Product />} />
                 <Route exact path="/storecreator" element={<StoreCreator />} />
                 <Route exact path="/contactus" element={<ContactMe />} />
                 <Route

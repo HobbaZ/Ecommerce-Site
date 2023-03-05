@@ -48,11 +48,6 @@ const productSchema = new Schema(
       required: [false, "Please enter a purchase limit for the product"],
     },
 
-    store: {
-      type: String,
-      required: true,
-    },
-
     rating: {
       type: Number,
     },

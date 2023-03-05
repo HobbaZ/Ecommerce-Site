@@ -68,7 +68,7 @@ const StoreCreator = () => {
                   <Form.Control
                     type="text"
                     name="storeName"
-                    value={formInput.storeName.trim() || ""}
+                    value={formInput.storeName || ""}
                     placeholder="Your Store Name"
                     onChange={handleChange}
                     required
@@ -81,7 +81,7 @@ const StoreCreator = () => {
                   <Form.Control
                     type="text"
                     name="storeDescription"
-                    value={formInput.storeDescription.trim() || ""}
+                    value={formInput.storeDescription || ""}
                     placeholder={`${formInput.storeName} sells a variety of products...`}
                     onChange={handleChange}
                     required

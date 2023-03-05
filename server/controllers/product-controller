@@ -16,13 +16,15 @@ module.exports = {
 
   // Delete a user
   async getSingleProduct(req, res) {
-    const getProduct = await Product.findById(req.params.id);
+    const id = req.params._id;
+    const getProduct = await Product.findOne(id);
+    console.log(getProduct);
     if (!getProduct) {
       return res
         .status(400)
         .json({ message: "Error with getting the product" });
     }
-    res.json("Found the product", getProduct);
+    res.json({ message: "Found the product", products: getProduct });
   },
 
   async getSingleProductBySlug(req, res) {

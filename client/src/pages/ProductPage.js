@@ -5,9 +5,11 @@ import { useEffect, useState } from "react";
 import { Badge, Button, Card, Col, Container, Row } from "react-bootstrap";
 import Rating from "../components/Rating";
 import { Loading } from "../components/Loading";
+import { useParams } from "react-router-dom";
 
-const ProductPage = (props) => {
+const ProductPage = () => {
   const [product, setProduct] = useState([]);
+  //const [users, setUsers] = useState([]);
 
   //loading state
   const [loading, setLoading] = useState(false);
@@ -15,20 +17,25 @@ const ProductPage = (props) => {
   // state for messages
   const [error, setError] = useState("");
 
-  useEffect(() => {
+  useEffect((id) => {
+    document.title = "Product";
+
     const getData = async () => {
       setLoading(true);
       try {
-        const response = await fetch(`/api/product/${product._id}`);
+        const response = await fetch(`/api/products/${id}`);
 
         if (!response.ok) {
           setLoading(false);
-          throw new Error("something went wrong getting product data!");
+          throw new Error(
+            "something went wrong getting product data!",
+            response
+          );
         }
 
         const productData = await response.json();
-        document.title = `${productData.name}`;
         setProduct(productData);
+        console.log(productData);
         setLoading(false);
       } catch (err) {
         setError(err.message);
@@ -36,7 +43,7 @@ const ProductPage = (props) => {
       }
     };
     getData();
-  }, [product._id]);
+  }, []);
 
   function addToCartHandler() {}
 
@@ -57,40 +64,42 @@ const ProductPage = (props) => {
               <Col md={6}>
                 <img
                   className="img-large mb-2"
-                  src={`${product.image}`}
-                  alt={product.name}
+                  src={`${product.products.image}`}
+                  alt={product.products.name}
                 ></img>
               </Col>
               <Col md={6}>
                 <Card className={``}>
                   <Card.Body>
                     <Card.Title className="mx-auto w-75 text-center">
-                      {product.name}
+                      {product.products.name}
                     </Card.Title>
 
                     <div className="mx-auto w-50 text-center">
                       <Rating
-                        rating={product.rating}
-                        numberofReviews={product.numberofReviews}
+                        rating={product.products.rating}
+                        numberofReviews={product.products.numberofReviews}
                       />
                     </div>
 
                     <Card.Text className="mx-auto w-50">
                       <b>Description: </b>
-                      {product.description}
+                      {product.products.description}
                     </Card.Text>
 
                     <Card.Text className="mx-auto w-50">
                       <b>Price:</b>
-                      <span className="float-right">${product.price}</span>
+                      <span className="float-right">
+                        ${product.products.price}
+                      </span>
                     </Card.Text>
 
                     <Card.Text className="mx-auto w-50">
                       <b>Stock:</b>
                       <span className="float-right">
-                        {product.numberinStock > 0 ? (
+                        {product.products.numberinStock > 0 ? (
                           <Badge bg="success">
-                            {product.numberinStock} Available
+                            {product.products.numberinStock} Available
                           </Badge>
                         ) : (
                           <Badge bg="danger">Unavailable</Badge>
@@ -99,17 +108,17 @@ const ProductPage = (props) => {
                     </Card.Text>
 
                     {/*<div className="mx-auto w-50">
-                      {product.numberinStock > 0 ? (
+                      {product.products.numberinStock > 0 ? (
                         <div>
                           <b>Purchase Limit:</b>
-                          <span className="float-right">{`${product.limit} per customer`}</span>
+                          <span className="float-right">{`${product.products.limit} per customer`}</span>
                         </div>
                       ) : null}
                       </div>*/}
 
                     <br />
                     <div className="mx-auto w-50">
-                      {product.numberinStock > 0 && (
+                      {product.products.numberinStock > 0 && (
                         <div>
                           <Button className={``} onClick={addToCartHandler}>
                             Add to Cart

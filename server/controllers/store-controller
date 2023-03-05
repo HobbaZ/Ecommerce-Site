@@ -1,5 +1,6 @@
 const Store = require("../models/Store");
 const User = require("../models/User");
+const Auth = require("../utils/auth");
 
 module.exports = {
   //Get all stores
@@ -21,15 +22,15 @@ module.exports = {
   },
 
   //Create a store
-  async createStore(req, res) {
+  async createStore({ user, body }, res) {
     try {
-      const createstore = await Store.create(req.body);
-
+      const createstore = await Store.create(body);
+      console.log("Store variables are ", createstore, "user is ", user);
       if (!createstore) {
         return res.status(404).json({ message: "Error in creating store" });
       }
       const updatedUser = await User.findOneAndUpdate(
-        { _id: req.body._id },
+        { _id: user._id },
         { $push: { stores: createstore } },
         { new: true }
       );
@@ -41,7 +42,8 @@ module.exports = {
         createstore,
       });
     } catch (err) {
-      return res.status(500).json({ message: "Error creating a store", err });
+      console.log(err);
+      return res.status(400).json({ message: "Error creating a store", err });
     }
   },
 
@@ -73,7 +75,7 @@ module.exports = {
               .json({ message: `added a product to the store`, product })
       )
       .catch((err) =>
-        res.status(500).json({ message: "Error adding product", err })
+        res.status(400).json({ message: "Error adding product", err })
       );
   },
 
@@ -93,7 +95,7 @@ module.exports = {
               .json({ message: `removed a product to the store`, product })
       )
       .catch((err) =>
-        res.status(500).json({ message: "Error removingg product", err })
+        res.status(400).json({ message: "Error removingg product", err })
       );
   },
 
