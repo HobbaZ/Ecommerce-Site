@@ -20,10 +20,10 @@ router.route("/login").post(login);
 
 router.route("/me").get(authMiddleware, getSingleUser);
 
-router.route("/:id").delete(authMiddleware, deleteUser);
+router.route("/:userId").delete(authMiddleware, deleteUser);
 
 // Update user information
-router.route("/:id").put(authMiddleware, updateUser);
+router.route("/:userId").put(authMiddleware, updateUser);
 
 // all users
 router.route("/").get(allUsers);

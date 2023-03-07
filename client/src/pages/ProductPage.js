@@ -1,5 +1,3 @@
-//The Api for the slug is getting http://localhost:3000/product/adidas-shirt instead of http://localhost:3000/product/item/adidas-shirt
-
 import { useEffect, useState } from "react";
 
 import { Badge, Button, Card, Col, Container, Row } from "react-bootstrap";
@@ -8,7 +6,18 @@ import { Loading } from "../components/Loading";
 import { useParams } from "react-router-dom";
 
 const ProductPage = () => {
-  const [product, setProduct] = useState([]);
+  const [product, setProduct] = useState({
+    product: {
+      name: "",
+      image: "",
+      rating: 0,
+      numberofReviews: 0,
+      description: "",
+      price: 0,
+      numberinStock: 0,
+      limit: 0,
+    },
+  });
   //const [users, setUsers] = useState([]);
 
   //loading state
@@ -17,9 +26,9 @@ const ProductPage = () => {
   // state for messages
   const [error, setError] = useState("");
 
-  useEffect((id) => {
-    document.title = "Product";
+  const { id } = useParams();
 
+  useEffect(() => {
     const getData = async () => {
       setLoading(true);
       try {
@@ -34,6 +43,7 @@ const ProductPage = () => {
         }
 
         const productData = await response.json();
+        document.title = `${productData.product.name}`;
         setProduct(productData);
         console.log(productData);
         setLoading(false);
@@ -43,7 +53,7 @@ const ProductPage = () => {
       }
     };
     getData();
-  }, []);
+  }, [id]);
 
   function addToCartHandler() {}
 
@@ -64,42 +74,42 @@ const ProductPage = () => {
               <Col md={6}>
                 <img
                   className="img-large mb-2"
-                  src={`${product.products.image}`}
-                  alt={product.products.name}
-                ></img>
+                  src={`${product.product.image}`}
+                  alt={product.name}
+                />
               </Col>
               <Col md={6}>
                 <Card className={``}>
                   <Card.Body>
                     <Card.Title className="mx-auto w-75 text-center">
-                      {product.products.name}
+                      {product.product.name}
                     </Card.Title>
 
                     <div className="mx-auto w-50 text-center">
                       <Rating
-                        rating={product.products.rating}
-                        numberofReviews={product.products.numberofReviews}
+                        rating={product.product.rating}
+                        numberofReviews={product.product.numberofReviews}
                       />
                     </div>
 
                     <Card.Text className="mx-auto w-50">
                       <b>Description: </b>
-                      {product.products.description}
+                      {product.product.description}
                     </Card.Text>
 
                     <Card.Text className="mx-auto w-50">
                       <b>Price:</b>
                       <span className="float-right">
-                        ${product.products.price}
+                        ${product.product.price}
                       </span>
                     </Card.Text>
 
                     <Card.Text className="mx-auto w-50">
                       <b>Stock:</b>
                       <span className="float-right">
-                        {product.products.numberinStock > 0 ? (
+                        {product.product.numberinStock > 0 ? (
                           <Badge bg="success">
-                            {product.products.numberinStock} Available
+                            {product.product.numberinStock} Available
                           </Badge>
                         ) : (
                           <Badge bg="danger">Unavailable</Badge>
@@ -108,17 +118,17 @@ const ProductPage = () => {
                     </Card.Text>
 
                     {/*<div className="mx-auto w-50">
-                      {product.products.numberinStock > 0 ? (
+                      {product.product.numberinStock > 0 ? (
                         <div>
                           <b>Purchase Limit:</b>
-                          <span className="float-right">{`${product.products.limit} per customer`}</span>
+                          <span className="float-right">{`${product.product.limit} per customer`}</span>
                         </div>
                       ) : null}
                       </div>*/}
 
                     <br />
                     <div className="mx-auto w-50">
-                      {product.products.numberinStock > 0 && (
+                      {product.product.numberinStock > 0 && (
                         <div>
                           <Button className={``} onClick={addToCartHandler}>
                             Add to Cart

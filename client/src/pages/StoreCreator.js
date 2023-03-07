@@ -12,7 +12,7 @@ const StoreCreator = () => {
     storeDescription: "",
     storeOwner: Auth.getProfile().data._id,
     storeImage: "",
-    storeRating: "",
+    storeRating: 3.0,
   });
 
   document.title = "Store Creator";
@@ -94,7 +94,7 @@ const StoreCreator = () => {
                   <Form.Control
                     type="file"
                     name="storeImage"
-                    value={formInput.storeImage.trim() || ""}
+                    value={formInput.storeImage || ""}
                     onChange={handleChange}
                     required
                     minLength={2}

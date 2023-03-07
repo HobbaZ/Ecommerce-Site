@@ -17,10 +17,7 @@ module.exports = {
   // get a single user by either their id or their username
   async getSingleUser({ user = null, params }, res) {
     const singleUser = await User.findOne({
-      $or: [
-        { _id: user ? user._id : params.id },
-        { username: params.username },
-      ],
+      _id: user._id,
     });
 
     if (!singleUser) {
@@ -69,7 +66,7 @@ module.exports = {
   // Delete a user
   async deleteUser(req, res) {
     const delUser = await User.findOneAndDelete({
-      _id: req.params.id,
+      _id: req.params.userId,
     });
 
     if (!delUser) {
@@ -117,9 +114,9 @@ module.exports = {
   },
 
   //update user
-  async updateUser({ user, body }, res) {
+  async updateUser({ body }, req, res) {
     const updatedUser = await User.findOneAndUpdate(
-      { _id: user._id },
+      { _id: req.params.userId },
       { $set: body },
       { new: true, runValidators: true }
     );
