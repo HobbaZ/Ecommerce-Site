@@ -6,9 +6,9 @@ import Auth from "../utils/auth";
 
 const ProductCreator = () => {
   const [formInput, setFormInput] = useState({
-    productName: "",
-    productDescription: "",
-    productOwner: "",
+    name: "",
+    description: "",
+    store: "",
     productImage: "",
     productRating: "",
   });
@@ -61,8 +61,8 @@ const ProductCreator = () => {
                   <Form.Label>product Name</Form.Label>
                   <Form.Control
                     type="text"
-                    name="productName"
-                    value={formInput.productName.trim() || ""}
+                    name="name"
+                    value={formInput.name.trim() || ""}
                     placeholder="Your product Name"
                     onChange={handleChange}
                     required
@@ -74,9 +74,9 @@ const ProductCreator = () => {
                   <Form.Label>product Description</Form.Label>
                   <Form.Control
                     type="text"
-                    name="productDescription"
-                    value={formInput.productDescription.trim() || ""}
-                    placeholder={`${formInput.productName} sells a variety of products...`}
+                    name="description"
+                    value={formInput.description.trim() || ""}
+                    placeholder={`${formInput.name} sells a variety of products...`}
                     onChange={handleChange}
                     required
                     minLength={2}
@@ -86,7 +86,8 @@ const ProductCreator = () => {
                 <Form.Group className="mb-3">
                   <Form.Label>product Image</Form.Label>
                   <Form.Control
-                    type="email"
+                    type="file"
+                    accept="image/png, image/jpeg"
                     name="productImage"
                     value={formInput.productImage.trim() || ""}
                     onChange={handleChange}
@@ -98,8 +99,8 @@ const ProductCreator = () => {
                 <div className="text-center">
                   <Button
                     disabled={
-                      !formInput.productName ||
-                      !formInput.productDescription ||
+                      !formInput.name ||
+                      !formInput.description ||
                       !formInput.productImage ||
                       !formInput.productRating
                     }
@@ -107,7 +108,7 @@ const ProductCreator = () => {
                     type="submit"
                     className="my-2 w-50"
                   >
-                    {`Create ${formInput.productName}`}
+                    {`Create ${formInput.name}`}
                   </Button>
                 </div>
               </Form>

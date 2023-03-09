@@ -120,9 +120,22 @@ const AppNavbar = () => {
                     <NavLink to="/profile" className={`nav-link`}>
                       <div className={`background ${theme}`}>My Profile</div>
                     </NavLink>
-                    <NavLink to="/saved" className={`nav-link`}>
-                      <div className={`background ${theme}`}>Order History</div>
+
+                    <NavLink to="/orders" className={`nav-link`}>
+                      <div className={`background ${theme}`}>Orders</div>
                     </NavLink>
+
+                    {Auth.getProfile().data.isAdmin && (
+                      <>
+                        <NavLink to="/stores" className={`nav-link`}>
+                          <div className={`background ${theme}`}>Stores</div>
+                        </NavLink>
+
+                        <NavLink to="/products" className={`nav-link`}>
+                          <div className={`background ${theme}`}>Products</div>
+                        </NavLink>
+                      </>
+                    )}
 
                     <div className="mx-auto">
                       <Button

@@ -24,13 +24,13 @@ const StoreCreator = () => {
       return false;
     }
 
-    //Send data to create user endpoint
+    //Send data to create store endpoint
     try {
       const token = Auth.loggedIn()
         ? Auth.getToken()
         : window.location.replace("/login");
 
-      const response = await fetch(`api/store`, {
+      const response = await fetch(`api/stores`, {
         method: "POST",
         body: JSON.stringify({ ...formInput }),
         headers: {
@@ -40,9 +40,11 @@ const StoreCreator = () => {
       });
 
       if (!response.ok) {
-        console.log(response);
         throw new Error("something went wrong creating store!", response);
       }
+
+      console.log(response);
+      window.location.replace("/stores");
 
       setFormInput("");
     } catch (err) {
@@ -57,7 +59,7 @@ const StoreCreator = () => {
 
   return (
     <>
-      {Auth.loggedIn() && (
+      {Auth.loggedIn() && Auth.getProfile().data.isAdmin && (
         <Container fluid>
           <div className="col-sm-8 col-md-4 mt-5 mx-auto">
             <div>
@@ -112,7 +114,7 @@ const StoreCreator = () => {
                     type="submit"
                     className="my-2 w-50"
                   >
-                    {`Create ${formInput.storeName}`}
+                    {`Create Store`}
                   </Button>
                 </div>
               </Form>
@@ -120,8 +122,6 @@ const StoreCreator = () => {
           </div>
         </Container>
       )}
-
-      {!Auth.loggedIn() && window.location.replace("/login")}
     </>
   );
 };

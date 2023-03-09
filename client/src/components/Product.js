@@ -4,10 +4,7 @@ import Rating from "./Rating";
 
 function Product({ product }) {
   return (
-    <Card
-      key={product._id}
-      //className={`bg-${theme1} text-${theme2} border border-${theme2}`}
-    >
+    <Card key={product._id}>
       <Link to={`/products/${product._id}`}>
         <img className="card-img-top" src={product.image} alt={product.name} />
       </Link>
@@ -23,11 +20,7 @@ function Product({ product }) {
           numberofReviews={product.numberofReviews}
         />
         <Card.Text>${product.price}</Card.Text>
-        <Button
-        //className={`bg-${theme1} text-${theme2} border border-${theme2} w-100 productButton`}
-        >
-          Add to Cart
-        </Button>
+        <Button>Add to Cart</Button>
       </Card.Body>
     </Card>
   );

@@ -69,11 +69,13 @@ header {
 }
 
 .img-large {
-  max-width: 100%;
+  max-width: 80%;
 }
 
 .img_thumbnail {
   height: 80px;
+  width: 80px;
+  object-fit: contain;
 }
 
 main {
@@ -133,6 +135,18 @@ main {
   padding: 0;
   border: 0;
   background-color: rgba(255, 255, 255, 0);
+}
+
+.thumbnail {
+  height: 200px;
+  width: 200px;
+  object-fit: contain;
+}
+
+.thumbnail img {
+  height: 100%;
+  width: 100%;
+  object-fit: contain;
 }
 
 .background.dark {

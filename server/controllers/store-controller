@@ -9,17 +9,23 @@ module.exports = {
     if (!storeData) {
       return res.status(400).json({ message: "Can't find all stores!" });
     }
-    res.status(200).json({ message: "found all stores" });
+    res.status(200).json({ message: "found all stores", storeData });
   },
 
   // Delete a user
   async getSingleStore(req, res) {
-    const id = req.params._id;
-    const getAllstores = await Store.findOne(id);
-    if (!getAllstores) {
-      return res.status(400).json({ message: "Error with getting the store" });
+    try {
+      const store = await Store.findById(req.params.id);
+      if (!store) {
+        return res
+          .status(400)
+          .json({ message: "Error with getting the store" });
+      }
+      res.json({ message: "Found the store", store });
+    } catch (err) {
+      console.log(err);
+      return res.status(400).json({ message: "Error creating a store", err });
     }
-    res.json({ message: "Found the store", store: getAllstores });
   },
 
   //Create a store
@@ -43,17 +49,26 @@ module.exports = {
           .status(404)
           .json({ message: "Error in creating store", createstore });
       }
+
       const updatedUser = await User.findOneAndUpdate(
         { _id: req.body.storeOwner },
-        { $push: { stores: createstore } },
+        { $push: { stores: createstore._id } },
         { new: true }
       );
       if (!updatedUser) {
         return res.status(404).json({ message: "No user with that ID" });
       }
+
+      console.log(
+        `Created the store, ${createstore.storeName}`,
+        createstore,
+        "user has been updated",
+        updatedUser
+      );
       return res.status(200).json({
         message: `Created the store, ${createstore.storeName}`,
         createstore,
+        updatedUser,
       });
     } catch (err) {
       console.log(err);
@@ -61,11 +76,48 @@ module.exports = {
     }
   },
 
+  //update user
+  async updateStore(req, res) {
+    try {
+      console.log(req.params.id, req.body);
+      const updatedUser = await Store.findByIdAndUpdate(
+        req.params.id,
+        req.body,
+        { new: true, runValidators: true }
+      );
+
+      if (!updatedUser) {
+        return res.status(400).json({ message: "Couldn't update store!" });
+      }
+
+      console.log(updatedUser);
+      return res.status(200).json(updatedUser);
+    } catch (err) {
+      console.log(err);
+      return res.status(400).json({ message: "Error creating a store", err });
+    }
+  },
+
+  // Delete a store
+  async deleteStore(req, res) {
+    try {
+      const delUser = await Store.findByIdAndDelete(req.params.id);
+
+      if (!delUser) {
+        return res.status(400).json({ message: "Error deleting the store!" });
+      }
+      res.status(200).json(delUser);
+    } catch (err) {
+      console.log(err);
+      return res.status(400).json({ message: "Error deleting the store", err });
+    }
+  },
+
   //Add product to store
   addProduct(req, res) {
     Store.findOneAndUpdate(
-      //add reaction to product
-      { _id: req.params.storeId },
+      //add product to store
+      { _id: req.params.id },
       { $push: { products: req.body } },
       { new: true }
     )
@@ -84,8 +136,8 @@ module.exports = {
   //delete product from store
   deleteProduct(req, res) {
     Store.findOneAndUpdate(
-      //add reaction to product
-      { _id: req.params.storeId },
+      //delete product from store
+      { _id: req.params.id },
       { $pull: { products: { _id: req.params.productId } } },
       { new: true }
     )

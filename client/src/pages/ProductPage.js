@@ -18,7 +18,6 @@ const ProductPage = () => {
       limit: 0,
     },
   });
-  //const [users, setUsers] = useState([]);
 
   //loading state
   const [loading, setLoading] = useState(false);
@@ -71,6 +70,7 @@ const ProductPage = () => {
             </div>
           ) : (
             <Row>
+              <p>{id}</p>
               <Col md={6}>
                 <img
                   className="img-large mb-2"

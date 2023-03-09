@@ -17,6 +17,8 @@ import Cart from "./pages/Cart";
 import AppNavbar from "./components/NavBar";
 
 import { ThemeProvider } from "./Theme";
+import StoresPage from "./pages/StoresPage";
+import StoreInfo from "./pages/StoreInfo";
 
 function App() {
   return (
@@ -37,6 +39,9 @@ function App() {
                 <Route exact path="/products/:id" element={<Product />} />
                 <Route exact path="/storecreator" element={<StoreCreator />} />
                 <Route exact path="/contactus" element={<ContactMe />} />
+                <Route exact path="/stores" element={<StoresPage />} />
+                <Route exact path="/stores/:id" element={<StoreInfo />} />
+
                 <Route
                   exact
                   path="/productcreator"

@@ -38,23 +38,6 @@ const Home = () => {
         setError(err.message);
         console.error(err);
       }
-
-      /*try {
-        const response = await fetch("/api/users");
-
-        if (!response.ok) {
-          setLoading(false);
-          throw new Error("something went wrong getting user data!", response);
-        }
-
-        const userData = await response.json();
-        setUsers(userData);
-        console.log(userData);
-        setLoading(false);
-      } catch (err) {
-        setError(err.message);
-        console.error(err);
-      }*/
     };
     getData();
   }, []);

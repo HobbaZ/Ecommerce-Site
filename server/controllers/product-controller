@@ -14,61 +14,74 @@ module.exports = {
       .json({ message: "found all products", products: productData });
   },
 
-  // Delete a user
+  // Get a single product
   async getSingleProduct(req, res) {
-    const id = req.params._id;
-    const getProduct = await Product.findOne(id);
-    console.log(getProduct);
-    if (!getProduct) {
-      return res
-        .status(400)
-        .json({ message: "Error with getting the product" });
+    try {
+      const getProduct = await Product.findById(req.params.id);
+      console.log(getProduct);
+      if (!getProduct) {
+        return res
+          .status(400)
+          .json({ message: "Error with getting the product" });
+      }
+      res.json({ message: "Found the product", product: getProduct });
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ message: "Error with getting the product", err });
     }
-    res.json({ message: "Found the product", product: getProduct });
-  },
-
-  async getSingleProductBySlug(req, res) {
-    const getProduct = await Product.findOne({ slug: req.params.slug });
-    if (!getProduct) {
-      return res
-        .status(400)
-        .json({ message: "Error with getting the product" });
-    }
-    res.json("Found the product", getProduct);
   },
 
   //Create a product
   async createProduct(req, res) {
-    const createproduct = new Product(req.body);
+    try {
+      const createproduct = new Product(req.body);
 
-    if (!createproduct) {
-      return res
-        .status(400)
-        .json({ message: "Error with creating the product" });
+      if (!createproduct) {
+        return res
+          .status(400)
+          .json({ message: "Error with creating the product" });
+      }
+      res.json("Created the product", createproduct);
+    } catch (err) {
+      console.log(err);
+      return res.status(400).json({ message: "Error creating a product", err });
     }
-    res.json("Created the product", createproduct);
   },
 
   async updateProduct(req, res) {
-    const updateproduct = Product.findByIdAndUpdate(
-      { _id: req.params.id },
-      req.body
-    );
-    if (!updateproduct) {
+    try {
+      const updateproduct = Product.findByIdAndUpdate(
+        { _id: req.params.id },
+        req.body
+      );
+      if (!updateproduct) {
+        return res
+          .status(400)
+          .json({ message: "Error with updating the product" });
+      }
+      res.json("Updated the product", updateproduct);
+    } catch (err) {
+      console.log(err);
       return res
         .status(400)
-        .json({ message: "Error with updating the product" });
+        .json({ message: "Error updating the product", err });
     }
-    res.json("Updated the product", updateproduct);
   },
 
   async deleteProduct(req, res) {
-    const deleteproduct = Product.findByIdAndDelete({ _id: req.params.id });
-    if (!deleteproduct) {
+    try {
+      const deleteproduct = Product.findByIdAndDelete({ _id: req.params.id });
+      if (!deleteproduct) {
+        return res
+          .status(400)
+          .json({ message: "Error with deleting the product" });
+      }
+      res.json("Deleted the product", deleteproduct);
+    } catch (err) {
+      console.log(err);
       return res
         .status(400)
-        .json({ message: "Error with deleting the product" });
+        .json({ message: "Error deleting the product", err });
     }
-    res.json("Deleted the product", deleteproduct);
   },
 };
