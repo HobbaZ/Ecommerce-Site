@@ -1,11 +1,6 @@
 const { Schema, model } = require("mongoose");
 const bcrypt = require("bcrypt");
 
-const productSchema = require("./Product");
-const cartSchema = require("./Cart");
-const orderSchema = require("./Order");
-const storeSchema = require("./Store");
-
 const userSchema = new Schema(
   {
     username: {
@@ -52,14 +47,19 @@ const userSchema = new Schema(
 
     // set savedBooks to be an array of data that adheres to the productSchema
     //savedProducts: [productSchema],
-    shoppingCart: [cartSchema],
     stores: [
       {
         type: Schema.Types.ObjectId,
         ref: "Store",
       },
     ],
-    orders: [orderSchema],
+
+    orders: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Order",
+      },
+    ],
   },
   // set this to use virtual below
   {

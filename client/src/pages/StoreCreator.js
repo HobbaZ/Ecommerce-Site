@@ -30,6 +30,12 @@ const StoreCreator = () => {
         ? Auth.getToken()
         : window.location.replace("/login");
 
+      if (!token) {
+        console.log("Need to be logged in to do this");
+        window.location.replace("/login");
+        return false;
+      }
+
       const response = await fetch(`api/stores`, {
         method: "POST",
         body: JSON.stringify({ ...formInput }),

@@ -132,6 +132,10 @@ const StoreInfo = () => {
     }
   };
 
+  function createProduct() {
+    window.location.replace(`/products/create`);
+  }
+
   const handleChange = async (event) => {
     const { name } = event.target;
     setFormInput({
@@ -168,11 +172,22 @@ const StoreInfo = () => {
                 </div>
 
                 <p>
-                  <b>Products:</b>
+                  <b>Products: </b>
+                  {`${storeData.store?.products?.length}`}
                 </p>
               </div>
 
               {infoMessage && <div className="text-center">{infoMessage}</div>}
+
+              <div className="text-center">
+                <Button
+                  type="button"
+                  className="my-2 w-50"
+                  onClick={createProduct}
+                >
+                  Create A Product
+                </Button>
+              </div>
 
               <div className="text-center">
                 <Button

@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Container, Button, Form } from "react-bootstrap";
 
 import Auth from "../utils/auth";
+import StoreCreatorButton from "../components/StoreCreatorButton";
 
 function Greeting(props) {
   const date = new Date();
@@ -42,23 +43,6 @@ function Greeting(props) {
         </div>
       </div>
     </>
-  );
-}
-
-function StoreCreatorButton(props) {
-  return (
-    props.isAdmin && (
-      <div className="text-center">
-        <a
-          role="button"
-          variant="primary"
-          className="my-2 w-50"
-          href="./storecreator"
-        >
-          Store Creator
-        </a>
-      </div>
-    )
   );
 }
 

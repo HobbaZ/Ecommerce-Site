@@ -6,6 +6,7 @@ const {
   getSingleStore,
   deleteStore,
   updateStore,
+  myStores,
 } = require("../../controllers/store-controller");
 
 // import middleware
@@ -23,5 +24,7 @@ router.route("/delete/:id").delete(authMiddleware, deleteStore);
 router.route("/update/:id").put(authMiddleware, updateStore);
 
 router.route("/").get(allStores);
+
+router.route("/mystores").get(myStores);
 
 module.exports = router;

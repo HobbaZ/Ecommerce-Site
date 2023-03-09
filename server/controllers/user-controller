@@ -15,9 +15,9 @@ module.exports = {
   },
 
   // get a single user by either their id or their username
-  async getSingleUser({ user = null, params }, res) {
+  async getSingleUser(req, res) {
     const singleUser = await User.findOne({
-      _id: user._id,
+      _id: req.user._id,
     });
 
     if (!singleUser) {
@@ -28,68 +28,79 @@ module.exports = {
 
     res.json(singleUser);
   },
+
   // create a user, sign a token
   async createUser(req, res) {
-    const user = await User.create({
-      username: req.body.username,
-      name: req.body.name,
-      email: req.body.email,
-      password: req.body.password,
-    });
+    try {
+      const user = await User.create({
+        username: req.body.username,
+        name: req.body.name,
+        email: req.body.email,
+        password: req.body.password,
+      });
 
-    if (!user) {
-      return res.status(400).json({ message: "Couldn't create user!" });
+      if (!user) {
+        return res.status(400).json({ message: "Couldn't create user!" });
+      }
+      const token = signToken(user);
+      res.json({ message: "Created user", token, user });
+    } catch (err) {
+      console.log(err);
+      return res.status(400).json(err);
     }
-    const token = signToken(user);
-    res.json({ message: "Created user", token, user });
   },
+
   // login a user, sign a token, and send it back
-  async login({ body }, res) {
-    const user = await User.findOne({
-      $or: [{ username: body.username }, { email: body.email }],
-    });
-    if (!user) {
-      return res.status(400).json({ message: "Can't find this user" });
-    }
+  async login(req, res) {
+    try {
+      const user = await User.findOne({
+        $or: [{ username: req.body.username }, { email: req.body.email }],
+      });
+      if (!user) {
+        return res.status(400).json({ message: "Can't find this user" });
+      }
 
-    const correctPw = user.isCorrectPassword(body.password);
+      const correctPw = user.isCorrectPassword(req.body.password);
 
-    if (!correctPw) {
-      return res
-        .status(400)
-        .json({ message: "Wrong password or email entered!" });
+      if (!correctPw) {
+        return res
+          .status(400)
+          .json({ message: "Wrong password or email entered!" });
+      }
+      const token = signToken(user);
+      res.json({ message: "Login successful", token, user });
+    } catch (err) {
+      console.log(err);
+      return res.status(400).json("Can't Login", err);
     }
-    const token = signToken(user);
-    res.json({ message: "Login successful", token, user });
   },
 
   // Delete a user
   async deleteUser(req, res) {
-    const delUser = await User.findOneAndDelete({
-      _id: req.params.userId,
-    });
+    try {
+      const delUser = await User.findOneAndDelete({
+        _id: req.user._id,
+      });
 
-    if (!delUser) {
-      return res
-        .status(400)
-        .json({ message: "Cannot find a user with this id!" });
+      if (!delUser) {
+        return res
+          .status(400)
+          .json({ message: "Cannot find a user with this id!" });
+      }
+      res.status(200).json(delUser);
+    } catch (err) {
+      console.log(err);
+      return res.status(400).json("Can't delete user", err);
     }
-
-    //Cart.deleteMany({ _id: { $in: delUser.cart } }),
-    //Order.deleteMany({ _id: { $in: delUser.orders } }),
-    //Store.deleteMany({ _id: { $in: delUser.stores } }),
-    //Product.deleteMany({ _id: { $in: delUser.products } }),
-    res.status(200).json(delUser);
   },
 
   // save a product to a user's `savedProducts` field by adding it to the set (to prevent duplicates)
   // user comes from `req.user` created in the auth middleware function
-  async saveProduct({ user, body }, res) {
-    console.log(user);
+  async saveProduct(req, res) {
     try {
       const updatedUser = await User.findOneAndUpdate(
-        { _id: user._id },
-        { $addToSet: { savedProducts: body } },
+        { _id: req.user._id },
+        { $addToSet: { savedProducts: req.body } },
         { new: true, runValidators: true }
       );
       return res.json(updatedUser);
@@ -98,10 +109,10 @@ module.exports = {
       return res.status(400).json(err);
     }
   },
-  // remove a book from `savedProducts`
-  async deleteProduct({ user, params }, res) {
+  // remove a product from `savedProducts`
+  async deleteProduct({ params }, req, res) {
     const updatedUser = await User.findOneAndUpdate(
-      { _id: user._id },
+      { _id: req.user._id },
       { $pull: { savedProducts: { _id: params.id } } },
       { new: true }
     );
@@ -114,17 +125,22 @@ module.exports = {
   },
 
   //update user
-  async updateUser({ body }, req, res) {
-    const updatedUser = await User.findOneAndUpdate(
-      { _id: req.params.userId },
-      { $set: body },
-      { new: true, runValidators: true }
-    );
+  async updateUser(req, res) {
+    try {
+      const updatedUser = await User.findOneAndUpdate(
+        { _id: req.user._id },
+        { $set: req.body },
+        { new: true, runValidators: true }
+      );
 
-    if (!updatedUser) {
-      return res.status(400).json({ message: "Couldn't update user!" });
+      if (!updatedUser) {
+        return res.status(400).json({ message: "Couldn't update user!" });
+      }
+
+      return res.status(200).json({ message: "updated user", updatedUser });
+    } catch (err) {
+      console.log(err);
+      return res.status(400).json(err);
     }
-
-    return res.json(updatedUser);
   },
 };

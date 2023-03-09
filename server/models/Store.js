@@ -1,5 +1,4 @@
 const { Schema, model } = require("mongoose");
-const productSchema = require("./Product");
 
 const storeSchema = new Schema(
   {
@@ -34,7 +33,12 @@ const storeSchema = new Schema(
       default: Date.now,
     },
 
-    //storeProducts: [productSchema],
+    products: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Product",
+      },
+    ],
   },
 
   {

@@ -1,11 +1,47 @@
-import React from "react";
+import React, { useState } from "react";
 
 import { Container, Button, Card } from "react-bootstrap";
 
 import { Link } from "react-router-dom";
+import Auth from "../utils/auth";
 import Rating from "./Rating";
 
 const Store = ({ store }) => {
+  // state for messages
+  const [infoMessage, setInfoMessage] = useState("");
+
+  //Delete store if logged in
+  const deleteStore = async () => {
+    try {
+      const token = Auth.loggedIn()
+        ? Auth.getToken()
+        : window.location.replace("/login");
+
+      const response = await fetch(`/api/stores/delete/${store._id}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error("something went wrong with deleting store!");
+      }
+
+      //Delete store account, destroy access token and redirect to signup page if successful
+      setInfoMessage("Store deleted!");
+      console.log("store deleted");
+      window.location.replace("/Stores");
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  function editStore() {
+    window.location.replace(`/stores/${store._id}`);
+  }
+
   return (
     <Container fluid>
       <Card key={store._id} className={`m-1`}>
@@ -24,6 +60,31 @@ const Store = ({ store }) => {
           {/*link to store*/}
           <Card.Subtitle>{store.storeDescription}</Card.Subtitle>
           <Rating rating={store.storeRating} />
+
+          <Card.Text>Products: {store.products?.length}</Card.Text>
+
+          <div className="text-center">
+            <Button type="button" className="my-2 w-50">
+              Create A Product
+            </Button>
+          </div>
+
+          <div className="text-center">
+            <Button type="button" className="my-2 w-50" onClick={editStore}>
+              Edit {store.storeName}
+            </Button>
+          </div>
+
+          <div className="text-center">
+            <Button
+              variant="danger"
+              type="button"
+              className="my-2 w-50"
+              onClick={deleteStore}
+            >
+              Delete {store.storeName}
+            </Button>
+          </div>
         </Card.Body>
       </Card>
     </Container>

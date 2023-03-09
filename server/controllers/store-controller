@@ -1,15 +1,40 @@
 const Store = require("../models/Store");
 const User = require("../models/User");
-const Auth = require("../utils/auth");
 
 module.exports = {
   //Get all stores
   async allStores(req, res) {
-    const storeData = await Store.find();
-    if (!storeData) {
-      return res.status(400).json({ message: "Can't find all stores!" });
+    try {
+      const storeData = await Store.find();
+
+      if (!storeData) {
+        return res.status(400).json({ message: "Can't find all stores!" });
+      }
+      res.status(200).json({ message: "found all stores", storeData });
+    } catch (err) {
+      console.log(err);
+      return res.status(400).json({ message: "Error finding all stores", err });
     }
-    res.status(200).json({ message: "found all stores", storeData });
+  },
+
+  //Get all stores
+  async myStores(req, res) {
+    try {
+      const storeData = await Store.find();
+
+      if (!storeData) {
+        return res
+          .status(400)
+          .json({ message: "Can't find all user's stores!" });
+      }
+      res.status(200).json({ message: "found all user's stores", storeData });
+      console.log(storeData);
+    } catch (err) {
+      console.log(err);
+      return res
+        .status(400)
+        .json({ message: "Error finding all user's stores", err });
+    }
   },
 
   // Delete a user
@@ -24,7 +49,7 @@ module.exports = {
       res.json({ message: "Found the store", store });
     } catch (err) {
       console.log(err);
-      return res.status(400).json({ message: "Error creating a store", err });
+      return res.status(400).json({ message: "Error finding a store", err });
     }
   },
 
@@ -38,12 +63,7 @@ module.exports = {
         storeImage: req.body.storeImage,
         storeRating: req.body.storeRating,
       });
-      console.log(
-        "Store variables are ",
-        createstore,
-        " user is ",
-        req.body.storeOwner
-      );
+      console.log("Store variables are ", createstore);
       if (!createstore) {
         return res
           .status(404)
@@ -52,7 +72,7 @@ module.exports = {
 
       const updatedUser = await User.findOneAndUpdate(
         { _id: req.body.storeOwner },
-        { $push: { stores: createstore._id } },
+        { $push: { stores: createstore } },
         { new: true }
       );
       if (!updatedUser) {
@@ -76,22 +96,34 @@ module.exports = {
     }
   },
 
-  //update user
+  //update a store
   async updateStore(req, res) {
     try {
       console.log(req.params.id, req.body);
-      const updatedUser = await Store.findByIdAndUpdate(
+      const updateStore = await Store.findByIdAndUpdate(
         req.params.id,
         req.body,
         { new: true, runValidators: true }
       );
 
-      if (!updatedUser) {
+      if (!updateStore) {
         return res.status(400).json({ message: "Couldn't update store!" });
       }
 
-      console.log(updatedUser);
-      return res.status(200).json(updatedUser);
+      const updatedUser = await User.findOneAndUpdate(
+        { _id: req.user_id },
+        { $set: { stores: updateStore._id } },
+        { new: true }
+      );
+      if (!updatedUser) {
+        return res.status(404).json({ message: "No user with that ID" });
+      }
+
+      console.log("Store has been deleted user has been updated", updatedUser);
+      return res.status(200).json({
+        message: `Deleted the store`,
+        updatedUser,
+      });
     } catch (err) {
       console.log(err);
       return res.status(400).json({ message: "Error creating a store", err });
@@ -101,12 +133,27 @@ module.exports = {
   // Delete a store
   async deleteStore(req, res) {
     try {
-      const delUser = await Store.findByIdAndDelete(req.params.id);
+      const deleteStore = await Store.findByIdAndDelete(req.params.id);
 
-      if (!delUser) {
+      if (!deleteStore) {
         return res.status(400).json({ message: "Error deleting the store!" });
       }
-      res.status(200).json(delUser);
+      res.status(200).json(deleteStore);
+
+      const updatedUser = await User.findOneAndUpdate(
+        { _id: req.user_id },
+        { $pull: { stores: deleteStore._id } },
+        { new: true }
+      );
+      if (!updatedUser) {
+        return res.status(404).json({ message: "No user with that ID" });
+      }
+
+      console.log("Store has been deleted user has been updated", updatedUser);
+      return res.status(200).json({
+        message: `Deleted the store`,
+        updatedUser,
+      });
     } catch (err) {
       console.log(err);
       return res.status(400).json({ message: "Error deleting the store", err });
@@ -146,7 +193,7 @@ module.exports = {
           ? res.status(404).json({ message: "No store with that id!" })
           : res
               .status(200)
-              .json({ message: `removed a product to the store`, product })
+              .json({ message: `removed a product from the store`, product })
       )
       .catch((err) =>
         res.status(400).json({ message: "Error removing product", err })
