@@ -12,10 +12,10 @@ const {
 // import middleware
 const { authMiddleware } = require("../../utils/auth");
 
-router.route("/").get(allProducts);
-
 // put authMiddleware anywhere we need to send a token for verification of user
 router.route("/create").post(createProduct).put(authMiddleware);
+
+router.route("/").get(allProducts);
 
 router.route("/:id").get(getSingleProduct);
 

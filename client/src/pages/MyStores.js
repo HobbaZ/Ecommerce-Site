@@ -16,10 +16,7 @@ const StoresPage = () => {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    document.title = "My Stores";
-
-    const getData = async () => {
-      setLoading(true);
+    const getUserData = async () => {
       try {
         const token = Auth.loggedIn()
           ? Auth.getToken()
@@ -31,32 +28,53 @@ const StoresPage = () => {
           return false;
         }
 
-        const response = await fetch("/api/stores");
+        const response = await fetch(`/api/users/me`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            authorization: `Bearer ${token}`,
+          },
+        });
 
         if (!response.ok) {
-          setLoading(false);
-          throw new Error(
-            "something went wrong getting all store data!",
-            response
-          );
+          setError("something went wrong getting user data!");
+          throw new Error("something went wrong getting user data!");
         }
 
-        const storeData = await response.json();
-        setStoreData(storeData);
+        const user = await response.json();
+
+        document.title = `${user.name}'s Stores`;
+        const storeData = await Promise.all(
+          user.stores.map(async (storeId) => {
+            const storeResponse = await fetch(`/api/stores/${storeId}`, {
+              method: "GET",
+              headers: {
+                "Content-Type": "application/json",
+                "Cache-Control": "no-cache",
+                authorization: `Bearer ${token}`,
+              },
+            });
+            if (!storeResponse.ok) {
+              throw new Error(`Failed to fetch store ${storeId}`);
+            }
+            return storeResponse.json();
+          })
+        );
+
         console.log(storeData);
-        setLoading(false);
+        setStoreData(storeData);
       } catch (err) {
-        setError(err.message);
         console.error(err);
       }
     };
-    getData();
+
+    getUserData();
   }, []);
 
   return (
     <>
-      {Auth.loggedIn() && Auth.getProfile().data.isAdmin ? (
-        <Container>
+      {Auth.loggedIn() && Auth.getProfile().data.isAdmin && (
+        <Container fluid>
           <h2 className="text-center">My Stores</h2>
           <StoreCreatorButton isAdmin={Auth.getProfile().data.isAdmin} />
           <div className="products">
@@ -70,12 +88,13 @@ const StoresPage = () => {
               </div>
             ) : (
               <Row>
-                {stores.storeData?.length > 0 ? (
-                  stores.storeData.map((store) => (
-                    <Col key={store._id} sm={12} md={6} lg={6}>
-                      <Store store={store}></Store>
+                {stores.length > 0 ? (
+                  ((<h3>Stores: {stores.length}</h3>),
+                  stores.map((storeInfo) => (
+                    <Col key={storeInfo.store._id} sm={12} md={6} lg={4}>
+                      <Store store={storeInfo.store}></Store>
                     </Col>
-                  ))
+                  )))
                 ) : (
                   <div>no stores</div>
                 )}
@@ -83,8 +102,6 @@ const StoresPage = () => {
             )}
           </div>
         </Container>
-      ) : (
-        window.location.replace("/login")
       )}
       ;
     </>

@@ -36,10 +36,23 @@ function Greeting(props) {
           <p>
             <b>Email:</b> {props.email}
           </p>
+
           <p>
             <b>Selling status:</b>
             {!!props.isAdmin ? " Seller Account Active" : " No Seller Account"}
           </p>
+
+          {!!props.isAdmin ? (
+            <p>
+              <b>Stores:</b> {props.userData.stores?.length}
+            </p>
+          ) : null}
+
+          {!!props.isAdmin ? (
+            <p>
+              <b>Products:</b> {props.userData.products?.length}
+            </p>
+          ) : null}
         </div>
       </div>
     </>
@@ -186,6 +199,7 @@ const Profile = () => {
       email={userData.email}
       isAdmin={userData.isAdmin}
       isVerified={userData.isVerified}
+      userData={userData}
     />
   );
 

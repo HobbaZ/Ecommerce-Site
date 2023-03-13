@@ -9,8 +9,8 @@ const ProductCreator = () => {
     name: "",
     description: "",
     store: "",
-    productImage: "",
-    productRating: "",
+    image: "",
+    rating: "",
   });
 
   document.title = "product Creator";
@@ -24,21 +24,22 @@ const ProductCreator = () => {
 
     //Send data to create user endpoint
     try {
-      const response = await fetch(`api/product/create`, {
+      const response = await fetch(`api/products/create`, {
         method: "POST",
         body: JSON.stringify({ ...formInput }),
         headers: { "Content-Type": "application/json" },
       });
 
-      if (!response.ok) {
+      if (response.ok) {
+        console.log(response);
+        const { token } = await response.json();
+        Auth.login(token);
+
+        setFormInput({ name: "", description: "", image: "", rating: "" });
+      } else {
         console.log(response);
         throw new Error("something went wrong!");
       }
-
-      const { token } = await response.json();
-      Auth.login(token);
-
-      setFormInput("");
     } catch (err) {
       console.error(err);
     }
@@ -62,7 +63,7 @@ const ProductCreator = () => {
                   <Form.Control
                     type="text"
                     name="name"
-                    value={formInput.name.trim() || ""}
+                    value={formInput.name || ""}
                     placeholder="Your product Name"
                     onChange={handleChange}
                     required
@@ -75,7 +76,7 @@ const ProductCreator = () => {
                   <Form.Control
                     type="text"
                     name="description"
-                    value={formInput.description.trim() || ""}
+                    value={formInput.description || ""}
                     placeholder={`${formInput.name} sells a variety of products...`}
                     onChange={handleChange}
                     required
@@ -89,7 +90,7 @@ const ProductCreator = () => {
                     type="file"
                     accept="image/png, image/jpeg"
                     name="productImage"
-                    value={formInput.productImage.trim() || ""}
+                    value={formInput.productImage || ""}
                     onChange={handleChange}
                     required
                     minLength={2}

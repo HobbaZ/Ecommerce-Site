@@ -17,26 +17,6 @@ module.exports = {
     }
   },
 
-  //Get all stores
-  async myStores(req, res) {
-    try {
-      const storeData = await Store.find();
-
-      if (!storeData) {
-        return res
-          .status(400)
-          .json({ message: "Can't find all user's stores!" });
-      }
-      res.status(200).json({ message: "found all user's stores", storeData });
-      console.log(storeData);
-    } catch (err) {
-      console.log(err);
-      return res
-        .status(400)
-        .json({ message: "Error finding all user's stores", err });
-    }
-  },
-
   // Delete a user
   async getSingleStore(req, res) {
     try {
@@ -99,7 +79,6 @@ module.exports = {
   //update a store
   async updateStore(req, res) {
     try {
-      console.log(req.params.id, req.body);
       const updateStore = await Store.findByIdAndUpdate(
         req.params.id,
         req.body,
@@ -107,26 +86,15 @@ module.exports = {
       );
 
       if (!updateStore) {
-        return res.status(400).json({ message: "Couldn't update store!" });
+        return res.status(404).json({ message: "Store not found" });
       }
 
-      const updatedUser = await User.findOneAndUpdate(
-        { _id: req.user_id },
-        { $set: { stores: updateStore._id } },
-        { new: true }
-      );
-      if (!updatedUser) {
-        return res.status(404).json({ message: "No user with that ID" });
-      }
-
-      console.log("Store has been deleted user has been updated", updatedUser);
-      return res.status(200).json({
-        message: `Deleted the store`,
-        updatedUser,
-      });
+      return res.json(updateStore);
     } catch (err) {
-      console.log(err);
-      return res.status(400).json({ message: "Error creating a store", err });
+      console.error(err);
+      return res
+        .status(400)
+        .json({ message: "Error updating store", error: err });
     }
   },
 
@@ -146,7 +114,8 @@ module.exports = {
         { new: true }
       );
       if (!updatedUser) {
-        return res.status(404).json({ message: "No user with that ID" });
+        console.log("No user with that ID");
+        return res.status(400).json({ message: "No user with that ID" });
       }
 
       console.log("Store has been deleted user has been updated", updatedUser);

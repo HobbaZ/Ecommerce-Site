@@ -10,7 +10,7 @@ const storeRoutes = require("./store-routes");
 router.use("/users", userRoutes);
 router.use("/products", productRoutes);
 router.use("/cart", cartRoutes);
-router.use("/order", orderRoutes);
+router.use("/orders", orderRoutes);
 router.use("/stores", storeRoutes);
 
 module.exports = router;

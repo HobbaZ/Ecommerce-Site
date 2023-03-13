@@ -26,6 +26,11 @@ html {
   background-color: rgb(63, 4, 119);
 }
 
+.cards {
+  display: flex;
+  justify-content: space-around;
+}
+
 .circle {
   margin-right: 10px;
   width: 20px;

@@ -34,14 +34,26 @@ module.exports = {
   //Create a product
   async createProduct(req, res) {
     try {
-      const createproduct = new Product(req.body);
+      const createproduct = await Product.create({
+        name: req.body.name,
+        description: req.body.description,
+        brand: req.body.brand,
+        image: req.body.image,
+        category: req.body.category,
+        price: req.body.price,
+        limit: req.body.limit,
+        rating: req.body.rating,
+        numberinStock: req.body.numberinStock,
+        numberOfReviews: req.body.numberOfReviews,
+        date_added: req.body.date_added,
+      });
 
       if (!createproduct) {
         return res
           .status(400)
           .json({ message: "Error with creating the product" });
       }
-      res.json("Created the product", createproduct);
+      res.status(200).json("Created the product", createproduct);
     } catch (err) {
       console.log(err);
       return res.status(400).json({ message: "Error creating a product", err });

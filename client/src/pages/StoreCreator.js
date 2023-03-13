@@ -36,7 +36,7 @@ const StoreCreator = () => {
         return false;
       }
 
-      const response = await fetch(`api/stores`, {
+      const response = await fetch(`api/stores/create`, {
         method: "POST",
         body: JSON.stringify({ ...formInput }),
         headers: {
@@ -50,7 +50,7 @@ const StoreCreator = () => {
       }
 
       console.log(response);
-      window.location.replace("/stores");
+      window.location.replace("/mystores");
 
       setFormInput("");
     } catch (err) {

@@ -8,12 +8,12 @@ const productSchema = new Schema(
       minLength: [5, "Product name must be at least 5 characters"],
     },
 
-    slug: {
+    /*slug: {
       type: String,
       unqique: [true, "An item already uses that slug"],
       required: [true, "Please enter a description for the product"],
       minLength: [2, "Description must be at least 2 characters"],
-    },
+    },*/
 
     description: {
       type: String,

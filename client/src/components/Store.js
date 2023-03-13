@@ -32,7 +32,7 @@ const Store = ({ store }) => {
       //Delete store account, destroy access token and redirect to signup page if successful
       setInfoMessage("Store deleted!");
       console.log("store deleted");
-      window.location.replace("/Stores");
+      window.location.replace("/mystores");
     } catch (err) {
       console.error(err);
     }
@@ -42,9 +42,13 @@ const Store = ({ store }) => {
     window.location.replace(`/stores/${store._id}`);
   }
 
+  function createProduct() {
+    window.location.replace(`/products/create`);
+  }
+
   return (
     <Container fluid>
-      <Card key={store._id} className={`m-1`}>
+      <Card key={store._id} className={`m-1 p-2`}>
         <Link to={`/stores/${store._id}`}>
           <img
             className="card-img-top"
@@ -64,13 +68,13 @@ const Store = ({ store }) => {
           <Card.Text>Products: {store.products?.length}</Card.Text>
 
           <div className="text-center">
-            <Button type="button" className="my-2 w-50">
+            <Button type="button" className="my-2 w-75" onClick={createProduct}>
               Create A Product
             </Button>
           </div>
 
           <div className="text-center">
-            <Button type="button" className="my-2 w-50" onClick={editStore}>
+            <Button type="button" className="my-2 w-75" onClick={editStore}>
               Edit {store.storeName}
             </Button>
           </div>
@@ -79,7 +83,7 @@ const Store = ({ store }) => {
             <Button
               variant="danger"
               type="button"
-              className="my-2 w-50"
+              className="my-2 w-75"
               onClick={deleteStore}
             >
               Delete {store.storeName}

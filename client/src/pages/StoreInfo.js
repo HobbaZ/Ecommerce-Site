@@ -7,7 +7,7 @@ import Auth from "../utils/auth";
 import { useParams } from "react-router-dom";
 
 const StoreInfo = () => {
-  const [storeData, setStoreData] = useState("");
+  const [storeData, setStoreData] = useState({});
 
   const [formInput, setFormInput] = useState({
     storeName: storeData.storeName,
@@ -49,7 +49,7 @@ const StoreInfo = () => {
         }
 
         const storeInfo = await response.json();
-        document.title = `${id}`;
+        document.title = `${storeInfo.store.storeName}`;
         setStoreData(storeInfo);
         console.log(storeInfo);
       } catch (err) {
@@ -82,7 +82,7 @@ const StoreInfo = () => {
       //Delete store account, destroy access token and redirect to signup page if successful
       setInfoMessage("Store deleted!");
       console.log("store deleted");
-      window.location.replace("/Stores");
+      window.location.reload();
     } catch (err) {
       console.error(err);
     }
@@ -118,23 +118,19 @@ const StoreInfo = () => {
 
       if (!response.ok) {
         console.log(response);
-        throw new Error("something went wrong updating your details!");
+        throw new Error("something went wrong updating the store details!");
       }
 
       const store = await response.json();
       console.log(store);
-      setInfoMessage("Details updated!", store);
+      setInfoMessage("Details updated!");
       setStoreData(store);
-      window.location.reload();
+      window.location.replace(`stores/${id}`);
       setFormInput("");
     } catch (err) {
       console.error(err);
     }
   };
-
-  function createProduct() {
-    window.location.replace(`/products/create`);
-  }
 
   const handleChange = async (event) => {
     const { name } = event.target;
@@ -181,16 +177,6 @@ const StoreInfo = () => {
 
               <div className="text-center">
                 <Button
-                  type="button"
-                  className="my-2 w-50"
-                  onClick={createProduct}
-                >
-                  Create A Product
-                </Button>
-              </div>
-
-              <div className="text-center">
-                <Button
                   variant="primary"
                   className="my-2 w-50"
                   onClick={() => setShowEditForm(!showEditForm)}
@@ -211,7 +197,9 @@ const StoreInfo = () => {
                           <Form.Control
                             type="text"
                             name="storeName"
-                            value={formInput.storeName || storeData.storeName}
+                            value={
+                              formInput.storeName || storeData.store?.storeName
+                            }
                             placeholder={storeData.store.storeName}
                             onChange={handleChange}
                             minLength={2}
@@ -225,7 +213,7 @@ const StoreInfo = () => {
                             name="storeDescription"
                             value={
                               formInput.storeDescription ||
-                              storeData.store.storeDescription
+                              storeData.store?.storeDescription
                             }
                             placeholder={storeData.storeDescription}
                             onChange={handleChange}
@@ -239,7 +227,7 @@ const StoreInfo = () => {
                             type="file"
                             accept="image/png, image/jpeg"
                             name="storeImage"
-                            placeholder={storeData.storeImage}
+                            placeholder={storeData.store?.storeImage}
                             onChange={handleChange}
                             minLength={2}
                           />

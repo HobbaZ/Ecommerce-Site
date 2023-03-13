@@ -17,7 +17,7 @@ import Cart from "./pages/Cart";
 import AppNavbar from "./components/NavBar";
 
 import { ThemeProvider } from "./Theme";
-import StoresPage from "./pages/StoresPage";
+import MyStores from "./pages/MyStores";
 import StoreInfo from "./pages/StoreInfo";
 
 function App() {
@@ -36,17 +36,16 @@ function App() {
                 <Route exact path="/signup" element={<Signup />} />
                 <Route exact path="/login" element={<Login />} />
                 <Route exact path="/profile" element={<Profile />} />
+                <Route
+                  exact
+                  path="/products/create"
+                  element={<ProductCreator />}
+                />
                 <Route exact path="/products/:id" element={<Product />} />
                 <Route exact path="/storecreator" element={<StoreCreator />} />
                 <Route exact path="/contactus" element={<ContactMe />} />
-                <Route exact path="/stores" element={<StoresPage />} />
+                <Route exact path="/mystores" element={<MyStores />} />
                 <Route exact path="/stores/:id" element={<StoreInfo />} />
-
-                <Route
-                  exact
-                  path="/productcreator"
-                  element={<ProductCreator />}
-                />
 
                 <Route exact path="/cart" element={<Cart />} />
                 <Route render={() => <h1>404! This page doesn't exist</h1>} />
