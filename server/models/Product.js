@@ -35,7 +35,7 @@ const productSchema = new Schema(
     category: {
       type: String,
       required: true,
-      required: [true, "Please enter the products category"],
+      required: [true, "Please enter the product's category"],
       minLength: [2, "Category must be at least 2 characters"],
     },
     price: {

@@ -4,6 +4,9 @@ import { Container, Button, Form } from "react-bootstrap";
 
 import Auth from "../utils/auth";
 
+let emailRegex =
+  /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+
 const signup = () => {
   window.location.replace("/signup");
 };
@@ -75,6 +78,12 @@ const Login = () => {
                 />
               </Form.Group>
 
+              {formInput.email !== "" && !emailRegex.test(formInput.email) && (
+                <p className="text-center text-danger">
+                  Entered Email address is invalid
+                </p>
+              )}
+
               <Form.Group className="mb-3" disabled={submittingForm}>
                 <Form.Label>Password</Form.Label>
                 <Form.Control
@@ -83,9 +92,16 @@ const Login = () => {
                   value={formInput.password || ""}
                   placeholder="Password"
                   onChange={handleChange}
+                  min={8}
                   required
                 />
               </Form.Group>
+
+              {/*{formInput.password !== "" && formInput.password.length < 8 && (
+                <p className="text-center text-danger">
+                  Password needs to be at least 8 characters
+                </p>
+              )}*/}
 
               {infoMessage && <div className="text-center">{infoMessage}</div>}
 
@@ -94,6 +110,7 @@ const Login = () => {
                   variant="primary"
                   type="submit"
                   className="my-2 w-50"
+                  aria-disabled="true"
                   disabled={!(formInput.email && formInput.password)}
                 >
                   Login

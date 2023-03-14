@@ -145,12 +145,10 @@ function ContactMe({ ...props }) {
             />
           </Form.Group>
 
-          {messageInput !== "" && messageInput?.length < 2 ? (
+          {messageInput !== "" && messageInput?.length < 2 && (
             <div className="text-center text-danger">
               {"message is required"}
             </div>
-          ) : (
-            ""
           )}
 
           <br />

@@ -4,6 +4,9 @@ import { Container, Button, Form } from "react-bootstrap";
 
 import Auth from "../utils/auth";
 
+let emailRegex =
+  /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+
 const login = () => {
   window.location.replace("/login");
 };
@@ -76,6 +79,12 @@ const Signup = () => {
                   />
                 </Form.Group>
 
+                {formInput.name !== "" && formInput.name.length < 2 && (
+                  <p className="text-center text-danger">
+                    Name needs to be at least 2 characters
+                  </p>
+                )}
+
                 <Form.Group className="mb-3">
                   <Form.Label>Create a username</Form.Label>
                   <Form.Control
@@ -88,6 +97,12 @@ const Signup = () => {
                     minLength={2}
                   />
                 </Form.Group>
+
+                {formInput.username !== "" && formInput.username.length < 2 && (
+                  <p className="text-center text-danger">
+                    Username needs to be at least 2 characters
+                  </p>
+                )}
 
                 <Form.Group className="mb-3">
                   <Form.Label>Email address</Form.Label>
@@ -102,6 +117,13 @@ const Signup = () => {
                   />
                 </Form.Group>
 
+                {formInput.email !== "" &&
+                  !emailRegex.test(formInput.email) && (
+                    <p className="text-center text-danger">
+                      Entered Email address is invalid
+                    </p>
+                  )}
+
                 <Form.Group className="mb-3">
                   <Form.Label>Password</Form.Label>
                   <Form.Control
@@ -113,6 +135,12 @@ const Signup = () => {
                     required
                   />
                 </Form.Group>
+
+                {formInput.password !== "" && formInput.password.length < 8 && (
+                  <p className="text-center text-danger">
+                    Password needs to be at least 8 characters
+                  </p>
+                )}
 
                 <Form.Group className="mb-3">
                   <Form.Label>Confirm Password</Form.Label>

@@ -84,6 +84,13 @@ const StoreCreator = () => {
                   />
                 </Form.Group>
 
+                {formInput.storeName !== "" &&
+                  formInput.storeName.length < 2 && (
+                    <p className="text-center text-danger">
+                      Store name needs to be at least 2 characters
+                    </p>
+                  )}
+
                 <Form.Group className="mb-3">
                   <Form.Label>Store Description</Form.Label>
                   <Form.Control
@@ -97,6 +104,13 @@ const StoreCreator = () => {
                   />
                 </Form.Group>
 
+                {formInput.storeDescription !== "" &&
+                  formInput.storeDescription.length < 2 && (
+                    <p className="text-center text-danger">
+                      Store name needs to be at least 2 characters
+                    </p>
+                  )}
+
                 <Form.Group className="mb-3">
                   <Form.Label>Store Image</Form.Label>
                   <Form.Control
@@ -108,6 +122,12 @@ const StoreCreator = () => {
                     minLength={2}
                   />
                 </Form.Group>
+
+                {formInput.storeImage === "" && (
+                  <p className="text-center text-danger">
+                    Store image is required
+                  </p>
+                )}
 
                 <div className="text-center">
                   <Button
