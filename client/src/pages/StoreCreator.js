@@ -69,7 +69,9 @@ const StoreCreator = () => {
         <Container fluid>
           <div className="col-sm-8 col-md-4 mt-5 mx-auto">
             <div>
-              <h1 className="text-center">Store Creator</h1>
+              <h1 className="text-center" tabIndex="0">
+                Store Creator
+              </h1>
               <Form onSubmit={handleSubmit} className={`mx-auto`}>
                 <Form.Group className="mb-3">
                   <Form.Label>Store Name</Form.Label>

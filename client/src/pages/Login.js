@@ -64,17 +64,20 @@ const Login = () => {
       {!Auth.loggedIn() ? (
         <Container fluid>
           <div className="col-sm-8 col-md-4 mt-5 mx-auto">
-            <h1 className="text-center">Login</h1>
+            <h1 className="text-center" tabIndex="0">
+              Login
+            </h1>
             <Form onSubmit={handleSubmit} className="mx-auto">
               <Form.Group className="mb-3" disabled={submittingForm}>
                 <Form.Label>Email address</Form.Label>
                 <Form.Control
+                  aria-required={true}
                   type="email"
                   name="email"
                   value={formInput.email.trim() || ""}
-                  placeholder="Enter email"
+                  placeholder="Enter your email"
                   onChange={handleChange}
-                  required
+                  required={true}
                 />
               </Form.Group>
 
@@ -87,13 +90,15 @@ const Login = () => {
               <Form.Group className="mb-3" disabled={submittingForm}>
                 <Form.Label>Password</Form.Label>
                 <Form.Control
+                  aria-required={true}
+                  aria-describedby="Password needs to be at least 8 characters"
                   type="password"
                   name="password"
                   value={formInput.password || ""}
-                  placeholder="Password"
+                  placeholder="Enter your Password"
                   onChange={handleChange}
                   min={8}
-                  required
+                  required={true}
                 />
               </Form.Group>
 

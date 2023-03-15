@@ -75,7 +75,9 @@ const StoresPage = () => {
     <>
       {Auth.loggedIn() && Auth.getProfile().data.isAdmin && (
         <Container fluid>
-          <h2 className="text-center">My Stores</h2>
+          <h2 className="text-center" tabIndex="0">
+            My Stores
+          </h2>
           <StoreCreatorButton isAdmin={Auth.getProfile().data.isAdmin} />
           <div className="products">
             {loading ? (

@@ -58,55 +58,65 @@ const ProductPage = () => {
 
   return (
     <>
-      <Container>
+      <Container fluid>
         <div>
           {loading ? (
-            <div className="d-flex justify-content-center">
+            <div className="d-flex justify-content-center" role="alert">
               <Loading />
             </div>
           ) : error ? (
-            <div className="text-center text-danger d-flex justify-content-center">
+            <div
+              className="text-center text-danger d-flex justify-content-center"
+              role="alert"
+            >
               {error}
             </div>
           ) : (
             <Row>
-              <p>{id}</p>
-              <Col md={6}>
-                <img
-                  className="img-large mb-2"
-                  src={`${product.product.image}`}
-                  alt={product.name}
-                />
+              <Col sm={12} md={6}>
+                <div className="text-center">
+                  <img
+                    className="img-large mb-2 col-sm-12"
+                    tabIndex="0"
+                    src={`${product.product.image}`}
+                    alt={product.product.name}
+                  />
+                </div>
               </Col>
-              <Col md={6}>
-                <Card className={``}>
-                  <Card.Body>
-                    <Card.Title className="mx-auto w-75 text-center">
+              <Col sm={12} md={6}>
+                <Card>
+                  <Card.Body className="w-100">
+                    <Card.Title
+                      className="mx-auto w-75 text-center"
+                      tabIndex="0"
+                    >
                       {product.product.name}
                     </Card.Title>
 
-                    <div className="mx-auto w-50 text-center">
+                    <Card.Text className="mx-auto w-75">
+                      <span className="sr-only sr-only-focusable" tabIndex="0">
+                        Rating: {product.product.rating} out of 5 stars
+                      </span>
+
                       <Rating
+                        aria-hidden="true"
                         rating={product.product.rating}
                         numberofReviews={product.product.numberofReviews}
                       />
-                    </div>
+                    </Card.Text>
 
-                    <Card.Text className="mx-auto w-50">
+                    <Card.Text className="mx-auto w-75" tabIndex="0">
                       <b>Description: </b>
                       {product.product.description}
                     </Card.Text>
 
-                    <Card.Text className="mx-auto w-50">
-                      <b>Price:</b>
-                      <span className="float-right">
-                        ${product.product.price}
-                      </span>
+                    <Card.Text className="mx-auto w-75" tabIndex="0">
+                      <b>Price: </b>${product.product.price}
                     </Card.Text>
 
-                    <Card.Text className="mx-auto w-50">
-                      <b>Stock:</b>
-                      <span className="float-right">
+                    <Card.Text className="mx-auto w-75" tabIndex="0">
+                      <b>Stock: </b>
+                      <span>
                         {product.product.numberinStock > 0 ? (
                           <Badge bg="success">
                             {product.product.numberinStock} Available

@@ -146,7 +146,9 @@ const StoreInfo = () => {
         <>
           {Auth.loggedIn() && Auth.getProfile().data.isAdmin && (
             <>
-              <h2 className="text-center">Store Details</h2>
+              <h2 className="text-center" tabIndex="0">
+                Store Details
+              </h2>
               <div className="w-75 mx-auto">
                 <p>
                   <b>Store Name:</b> {storeData.store?.storeName}

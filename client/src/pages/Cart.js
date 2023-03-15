@@ -24,7 +24,7 @@ const Cart = () => {
 
   return (
     <div>
-      <h1>Shopping Cart</h1>
+      <h1 tabIndex="0">Shopping Cart</h1>
 
       <Row>
         <Col md={8}>

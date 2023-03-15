@@ -13,6 +13,7 @@ const ProductCreator = () => {
     price: "",
     limit: "",
     numberinStock: "",
+    numberofReviews: 0,
     store: "",
     image: "",
     rating: 3.0,
@@ -48,6 +49,7 @@ const ProductCreator = () => {
           price: "",
           limit: "",
           numberinStock: "",
+          numberofReviews: 0,
           image: "",
         });
       } else {
@@ -191,6 +193,7 @@ const ProductCreator = () => {
                     onChange={handleChange}
                     required
                     minLength={2}
+                    tabIndex="0"
                   >
                     <option value="1">Clothing</option>
                     <option value="2">Memorabilia</option>

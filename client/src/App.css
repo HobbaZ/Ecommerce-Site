@@ -50,6 +50,10 @@ html {
   width: fit-content;
 }
 
+.dropdown-menu:focus {
+  outline: 2px solid black;
+}
+
 footer {
   align-items: center;
   margin-top: 10px;
@@ -87,6 +91,24 @@ main {
   padding-top: 10%;
   height: 100%;
   width: 100%;
+}
+
+nav a:focus {
+  outline: 2px solid black;
+}
+
+#navbarNav input:focus {
+  outline: 2px solid black;
+}
+
+nav .navbarlink:hover,
+nav .nav-link:hover {
+  color: yellow;
+}
+
+nav .nav-bar:hover,
+nav .nav-link:hover {
+  text-decoration: dashed;
 }
 
 #navbarDropdown {
@@ -130,6 +152,20 @@ main {
 
 .site-container {
   min-height: 100%;
+}
+
+.skip-link {
+  position: absolute;
+  background-color: red;
+  top: -40px;
+  left: 0;
+  z-index: 999;
+  opacity: 0;
+}
+
+.skip-link:focus {
+  opacity: 1;
+  top: 0;
 }
 
 .themebutton {

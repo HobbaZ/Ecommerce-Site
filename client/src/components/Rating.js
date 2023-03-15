@@ -1,8 +1,27 @@
 function Rating(props) {
   const { rating, numberofReviews } = props;
+
+  const getAriaLabel = () => {
+    let label = `Rating: ${rating} stars out of 5`;
+    if (rating < 1) {
+      label = "No rating";
+    } else if (rating === 1) {
+      label = "1 star";
+    } else {
+      label = `${rating}`;
+    }
+    return label;
+  };
+
   return (
-    <div className="rating">
-      <span>
+    <div className="rating" aria-label={getAriaLabel()}>
+      <b>Rating: </b>
+      <span
+        aria-label={`${rating >= 1 ? "1" : "No rating"} ${
+          rating >= 0.5 ? "and a half" : ""
+        } ${rating === 1 ? "star" : "stars"}`}
+        aria-hidden="true"
+      >
         <i
           className={
             rating >= 1
@@ -13,8 +32,12 @@ function Rating(props) {
           }
         />
       </span>
-
-      <span>
+      <span
+        aria-label={`${rating >= 2 ? "2" : "No rating"} ${
+          rating >= 1.5 ? "and a half" : ""
+        } stars`}
+        aria-hidden="true"
+      >
         <i
           className={
             rating >= 2
@@ -25,8 +48,12 @@ function Rating(props) {
           }
         />
       </span>
-
-      <span>
+      <span
+        aria-label={`${rating >= 3 ? "3" : "No rating"} ${
+          rating >= 2.5 ? "and a half" : ""
+        }  stars`}
+        aria-hidden="true"
+      >
         <i
           className={
             rating >= 3
@@ -37,8 +64,12 @@ function Rating(props) {
           }
         />
       </span>
-
-      <span>
+      <span
+        aria-label={`${rating >= 4 ? "4" : "No rating"} ${
+          rating >= 3.5 ? "and a half" : ""
+        } stars`}
+        aria-hidden="true"
+      >
         <i
           className={
             rating >= 4
@@ -49,8 +80,12 @@ function Rating(props) {
           }
         />
       </span>
-
-      <span>
+      <span
+        aria-label={`${rating >= 5 ? "5" : "No rating"} ${
+          rating >= 4.5 ? "and a half" : ""
+        } stars`}
+        aria-hidden="true"
+      >
         <i
           className={
             rating >= 5
@@ -61,9 +96,8 @@ function Rating(props) {
           }
         />
       </span>
-
       <br />
-      <span> {numberofReviews} reviews</span>
+      {/*<b> {numberofReviews} Reviews</b>*/}
     </div>
   );
 }

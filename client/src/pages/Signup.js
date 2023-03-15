@@ -64,7 +64,9 @@ const Signup = () => {
         <Container fluid>
           <div className="col-sm-8 col-md-4 mt-5 mx-auto">
             <div>
-              <h1 className="text-center">Sign Up</h1>
+              <h1 className="text-center" tabIndex="0">
+                Sign Up
+              </h1>
               <Form onSubmit={handleSubmit} className={`mx-auto`}>
                 <Form.Group className="mb-3">
                   <Form.Label>Your Name</Form.Label>

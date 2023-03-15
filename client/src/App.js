@@ -30,7 +30,7 @@ function App() {
           </div>
 
           <main>
-            <Container>
+            <Container id="maincontent">
               <Routes>
                 <Route exact path="/" element={<Home />} />
                 <Route exact path="/signup" element={<Signup />} />

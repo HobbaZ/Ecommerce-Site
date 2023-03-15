@@ -15,7 +15,7 @@ const AppNavbar = () => {
     document.body.style.color = theme === "light" ? "#000000" : "#ffffff";
   }, [theme]);
 
-  //Gets the logged in user's name, if it has a space it will display the first letters of the first and second word, if it doesn't it will display the first and second letter of the first word
+  //Gets the logged in user's name, displays the first and second letter of the first word
   function getUserInitial() {
     return Auth.getProfile().data.name[0] + Auth.getProfile().data.name[1];
   }
@@ -62,7 +62,7 @@ const AppNavbar = () => {
               </Button>
             </form>
 
-            <NavLink className="ml-3 my-2 nav-link" to="/stores">
+            <NavLink className="ml-3 my-2 nav-link navbarlink" to="/stores">
               <div className={`background ${theme}`}>Stores</div>
             </NavLink>
 
@@ -95,6 +95,7 @@ const AppNavbar = () => {
 
                 <div
                   className={`mx-3 my-2 nav-item dropdown background ${theme}`}
+                  tabIndex="0"
                 >
                   <Button
                     className={`nav-link dropdown-toggle background ${theme}`}
@@ -116,32 +117,40 @@ const AppNavbar = () => {
                     className={`background ${theme} dropdown-menu p-1 mx-3 border-0`}
                     aria-labelledby="navbarDropdown"
                   >
-                    <NavLink to="/saved" className={`nav-link`}>
+                    <NavLink to="/saved" className={`nav-link`} tabIndex="0">
                       <div className={`background ${theme}`}>
                         Saved Products
                       </div>
                     </NavLink>
-                    <NavLink to="/profile" className={`nav-link`}>
+                    <NavLink to="/profile" className={`nav-link`} tabIndex="0">
                       <div className={`background ${theme}`}>My Profile</div>
                     </NavLink>
 
-                    <NavLink to="/orders" className={`nav-link`}>
+                    <NavLink to="/orders" className={`nav-link`} tabIndex="0">
                       <div className={`background ${theme}`}>Orders</div>
                     </NavLink>
 
                     {Auth.getProfile().data.isAdmin && (
                       <>
-                        <NavLink to="/mystores" className={`nav-link`}>
+                        <NavLink
+                          to="/mystores"
+                          className={`nav-link`}
+                          tabIndex="0"
+                        >
                           <div className={`background ${theme}`}>My Stores</div>
                         </NavLink>
 
-                        <NavLink to="/products" className={`nav-link`}>
+                        <NavLink
+                          to="/products"
+                          className={`nav-link`}
+                          tabIndex="0"
+                        >
                           <div className={`background ${theme}`}>Products</div>
                         </NavLink>
                       </>
                     )}
 
-                    <div className="mx-auto">
+                    <div className="mx-auto" tabIndex="0">
                       <Button
                         className={`btn-primary px-4`}
                         onClick={Auth.logout}
