@@ -214,15 +214,13 @@ const Profile = () => {
 
               {userData.isVerified ? (
                 <>
-                  <StoreCreatorButton isAdmin={userData.isAdmin} />
-
                   <div className="text-center">
                     <Button
                       variant="primary"
                       className="my-2 w-50"
                       onClick={() => setShowEditForm(!showEditForm)}
                     >
-                      Edit Details
+                      Edit Details <i className="fas fa-pen"></i>
                     </Button>
                   </div>
                 </>
@@ -327,7 +325,7 @@ const Profile = () => {
                   className="my-2 w-50"
                   onClick={deleteAccount}
                 >
-                  Delete Account
+                  Delete Account <i className="fas fa-trash-alt"></i>
                 </Button>
               </div>
             </>

@@ -1,3 +1,9 @@
+a:hover,
+a:focus,
+a:active {
+  text-decoration: underline;
+}
+
 .active {
   color: yellow;
 }
@@ -50,7 +56,9 @@ html {
   width: fit-content;
 }
 
-.dropdown-menu:focus {
+.dropdown-menu:focus,
+nav a:focus,
+#navbarNav input:focus {
   outline: 2px solid black;
 }
 
@@ -87,18 +95,14 @@ header {
   object-fit: contain;
 }
 
+input:invalid {
+  border: 2px solid red;
+}
+
 main {
   padding-top: 10%;
   height: 100%;
   width: 100%;
-}
-
-nav a:focus {
-  outline: 2px solid black;
-}
-
-#navbarNav input:focus {
-  outline: 2px solid black;
 }
 
 nav .navbarlink:hover,
@@ -150,6 +154,11 @@ nav .nav-link:hover {
   color: rgb(255, 123, 0);
 }
 
+.required::after {
+  content: "*";
+  color: red;
+}
+
 .site-container {
   min-height: 100%;
 }
@@ -190,12 +199,12 @@ nav .nav-link:hover {
   object-fit: contain;
 }
 
-.background.dark {
+.background.Dark {
   color: white;
   background-color: black;
 }
 
-.background.light {
+.background.Light {
   color: black;
   background-color: white;
 }

@@ -75,7 +75,7 @@ const Store = ({ store }) => {
 
           <div className="text-center">
             <Button type="button" className="my-2 w-75" onClick={editStore}>
-              Edit {store.storeName}
+              Edit {store.storeName} <i className="fas fa-pen"></i>
             </Button>
           </div>
 
@@ -86,7 +86,7 @@ const Store = ({ store }) => {
               className="my-2 w-75"
               onClick={deleteStore}
             >
-              Delete {store.storeName}
+              Delete {store.storeName} <i className="fas fa-trash-alt"></i>
             </Button>
           </div>
         </Card.Body>

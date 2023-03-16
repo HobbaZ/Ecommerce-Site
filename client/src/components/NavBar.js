@@ -11,8 +11,8 @@ const AppNavbar = () => {
 
   useEffect(() => {
     document.body.style.backgroundColor =
-      theme === "light" ? "#ffffff" : "#000000";
-    document.body.style.color = theme === "light" ? "#000000" : "#ffffff";
+      theme === "Light" ? "#ffffff" : "#000000";
+    document.body.style.color = theme === "Light" ? "#000000" : "#ffffff";
   }, [theme]);
 
   //Gets the logged in user's name, displays the first and second letter of the first word
@@ -41,40 +41,49 @@ const AppNavbar = () => {
           aria-label="Toggle navigation"
         >
           <span className={`navbarToggler`}>
-            <i className={`fas fa-bars`}></i>
+            <i className="fas fa-bars"></i>
           </span>
         </Button>
 
         <div className="collapse navbar-collapse" id="navbarNav">
-          <nav className="navbar-nav ml-auto mb-2 mb-lg-0">
+          <nav className="navbar-nav ml-auto">
             <form className="form-inline nav-link">
               <input
-                className="form-control mr-sm-2"
+                className="form-control"
                 type="search"
                 placeholder="Search"
-                aria-label="Search"
+                aria-label="Search for a product"
               />
               <Button
-                className={`btn background ${theme} themebutton`}
+                className={`btn background ml-2 ${theme} themebutton`}
                 type="submit"
               >
-                Search
+                <i className="fas fa-search"></i>
               </Button>
             </form>
 
             <NavLink className="ml-3 my-2 nav-link navbarlink" to="/stores">
-              <div className={`background ${theme}`}>Stores</div>
+              <div className={`background ${theme}`}>
+                Stores <i className="fas fa-store-alt"></i>
+              </div>
             </NavLink>
 
             <NavLink className="ml-3 my-2 nav-link" to="/contactus">
-              <div className={`background ${theme}`}>Contact Us</div>
+              <div className={`background ${theme}`}>
+                Contact Us <i className="fas fa-comment-alt"></i>
+              </div>
             </NavLink>
 
             <Button
               onClick={toggleTheme}
               className={` ml-3 my-3 nav-link btn background ${theme} themebutton`}
             >
-              {theme} Theme
+              {theme + " theme "}
+              {theme === "dark" ? (
+                <i className="fas fa-adjust"></i>
+              ) : (
+                <i className="fas fa-adjust"></i>
+              )}
             </Button>
 
             {/*Only show if user logged in*/}
@@ -84,7 +93,9 @@ const AppNavbar = () => {
                   to="/cart"
                   className={`ml-3 my-2 nav-link background ${theme}`}
                 >
-                  <div className={`background ${theme}`}>Cart</div>
+                  <div className={`background ${theme}`}>
+                    Cart <i className="fas fa-shopping-cart"></i>
+                  </div>
 
                   {/*{cart.cartItems.length > 0 && (
                       <Badge pill bg="danger">
@@ -94,11 +105,11 @@ const AppNavbar = () => {
                 </NavLink>
 
                 <div
-                  className={`mx-3 my-2 nav-item dropdown background ${theme}`}
+                  className={`mr-3 my-2 nav-item dropdown background ${theme}`}
                   tabIndex="0"
                 >
                   <Button
-                    className={`nav-link dropdown-toggle background ${theme}`}
+                    className={` mx-auto nav-link dropdown-toggle background ${theme}`}
                     id="navbarDropdown"
                     type="button"
                     data-toggle="dropdown"
@@ -114,20 +125,25 @@ const AppNavbar = () => {
                     </div>
                   </Button>
                   <div
-                    className={`background ${theme} dropdown-menu p-1 mx-3 border-0`}
+                    className={`background ${theme} dropdown-menu p-1 ml-0 border-0`}
                     aria-labelledby="navbarDropdown"
+                    style={{ right: "0", left: "auto" }}
                   >
                     <NavLink to="/saved" className={`nav-link`} tabIndex="0">
                       <div className={`background ${theme}`}>
-                        Saved Products
+                        Saved Products <i className="fas fa-heart"></i>
                       </div>
                     </NavLink>
                     <NavLink to="/profile" className={`nav-link`} tabIndex="0">
-                      <div className={`background ${theme}`}>My Profile</div>
+                      <div className={`background ${theme}`}>
+                        My Profile <i className="fas fa-user"></i>
+                      </div>
                     </NavLink>
 
                     <NavLink to="/orders" className={`nav-link`} tabIndex="0">
-                      <div className={`background ${theme}`}>Orders</div>
+                      <div className={`background ${theme}`}>
+                        My Orders <i className="fas fa-file-invoice"></i>
+                      </div>
                     </NavLink>
 
                     {Auth.getProfile().data.isAdmin && (
@@ -137,7 +153,9 @@ const AppNavbar = () => {
                           className={`nav-link`}
                           tabIndex="0"
                         >
-                          <div className={`background ${theme}`}>My Stores</div>
+                          <div className={`background ${theme}`}>
+                            My Stores <i className="fas fa-store-alt"></i>
+                          </div>
                         </NavLink>
 
                         <NavLink
@@ -145,7 +163,10 @@ const AppNavbar = () => {
                           className={`nav-link`}
                           tabIndex="0"
                         >
-                          <div className={`background ${theme}`}>Products</div>
+                          <div className={`background ${theme}`}>
+                            My Products{" "}
+                            <i className="fas fa-boxes" aria-label=""></i>
+                          </div>
                         </NavLink>
                       </>
                     )}
@@ -155,7 +176,7 @@ const AppNavbar = () => {
                         className={`btn-primary px-4`}
                         onClick={Auth.logout}
                       >
-                        Logout
+                        Logout <i className="fas fa-sign-out-alt"></i>
                       </Button>
                     </div>
                   </div>
@@ -165,11 +186,15 @@ const AppNavbar = () => {
               <>
                 {/*Show if user not logged in*/}
                 <NavLink className="ml-3 my-2 nav-link" to="/login">
-                  <div className={`background ${theme}`}>Login</div>
+                  <div className={`background ${theme}`}>
+                    Login <i className="fas fa-sign-in-alt"></i>
+                  </div>
                 </NavLink>
 
                 <NavLink className="ml-3 my-2 nav-link" to="/signup">
-                  <div className={`background ${theme}`}>Signup</div>
+                  <div className={`background ${theme}`}>
+                    Signup <i className="fas fa-user"></i>
+                  </div>
                 </NavLink>
               </>
             )}
