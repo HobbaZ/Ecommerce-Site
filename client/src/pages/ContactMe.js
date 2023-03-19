@@ -59,7 +59,9 @@ function ContactMe({ ...props }) {
   return (
     <Container fluid>
       <div className="col-sm-8 col-md-4 mt-5 mx-auto">
-        <h1 className="text-center">Contact Me</h1>
+        <h1 className="text-center" tabIndex="0">
+          Contact Me
+        </h1>
 
         <Form
           validated={validated}
@@ -80,8 +82,14 @@ function ContactMe({ ...props }) {
             />
           </Form.Group>
 
+          {nameInput === "" && (
+            <p className=" sr-only text-center text-danger" role="alert">
+              Name must be at least 2 characters
+            </p>
+          )}
+
           {nameInput !== "" && nameInput?.length < 2 && (
-            <div className="text-center text-danger">
+            <div className="text-center text-danger" role="alert">
               Name must be at least 2 characters
             </div>
           )}
@@ -102,8 +110,8 @@ function ContactMe({ ...props }) {
           </Form.Group>
 
           {emailInput != null && !emailRegex.test(emailInput) && (
-            <div className="text-center text-danger">
-              {"Invalid email address entered"}
+            <div className="text-center text-danger" role="alert">
+              Invalid email address entered
             </div>
           )}
           <br />
@@ -143,8 +151,14 @@ function ContactMe({ ...props }) {
             />
           </Form.Group>
 
+          {messageInput === "" && (
+            <p className=" sr-only text-center text-danger" role="alert">
+              Message is required
+            </p>
+          )}
+
           {messageInput !== "" && messageInput?.length < 2 && (
-            <div className="text-center text-danger">message is required</div>
+            <div className="text-center text-danger">Message is required</div>
           )}
 
           <br />
@@ -171,7 +185,7 @@ function ContactMe({ ...props }) {
           </div>
 
           {infoMessage && (
-            <div className="text-center text-danger">
+            <div className="text-center text-danger" role="alert">
               <p>{infoMessage}</p>
             </div>
           )}
