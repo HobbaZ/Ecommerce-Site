@@ -3,7 +3,9 @@ import React, { useEffect, useState } from "react";
 import { Container, Button, Form } from "react-bootstrap";
 
 import Auth from "../utils/auth";
-import StoreCreatorButton from "../components/StoreCreatorButton";
+
+let emailRegex =
+  /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
 function Greeting(props) {
   const date = new Date();
@@ -225,7 +227,7 @@ const Profile = () => {
                   </div>
                 </>
               ) : (
-                <div className="text-center text-danger">
+                <div className="text-center text-danger" tabIndex="0">
                   You must have a verified email to edit your information
                 </div>
               )}
@@ -249,6 +251,21 @@ const Profile = () => {
                           />
                         </Form.Group>
 
+                        {formInput.name === "" && (
+                          <p
+                            className=" sr-only text-center text-danger"
+                            role="alert"
+                          >
+                            Name needs to be at least 2 characters
+                          </p>
+                        )}
+
+                        {formInput.name !== "" && formInput.name.length < 2 && (
+                          <p className="text-center text-danger" role="alert">
+                            Name needs to be at least 2 characters
+                          </p>
+                        )}
+
                         <Form.Group className="mb-3">
                           <Form.Label>Update Username</Form.Label>
                           <Form.Control
@@ -261,6 +278,22 @@ const Profile = () => {
                           />
                         </Form.Group>
 
+                        {formInput.username === "" && (
+                          <p
+                            className=" sr-only text-center text-danger"
+                            role="alert"
+                          >
+                            Username needs to be at least 2 characters
+                          </p>
+                        )}
+
+                        {formInput.username !== "" &&
+                          formInput.username.length < 2 && (
+                            <p className="text-center text-danger" role="alert">
+                              Username needs to be at least 2 characters
+                            </p>
+                          )}
+
                         <Form.Group className="mb-3">
                           <Form.Label>Update Email address</Form.Label>
                           <Form.Control
@@ -272,6 +305,26 @@ const Profile = () => {
                             minLength={2}
                           />
                         </Form.Group>
+
+                        {formInput.email === "" && (
+                          <p
+                            className=" sr-only text-center text-danger"
+                            role="alert"
+                          >
+                            Entered Email address is invalid
+                          </p>
+                        )}
+
+                        {formInput.email !== "" &&
+                          !emailRegex.test(formInput.email) && (
+                            <p
+                              className="text-center text-danger"
+                              role="status"
+                              aria-live="assertive"
+                            >
+                              Entered Email address is invalid
+                            </p>
+                          )}
 
                         <Form.Group className="mb-3">
                           <Form.Label>Update Selling Status </Form.Label>

@@ -24,5 +24,8 @@
   "bugs": {
     "url": "https://github.com/HobbaZ/Ecommerce-Site/issues"
   },
-  "homepage": "https://github.com/HobbaZ/Ecommerce-Site#readme"
+  "homepage": "https://github.com/HobbaZ/Ecommerce-Site#readme",
+  "dependencies": {
+    "sharp": "^0.31.3"
+  }
 }

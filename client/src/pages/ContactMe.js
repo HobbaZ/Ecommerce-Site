@@ -80,12 +80,10 @@ function ContactMe({ ...props }) {
             />
           </Form.Group>
 
-          {nameInput !== "" && nameInput?.length < 2 ? (
+          {nameInput !== "" && nameInput?.length < 2 && (
             <div className="text-center text-danger">
-              {"Name must be at least 2 characters"}
+              Name must be at least 2 characters
             </div>
-          ) : (
-            ""
           )}
 
           <br />
@@ -103,11 +101,11 @@ function ContactMe({ ...props }) {
             />
           </Form.Group>
 
-          {emailInput != null && !emailRegex.test(emailInput) ? (
+          {emailInput != null && !emailRegex.test(emailInput) && (
             <div className="text-center text-danger">
               {"Invalid email address entered"}
             </div>
-          ) : null}
+          )}
           <br />
 
           <Form.Group>
@@ -146,9 +144,7 @@ function ContactMe({ ...props }) {
           </Form.Group>
 
           {messageInput !== "" && messageInput?.length < 2 && (
-            <div className="text-center text-danger">
-              {"message is required"}
-            </div>
+            <div className="text-center text-danger">message is required</div>
           )}
 
           <br />
@@ -157,7 +153,18 @@ function ContactMe({ ...props }) {
             <Button
               type="submit"
               className="form-btn-primary"
-              disabled={!(emailInput && nameInput && messageInput)}
+              aria-disabled={
+                !emailInput ||
+                !nameInput ||
+                !messageInput ||
+                !emailRegex.test(emailInput)
+              }
+              disabled={
+                !emailInput ||
+                !nameInput ||
+                !messageInput ||
+                !emailRegex.test(emailInput)
+              }
             >
               <div>Send Email</div>
             </Button>

@@ -44,7 +44,7 @@ const Home = () => {
 
   return (
     <>
-      <Container>
+      <Container fluid>
         <div className="products">
           {loading ? (
             <div className="d-flex justify-content-center">

@@ -85,7 +85,10 @@ const StoresPage = () => {
                 <Loading />
               </div>
             ) : error ? (
-              <div className="text-danger d-flex justify-content-center">
+              <div
+                className="text-danger d-flex justify-content-center"
+                role="alert"
+              >
                 {error}
               </div>
             ) : (

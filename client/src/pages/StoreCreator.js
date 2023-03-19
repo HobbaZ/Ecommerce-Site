@@ -74,7 +74,7 @@ const StoreCreator = () => {
               </h1>
               <Form onSubmit={handleSubmit} className={`mx-auto`}>
                 <Form.Group className="mb-3">
-                  <Form.Label>Store Name</Form.Label>
+                  <Form.Label className="required">Store Name</Form.Label>
                   <Form.Control
                     type="text"
                     name="storeName"
@@ -86,6 +86,12 @@ const StoreCreator = () => {
                   />
                 </Form.Group>
 
+                {formInput.storeName === "" && (
+                  <p className=" sr-only text-center text-danger" role="alert">
+                    Store name needs to be at least 2 characters
+                  </p>
+                )}
+
                 {formInput.storeName !== "" &&
                   formInput.storeName.length < 2 && (
                     <p className="text-center text-danger">
@@ -94,7 +100,9 @@ const StoreCreator = () => {
                   )}
 
                 <Form.Group className="mb-3">
-                  <Form.Label>Store Description</Form.Label>
+                  <Form.Label className="required">
+                    Store Description
+                  </Form.Label>
                   <Form.Control
                     type="text"
                     name="storeDescription"
@@ -106,15 +114,21 @@ const StoreCreator = () => {
                   />
                 </Form.Group>
 
+                {formInput.storeDescription === "" && (
+                  <p className=" sr-only text-center text-danger" role="alert">
+                    Store description needs to be at least 2 characters
+                  </p>
+                )}
+
                 {formInput.storeDescription !== "" &&
                   formInput.storeDescription.length < 2 && (
-                    <p className="text-center text-danger">
-                      Store name needs to be at least 2 characters
+                    <p className="text-center text-danger" role="alert">
+                      Store description needs to be at least 2 characters
                     </p>
                   )}
 
                 <Form.Group className="mb-3">
-                  <Form.Label>Store Image</Form.Label>
+                  <Form.Label className="required">Store Image</Form.Label>
                   <Form.Control
                     type="file"
                     name="storeImage"
@@ -126,13 +140,18 @@ const StoreCreator = () => {
                 </Form.Group>
 
                 {formInput.storeImage === "" && (
-                  <p className="text-center text-danger">
+                  <p className="text-center text-danger" role="alert">
                     Store image is required
                   </p>
                 )}
 
                 <div className="text-center">
                   <Button
+                    aria-disabled={
+                      !formInput.storeName ||
+                      !formInput.storeDescription ||
+                      !formInput.storeImage
+                    }
                     disabled={
                       !formInput.storeName ||
                       !formInput.storeDescription ||
@@ -142,7 +161,7 @@ const StoreCreator = () => {
                     type="submit"
                     className="my-2 w-50"
                   >
-                    {`Create Store`}
+                    Create Store
                   </Button>
                 </div>
               </Form>

@@ -75,7 +75,7 @@ const ProductCreator = () => {
               <h1 className="text-center">Product Creator</h1>
               <Form onSubmit={handleSubmit} className={`mx-auto`}>
                 <Form.Group className="mb-3">
-                  <Form.Label>product Name</Form.Label>
+                  <Form.Label className="required">product Name</Form.Label>
                   <Form.Control
                     type="text"
                     name="name"
@@ -88,13 +88,13 @@ const ProductCreator = () => {
                 </Form.Group>
 
                 {formInput.name !== "" && formInput.name.length < 2 && (
-                  <p className="text-center text-danger">
+                  <p className="text-center text-danger" role="alert">
                     Product name needs to be at least 2 characters
                   </p>
                 )}
 
                 <Form.Group className="mb-3">
-                  <Form.Label>product Brand</Form.Label>
+                  <Form.Label className="required">product Brand</Form.Label>
                   <Form.Control
                     type="text"
                     name="brand"
@@ -107,13 +107,15 @@ const ProductCreator = () => {
                 </Form.Group>
 
                 {formInput.brand !== "" && formInput.brand.length < 5 && (
-                  <p className="text-center text-danger">
+                  <p className="text-center text-danger" role="alert">
                     Product brand needs to be at least 2 characters
                   </p>
                 )}
 
                 <Form.Group className="mb-3">
-                  <Form.Label>product Description</Form.Label>
+                  <Form.Label className="required">
+                    product Description
+                  </Form.Label>
                   <Form.Control
                     type="text"
                     name="description"
@@ -127,13 +129,13 @@ const ProductCreator = () => {
 
                 {formInput.description !== "" &&
                   formInput.description.length < 5 && (
-                    <p className="text-center text-danger">
+                    <p className="text-center text-danger" role="alert">
                       Product description needs to be at least 5 characters
                     </p>
                   )}
 
                 <Form.Group className="mb-3">
-                  <Form.Label>product Price</Form.Label>
+                  <Form.Label className="required">product Price</Form.Label>
                   <Form.Control
                     type="currency"
                     name="price"
@@ -145,13 +147,15 @@ const ProductCreator = () => {
                 </Form.Group>
 
                 {formInput.price === "" && (
-                  <p className="text-center text-danger">
+                  <p className="text-center text-danger" role="alert">
                     Product price is required
                   </p>
                 )}
 
                 <Form.Group className="mb-3">
-                  <Form.Label>Amount of Product in Stock</Form.Label>
+                  <Form.Label className="required">
+                    Amount of Product in Stock
+                  </Form.Label>
                   <Form.Control
                     type="number"
                     name="numberinStock"
@@ -163,7 +167,7 @@ const ProductCreator = () => {
                 </Form.Group>
 
                 {formInput.numberinStock === "" && (
-                  <p className="text-center text-danger">
+                  <p className="text-center text-danger" role="alert">
                     Amount of product in stock is required
                   </p>
                 )}
@@ -180,13 +184,13 @@ const ProductCreator = () => {
                 </Form.Group>
 
                 {formInput.limit === "" && (
-                  <p className="text-center text-danger">
+                  <p className="text-center text-danger" role="status">
                     Leave default value if there is no purchase limit
                   </p>
                 )}
 
                 <Form.Group className="mb-3">
-                  <Form.Label>product Category</Form.Label>
+                  <Form.Label className="required">product Category</Form.Label>
                   <Form.Select
                     name="category"
                     placeholder="Select or enter a category"
@@ -203,7 +207,7 @@ const ProductCreator = () => {
                 </Form.Group>
 
                 {formInput.category !== "" && formInput.category.length < 2 && (
-                  <p className="text-center text-danger">
+                  <p className="text-center text-danger" role="alert">
                     Product category needs to be at least 2 characters
                   </p>
                 )}
@@ -223,18 +227,30 @@ const ProductCreator = () => {
                 </Form.Group>
 
                 {formInput.productImage !== "" && (
-                  <p className="text-center text-danger">
+                  <p className="text-center text-danger" role="alert">
                     At least one product image is required
                   </p>
                 )}
 
                 <div className="text-center">
                   <Button
+                    aria-disabled={
+                      !formInput.name ||
+                      !formInput.description ||
+                      !formInput.productImage ||
+                      !formInput.brand ||
+                      !formInput.price ||
+                      !formInput.numberinStock ||
+                      !formInput.category
+                    }
                     disabled={
                       !formInput.name ||
                       !formInput.description ||
                       !formInput.productImage ||
-                      !formInput.productRating
+                      !formInput.brand ||
+                      !formInput.price ||
+                      !formInput.numberinStock ||
+                      !formInput.category
                     }
                     variant="primary"
                     type="submit"
