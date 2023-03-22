@@ -17,7 +17,7 @@ module.exports = {
     }
   },
 
-  // Delete a user
+  // Find single store
   async getSingleStore(req, res) {
     try {
       const store = await Store.findById(req.params.id);

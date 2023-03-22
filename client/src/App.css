@@ -5,21 +5,31 @@
   --white: white;
 }
 
-a div:hover,
-a div:focus,
-a div:active,
 .nav-link:hover,
-.nav-link:focus {
+.navbar-nav button:hover,
+.navbar-nav button:focus,
+.nav-link:focus,
+.dropdown-item .nav-link:hover,
+.dropdown-item .nav-link:focus {
   text-decoration: underline;
+  color: var(--white);
+  background-color: var(--buttons);
 }
 
-a:hover {
-  background-color: yellow;
+a:hover,
+a:active {
+  background-color: var(--buttons);
+  color: var(--white);
+  border-radius: 10px;
 }
 
-a .active:hover {
-  color: yellow;
-  background-color: brown;
+a:active {
+  color: var(--white);
+  border-radius: 10px;
+}
+
+[aria-current="page"] {
+  color: var(--white);
 }
 
 body,
@@ -33,7 +43,6 @@ html {
 
 .btn-primary {
   background-color: var(--buttons);
-  outline: none;
   box-shadow: none;
   border: 0;
 }
@@ -54,6 +63,7 @@ html {
   border-radius: 50%;
   padding: 5px;
   pointer-events: none;
+  border: var(--white) 1px solid;
 }
 
 .container {
@@ -114,13 +124,6 @@ main {
   padding-top: 10%;
   height: 100%;
   width: 100%;
-}
-
-#navbarDropdown {
-  border: 0;
-  outline: none;
-  box-shadow: none;
-  background-color: var(--black);
 }
 
 .product {
@@ -193,9 +196,8 @@ main {
   height: fit-content;
   outline: none;
   box-shadow: none;
-  padding: 0;
+  padding: 5px;
   border: 0;
-  background-color: var(--black);
 }
 
 .thumbnail {

@@ -3,11 +3,10 @@ import React, { useEffect, useState } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import { Loading } from "../components/Loading";
 import Auth from "../utils/auth";
-import Store from "../components/Store";
-import StoreCreatorButton from "../components/StoreCreatorButton";
+import Order from "../components/Order";
 
-const StoresPage = () => {
-  const [stores, setStoreData] = useState({});
+const OrdersPage = () => {
+  const [orders, setOrderData] = useState({});
 
   //loading state
   const [loading, setLoading] = useState(false);
@@ -43,10 +42,10 @@ const StoresPage = () => {
 
         const user = await response.json();
 
-        document.title = `${user.name}'s Stores`;
-        const storeData = await Promise.all(
-          user.stores.map(async (storeId) => {
-            const storeResponse = await fetch(`/api/stores/${storeId}`, {
+        document.title = `${user.name}'s orders`;
+        const orderData = await Promise.all(
+          user.orders.map(async (orderId) => {
+            const orderResponse = await fetch(`/api/orders/${orderId}`, {
               method: "GET",
               headers: {
                 "Content-Type": "application/json",
@@ -54,15 +53,15 @@ const StoresPage = () => {
                 authorization: `Bearer ${token}`,
               },
             });
-            if (!storeResponse.ok) {
-              throw new Error(`Failed to fetch store ${storeId}`);
+            if (!orderResponse.ok) {
+              throw new Error(`Failed to fetch order ${orderId}`);
             }
-            return storeResponse.json();
+            return orderResponse.json();
           })
         );
 
-        console.log(storeData);
-        setStoreData(storeData);
+        console.log(orderData);
+        setOrderData(orderData);
       } catch (err) {
         console.error(err);
       }
@@ -73,12 +72,11 @@ const StoresPage = () => {
 
   return (
     <>
-      {Auth.loggedIn() && Auth.getProfile().data.isAdmin && (
+      {Auth.loggedIn() && (
         <Container fluid>
           <h2 className="text-center" tabIndex="0">
-            My Stores
+            My Orders
           </h2>
-          <StoreCreatorButton isAdmin={Auth.getProfile().data.isAdmin} />
           <div className="products">
             {loading ? (
               <div className="d-flex justify-content-center">
@@ -93,15 +91,15 @@ const StoresPage = () => {
               </div>
             ) : (
               <Row>
-                {stores.length > 0 ? (
-                  ((<h3>Stores: {stores.length}</h3>),
-                  stores.map((storeInfo) => (
-                    <Col key={storeInfo.store._id} sm={12} md={6} lg={4}>
-                      <Store store={storeInfo.store}></Store>
+                {orders.length > 0 ? (
+                  ((<h3>Orders: {orders.length}</h3>),
+                  orders.map((orderInfo) => (
+                    <Col key={orderInfo.order._id} sm={12} md={6} lg={4}>
+                      <Order order={orderInfo.order}></Order>
                     </Col>
                   )))
                 ) : (
-                  <div>You don't have any stores</div>
+                  <div>You don't have any orders</div>
                 )}
               </Row>
             )}
@@ -113,4 +111,4 @@ const StoresPage = () => {
   );
 };
 
-export default StoresPage;
+export default OrdersPage;

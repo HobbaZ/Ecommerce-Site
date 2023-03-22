@@ -29,20 +29,6 @@ module.exports = {
     res.json(singleUser);
   },
 
-  async myStores(req, res) {
-    const singleUser = await User.findOne({
-      _id: req.user._id,
-    });
-
-    if (!singleUser) {
-      return res
-        .status(400)
-        .json({ message: "Cannot find a user with this id!" });
-    }
-
-    res.json(singleUser);
-  },
-
   // create a user, sign a token
   async createUser(req, res) {
     try {

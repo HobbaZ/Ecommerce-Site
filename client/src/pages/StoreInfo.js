@@ -271,8 +271,9 @@ const StoreInfo = () => {
                   className="my-2 w-50"
                   onClick={deleteStore}
                 >
-                  Delete Store
+                  Delete Store <i className="fas fa-trash-alt"></i>
                 </Button>
+                Warning: Deleting your store is permanent and can't be undone.
               </div>
             </>
           )}

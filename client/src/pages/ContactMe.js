@@ -70,7 +70,7 @@ function ContactMe({ ...props }) {
           ref={formRef}
         >
           <Form.Group>
-            <label className="">Name</label>
+            <label className="required">Name</label>
             <input
               className="form-control"
               type="text"
@@ -97,7 +97,7 @@ function ContactMe({ ...props }) {
           <br />
 
           <Form.Group>
-            <label className="">Email address</label>
+            <label className="required">Email address</label>
             <input
               className="form-control"
               type="email"
@@ -117,7 +117,7 @@ function ContactMe({ ...props }) {
           <br />
 
           <Form.Group>
-            <label className="">Subject</label>
+            <label className="required">Subject</label>
             <select
               className="form-control"
               value={subjectInput}
@@ -138,7 +138,7 @@ function ContactMe({ ...props }) {
           <br />
 
           <Form.Group>
-            <label className="">Message</label>
+            <label className="required">Message</label>
             <textarea
               className="form-control"
               type="text"

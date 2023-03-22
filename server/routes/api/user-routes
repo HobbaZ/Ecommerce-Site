@@ -9,6 +9,7 @@ const {
   login,
   updateUser,
   myStores,
+  myOrders,
 } = require("../../controllers/user-controller");
 
 // import middleware
@@ -21,7 +22,9 @@ router.route("/login").post(login);
 
 router.route("/me").get(authMiddleware, getSingleUser);
 
-router.route("/mystores").get(authMiddleware, myStores);
+router.route("/mystores").get(authMiddleware, getSingleUser);
+
+router.route("/myorders").get(authMiddleware, getSingleUser);
 
 router.route("/:userId").delete(authMiddleware, deleteUser);
 

@@ -209,7 +209,7 @@ const Profile = () => {
     <Container fluid>
       <div className="col-sm-8 col-md-4 mt-5 mx-auto">
         <>
-          {Auth.loggedIn() && (
+          {Auth.loggedIn() ? (
             <>
               <div>{welcome}</div>
               {infoMessage && <div className="text-center">{infoMessage}</div>}
@@ -380,8 +380,14 @@ const Profile = () => {
                 >
                   Delete Account <i className="fas fa-trash-alt"></i>
                 </Button>
+                <p className="text-center text-danger">
+                  Warning: Deleting your account is permanent and can't be
+                  undone.
+                </p>
               </div>
             </>
+          ) : (
+            window.location.replace("/login")
           )}
         </>
       </div>

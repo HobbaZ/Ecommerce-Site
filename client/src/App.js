@@ -10,15 +10,17 @@ import Footer from "./components/Footer";
 import StoreCreator from "./pages/StoreCreator";
 import ProductCreator from "./pages/ProductCreator";
 import ContactMe from "./pages/ContactMe";
+import MyOrders from "./pages/MyOrders";
+import MyStores from "./pages/MyStores";
+import StoreInfo from "./pages/StoreInfo";
+import Cart from "./pages/Cart";
 
 import "./App.css";
 import { Container } from "react-bootstrap";
-import Cart from "./pages/Cart";
+
 import AppNavbar from "./components/NavBar";
 
 import { ThemeProvider } from "./Theme";
-import MyStores from "./pages/MyStores";
-import StoreInfo from "./pages/StoreInfo";
 
 function App() {
   return (
@@ -46,6 +48,7 @@ function App() {
                 <Route exact path="/contactus" element={<ContactMe />} />
                 <Route exact path="/mystores" element={<MyStores />} />
                 <Route exact path="/stores/:id" element={<StoreInfo />} />
+                <Route exact path="/myorders" element={<MyOrders />} />
 
                 <Route exact path="/cart" element={<Cart />} />
                 <Route render={() => <h1>404! This page doesn't exist</h1>} />

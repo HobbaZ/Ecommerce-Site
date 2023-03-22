@@ -39,7 +39,7 @@ const Cart = () => {
                   <table className="align-items-center">
                     <tbody>
                       <tr>
-                        <th></th>
+                        <th>Heading</th>
                       </tr>
 
                       <tr>
@@ -83,7 +83,7 @@ const Cart = () => {
           )}
         </Col>
         <Col md={4}>
-          <Card className={`bg-${theme}`}>
+          <Card className={`background ${theme}`}>
             <Card.Body>
               <div className={`background ${theme}`}>
                 <Card.Title>Subtotal: ${total()}</Card.Title>

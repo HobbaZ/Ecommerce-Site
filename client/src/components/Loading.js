@@ -16,11 +16,11 @@ let variantStyles = [
 function randSpinner() {
   let randBorder =
     borderStyles[Math.floor(Math.random() * borderStyles.length)];
-  let randVarient =
+  let randVariant =
     variantStyles[Math.floor(Math.random() * variantStyles.length)];
 
   return (
-    <Spinner animation={`${randBorder} ${randVarient}`} role="status">
+    <Spinner animation={`${randBorder} ${randVariant}`} role="status">
       <span className="sr-only">Loading...</span>
     </Spinner>
   );
