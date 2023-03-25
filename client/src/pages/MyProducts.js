@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 
-import { Container, Row, Col } from "react-bootstrap";
+import { Container, Row, Col, Button } from "react-bootstrap";
 import { Loading } from "../components/Loading";
 import Auth from "../utils/auth";
-import Store from "../components/Store";
-import StoreCreatorButton from "../components/StoreCreatorButton";
+import Product from "../components/Product";
 
-const StoresPage = () => {
+const ProductsPage = () => {
   const [stores, setStoreData] = useState([]);
+  const [products, setProductData] = useState([]);
 
   //loading state
   const [loading, setLoading] = useState(false);
@@ -43,10 +43,12 @@ const StoresPage = () => {
 
         const user = await response.json();
 
-        document.title = `${user.name}'s Stores`;
+        document.title = `${user.name}'s products`;
+
+        //get all stores
         const storeData = await Promise.all(
           user.stores.map(async (storeId) => {
-            const storeResponse = await fetch(`/api/stores/${storeId}`, {
+            const response = await fetch(`/api/stores/${storeId}`, {
               method: "GET",
               headers: {
                 "Content-Type": "application/json",
@@ -54,10 +56,10 @@ const StoresPage = () => {
                 authorization: `Bearer ${token}`,
               },
             });
-            if (!storeResponse.ok) {
+            if (!response.ok) {
               throw new Error(`Failed to fetch store ${storeId}`);
             }
-            return storeResponse.json();
+            return response.json();
           })
         );
 
@@ -76,9 +78,15 @@ const StoresPage = () => {
       {Auth.loggedIn() && Auth.getProfile().data.isAdmin && (
         <Container fluid>
           <h2 className="text-center" tabIndex="0">
-            My Stores
+            My Products
           </h2>
-          <StoreCreatorButton isAdmin={Auth.getProfile().data.isAdmin} />
+
+          <div className="text-center">
+            <a variant="primary" href="./productcreator">
+              <Button className="my-2 w-25">Create A Product</Button>
+            </a>
+          </div>
+
           <div className="products">
             {loading ? (
               <div className="d-flex justify-content-center">
@@ -93,20 +101,28 @@ const StoresPage = () => {
               </div>
             ) : (
               <Row>
-                {stores.length > 0 ? (
-                  stores.map((storeInfo) => (
-                    <Col key={storeInfo.store._id}>
-                      <Store
-                        store={storeInfo.store}
-                        sm={12}
-                        md={6}
-                        lg={4}
-                      ></Store>
-                    </Col>
-                  ))
-                ) : (
-                  <div>You don't have any stores</div>
-                )}
+                {stores.length > 0 &&
+                  stores.map(
+                    (store) => (
+                      <p>
+                        <b>Store: {store.store.storeName}</b>
+                      </p>
+                    ),
+                    stores.products?.length > 0 ? (
+                      stores.products?.map((productInfo) => (
+                        <Col key={productInfo._id}>
+                          <Product
+                            product={productInfo}
+                            sm={12}
+                            md={6}
+                            lg={4}
+                          ></Product>
+                        </Col>
+                      ))
+                    ) : (
+                      <div>You don't have any products</div>
+                    )
+                  )}
               </Row>
             )}
           </div>
@@ -117,4 +133,4 @@ const StoresPage = () => {
   );
 };
 
-export default StoresPage;
+export default ProductsPage;

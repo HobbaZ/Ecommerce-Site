@@ -29,14 +29,16 @@ const productSchema = new Schema(
 
     image: {
       type: String,
-      required: [true, "Please select a image for the product"],
+      required: [false, "Please select a image for the product"],
+    },
+
+    store: {
+      type: String,
     },
 
     category: {
       type: String,
-      required: true,
-      required: [true, "Please enter the product's category"],
-      minLength: [2, "Category must be at least 2 characters"],
+      required: [false, "Please enter the product's category"],
     },
     price: {
       type: Number,
@@ -54,7 +56,10 @@ const productSchema = new Schema(
 
     numberinStock: {
       type: Number,
-      required: [true, "Please the amount of the product you have to sell"],
+      required: [
+        true,
+        "Please enter the amount of the product you have to sell",
+      ],
     },
 
     numberOfReviews: {

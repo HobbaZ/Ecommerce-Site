@@ -106,11 +106,11 @@ const Login = () => {
                 />
               </Form.Group>
 
-              {/*{formInput.password !== "" && formInput.password.length < 8 && (
+              {formInput.password !== "" && formInput.password.length < 8 && (
                 <p className="text-center text-danger" role="alert">
                   Password needs to be at least 8 characters
                 </p>
-              )}*/}
+              )}
 
               {infoMessage && (
                 <div className="text-center" role="alert">

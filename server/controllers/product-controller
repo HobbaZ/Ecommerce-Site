@@ -1,4 +1,6 @@
 const Product = require("../models/Product.js");
+const User = require("../models/User.js");
+const Store = require("../models/Store.js");
 
 module.exports = {
   //Get all products
@@ -46,17 +48,43 @@ module.exports = {
         numberinStock: req.body.numberinStock,
         numberOfReviews: req.body.numberOfReviews,
         date_added: req.body.date_added,
+        store: req.body.store._id,
       });
+
+      console.log("Product variables are ", createproduct);
 
       if (!createproduct) {
         return res
           .status(400)
           .json({ message: "Error with creating the product" });
       }
-      res.status(200).json("Created the product", createproduct);
+
+      const updatedStore = await Store.findOneAndUpdate(
+        { _id: req.body.store },
+        { $push: { products: createproduct } },
+        { new: true }
+      );
+
+      console.log(
+        `Created the product, ${createproduct.name}`,
+        createproduct,
+
+        "store has been updated",
+        updatedStore
+      );
+
+      if (!updatedStore) {
+        return res.status(404).json({ message: "No store with that ID" });
+      }
+
+      res.status(200).json({
+        message: "Created the product",
+        product: createproduct,
+        updatedStore,
+      });
     } catch (err) {
       console.log(err);
-      return res.status(400).json({ message: "Error creating a product", err });
+      return res.status(500).json({ message: "Error creating a product", err });
     }
   },
 

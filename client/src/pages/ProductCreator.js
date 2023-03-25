@@ -1,10 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import { Container, Button, Form } from "react-bootstrap";
 
 import Auth from "../utils/auth";
 
 const ProductCreator = () => {
+  const [stores, setStoreData] = useState([]);
+
+  // state for messages
+  const [error, setError] = useState("");
+
   const [formInput, setFormInput] = useState({
     name: "",
     description: "",
@@ -30,32 +35,29 @@ const ProductCreator = () => {
 
     //Send data to create user endpoint
     try {
+      const token = Auth.loggedIn()
+        ? Auth.getToken()
+        : window.location.replace("/login");
+
+      if (!token) {
+        console.log("Need to be logged in to do this");
+        window.location.replace("/login");
+        return false;
+      }
+
       const response = await fetch(`api/products/create`, {
         method: "POST",
         body: JSON.stringify({ ...formInput }),
         headers: { "Content-Type": "application/json" },
       });
 
-      if (response.ok) {
-        console.log(response);
-        const { token } = await response.json();
-        Auth.login(token);
-
-        setFormInput({
-          name: "",
-          description: "",
-          brand: "",
-          category: "",
-          price: "",
-          limit: "",
-          numberinStock: "",
-          numberofReviews: 0,
-          image: "",
-        });
-      } else {
-        console.log(response);
-        throw new Error("something went wrong!");
+      if (!response.ok) {
+        throw new Error("something went wrong creating product!", response);
       }
+
+      console.log(response);
+      window.location.replace("/myproducts");
+      setFormInput("");
     } catch (err) {
       console.error(err);
     }
@@ -63,8 +65,72 @@ const ProductCreator = () => {
 
   const handleChange = async (event) => {
     const { name, value } = event.target;
-    setFormInput({ ...formInput, [name]: value });
+
+    if (name === "store") {
+      const selectedStore = stores.find(
+        (store) => store.store.storeName === value
+      );
+      // Set the store field to the selected store's ID
+      setFormInput({ ...formInput, [name]: selectedStore.store._id });
+    } else {
+      setFormInput({ ...formInput, [name]: value });
+    }
   };
+
+  useEffect(() => {
+    const getUserData = async () => {
+      try {
+        const token = Auth.loggedIn()
+          ? Auth.getToken()
+          : window.location.replace("/login");
+
+        if (!token) {
+          console.log("Need to be logged in to do this");
+          window.location.replace("/login");
+          return false;
+        }
+
+        const response = await fetch(`/api/users/me`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (!response.ok) {
+          setError("something went wrong getting user data!");
+          throw new Error("something went wrong getting user data!");
+        }
+
+        const user = await response.json();
+
+        const storeData = await Promise.all(
+          user.stores.map(async (storeId) => {
+            const storeResponse = await fetch(`/api/stores/${storeId}`, {
+              method: "GET",
+              headers: {
+                "Content-Type": "application/json",
+                "Cache-Control": "no-cache",
+                authorization: `Bearer ${token}`,
+              },
+            });
+            if (!storeResponse.ok) {
+              throw new Error(`Failed to fetch store ${storeId}`);
+            }
+            return storeResponse.json();
+          })
+        );
+
+        console.log(storeData);
+        setStoreData(storeData);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    getUserData();
+  }, []);
 
   return (
     <>
@@ -73,9 +139,10 @@ const ProductCreator = () => {
           <div className="col-sm-8 col-md-4 mt-5 mx-auto">
             <div>
               <h1 className="text-center">Product Creator</h1>
+
               <Form onSubmit={handleSubmit} className={`mx-auto`}>
                 <Form.Group className="mb-3">
-                  <Form.Label className="required">product Name</Form.Label>
+                  <Form.Label className="required">Product Name</Form.Label>
                   <Form.Control
                     type="text"
                     name="name"
@@ -94,7 +161,27 @@ const ProductCreator = () => {
                 )}
 
                 <Form.Group className="mb-3">
-                  <Form.Label className="required">product Brand</Form.Label>
+                  <Form.Label className="required">
+                    Which Store Will This Product Belong To
+                  </Form.Label>
+                  <Form.Select
+                    name="store"
+                    placeholder="Which store does this product belong to?"
+                    onChange={handleChange}
+                    required
+                    tabIndex="0"
+                  >
+                    {stores.length > 0 &&
+                      stores.map((store) => (
+                        <option key={store.id} value={store.id}>
+                          {store.store.storeName}
+                        </option>
+                      ))}
+                  </Form.Select>
+                </Form.Group>
+
+                <Form.Group className="mb-3">
+                  <Form.Label className="required">Product Brand</Form.Label>
                   <Form.Control
                     type="text"
                     name="brand"
@@ -114,7 +201,7 @@ const ProductCreator = () => {
 
                 <Form.Group className="mb-3">
                   <Form.Label className="required">
-                    product Description
+                    Product Description
                   </Form.Label>
                   <Form.Control
                     type="text"
@@ -135,7 +222,7 @@ const ProductCreator = () => {
                   )}
 
                 <Form.Group className="mb-3">
-                  <Form.Label className="required">product Price</Form.Label>
+                  <Form.Label className="required">Product Price</Form.Label>
                   <Form.Control
                     type="currency"
                     name="price"
@@ -173,11 +260,11 @@ const ProductCreator = () => {
                 )}
 
                 <Form.Group className="mb-3">
-                  <Form.Label>product Purchase Limit</Form.Label>
+                  <Form.Label>Product Purchase Limit</Form.Label>
                   <Form.Control
                     type="number"
                     name="limit"
-                    value={formInput.limit || ""}
+                    value={formInput.limit || "0"}
                     placeholder="Product limit"
                     onChange={handleChange}
                   />
@@ -190,13 +277,12 @@ const ProductCreator = () => {
                 )}
 
                 <Form.Group className="mb-3">
-                  <Form.Label className="required">product Category</Form.Label>
+                  <Form.Label className="required">Product Category</Form.Label>
                   <Form.Select
                     name="category"
                     placeholder="Select or enter a category"
                     onChange={handleChange}
                     required
-                    minLength={2}
                     tabIndex="0"
                   >
                     <option value="1">Clothing</option>
@@ -206,23 +292,21 @@ const ProductCreator = () => {
                   </Form.Select>
                 </Form.Group>
 
-                {formInput.category !== "" && formInput.category.length < 2 && (
+                {/*formInput.category !== "" && formInput.category.length < 2 && (
                   <p className="text-center text-danger" role="alert">
                     Product category needs to be at least 2 characters
                   </p>
-                )}
+                )*/}
 
                 <Form.Group className="mb-3">
-                  <Form.Label>product Image</Form.Label>
+                  <Form.Label>Product Image</Form.Label>
                   <Form.Control
                     type="file"
                     multiple="multiple"
                     accept="image/png, image/jpeg"
                     name="productImage"
-                    value={formInput.productImage || ""}
+                    value={formInput.productImage}
                     onChange={handleChange}
-                    required
-                    minLength={2}
                   />
                 </Form.Group>
 
@@ -237,26 +321,22 @@ const ProductCreator = () => {
                     aria-disabled={
                       !formInput.name ||
                       !formInput.description ||
-                      !formInput.productImage ||
                       !formInput.brand ||
                       !formInput.price ||
-                      !formInput.numberinStock ||
-                      !formInput.category
+                      !formInput.numberinStock
                     }
                     disabled={
                       !formInput.name ||
                       !formInput.description ||
-                      !formInput.productImage ||
                       !formInput.brand ||
                       !formInput.price ||
-                      !formInput.numberinStock ||
-                      !formInput.category
+                      !formInput.numberinStock
                     }
                     variant="primary"
                     type="submit"
                     className="my-2 w-50"
                   >
-                    {`Create ${formInput.name}`}
+                    Create Product
                   </Button>
                 </div>
               </Form>

@@ -1,4 +1,3 @@
-import Container from "react-bootstrap/Container";
 import { useContext } from "react";
 import { ThemeContext } from "../Theme";
 
@@ -12,34 +11,32 @@ const Footer = () => {
   const { theme } = useContext(ThemeContext);
   return (
     <>
-      <Container fluid>
-        <footer className={`background ${theme} fixed-bottom text-center`}>
-          <p>
-            Ecommerce Site, {year()}
-            <a
-              href="https://www.linkedin.com/in/zachary-hobba-52aaa182/"
-              title="Zac Hobba Linkedin"
-              className={`background ${theme}`}
-            >
-              <i className="fab fa-linkedin icon"></i>
-            </a>
-            <a
-              href="mailto:zachobba@gmail.com"
-              title="Zac Hobba email"
-              className={`background ${theme}`}
-            >
-              <i className="fas fa-envelope-square icon"></i>
-            </a>
-            <a
-              href="https://github.com/HobbaZ"
-              title="Zac Hobba Github"
-              className={`background ${theme}`}
-            >
-              <i className="fab fa-github icon"></i>
-            </a>
-          </p>
-        </footer>
-      </Container>
+      <footer className={` mt-5 background ${theme} text-center`}>
+        <p>
+          Ecommerce Site, {year()}
+          <a
+            href="https://www.linkedin.com/in/zachary-hobba-52aaa182/"
+            title="Zac Hobba Linkedin"
+            className={`background ${theme}`}
+          >
+            <i className="fab fa-linkedin icon"></i>
+          </a>
+          <a
+            href="mailto:zachobba@gmail.com"
+            title="Zac Hobba email"
+            className={`background ${theme}`}
+          >
+            <i className="fas fa-envelope-square icon"></i>
+          </a>
+          <a
+            href="https://github.com/HobbaZ"
+            title="Zac Hobba Github"
+            className={`background ${theme}`}
+          >
+            <i className="fab fa-github icon"></i>
+          </a>
+        </p>
+      </footer>
     </>
   );
 };

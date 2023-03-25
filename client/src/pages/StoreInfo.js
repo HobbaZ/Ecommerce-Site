@@ -273,7 +273,9 @@ const StoreInfo = () => {
                 >
                   Delete Store <i className="fas fa-trash-alt"></i>
                 </Button>
-                Warning: Deleting your store is permanent and can't be undone.
+                <p className="text-center text-danger">
+                  Warning: Deleting your store is permanent and can't be undone.
+                </p>
               </div>
             </>
           )}

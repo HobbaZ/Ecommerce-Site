@@ -169,7 +169,7 @@ const AppNavbar = () => {
                         </NavLink>
 
                         <NavLink
-                          to="/products"
+                          to="/myproducts"
                           className={`dropdown-item nav-link`}
                         >
                           <div className={`background ${theme}`}>

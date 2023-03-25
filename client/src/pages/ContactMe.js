@@ -60,7 +60,7 @@ function ContactMe({ ...props }) {
     <Container fluid>
       <div className="col-sm-8 col-md-4 mt-5 mx-auto">
         <h1 className="text-center" tabIndex="0">
-          Contact Me
+          Contact Us
         </h1>
 
         <Form

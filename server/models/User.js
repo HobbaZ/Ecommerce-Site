@@ -45,8 +45,6 @@ const userSchema = new Schema(
       default: Date.now,
     },
 
-    // set savedBooks to be an array of data that adheres to the productSchema
-    //savedProducts: [productSchema],
     stores: [
       {
         type: Schema.Types.ObjectId,

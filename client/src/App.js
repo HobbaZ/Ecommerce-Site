@@ -14,6 +14,7 @@ import MyOrders from "./pages/MyOrders";
 import MyStores from "./pages/MyStores";
 import StoreInfo from "./pages/StoreInfo";
 import Cart from "./pages/Cart";
+import MyProducts from "./pages/MyProducts";
 
 import "./App.css";
 import { Container } from "react-bootstrap";
@@ -40,13 +41,14 @@ function App() {
                 <Route exact path="/profile" element={<Profile />} />
                 <Route
                   exact
-                  path="/products/create"
+                  path="/productcreator"
                   element={<ProductCreator />}
                 />
                 <Route exact path="/products/:id" element={<Product />} />
                 <Route exact path="/storecreator" element={<StoreCreator />} />
                 <Route exact path="/contactus" element={<ContactMe />} />
                 <Route exact path="/mystores" element={<MyStores />} />
+                <Route exact path="/myproducts" element={<MyProducts />} />
                 <Route exact path="/stores/:id" element={<StoreInfo />} />
                 <Route exact path="/myorders" element={<MyOrders />} />
 

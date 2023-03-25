@@ -34,10 +34,10 @@ a:active {
 
 body,
 html {
-  height: 100%;
+  min-height: 100%;
   margin: 0;
   overflow-x: hidden;
-  width: 100%;
+  width: 100vw;
   padding: 0;
 }
 
@@ -89,9 +89,12 @@ h1:focus {
 
 footer {
   align-items: center;
-  margin-top: 10px;
-  padding-top: 1px;
+  margin-top: 200px;
   width: 100vw;
+  position: relative;
+  left: 0;
+  bottom: 0;
+  right: 0;
 }
 
 footer a {

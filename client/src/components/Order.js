@@ -4,20 +4,19 @@ import { Container, Button, Card } from "react-bootstrap";
 
 import { Link } from "react-router-dom";
 import Auth from "../utils/auth";
-import Rating from "./Rating";
 
-const Store = ({ store }) => {
+const Order = ({ order }) => {
   // state for messages
   const [infoMessage, setInfoMessage] = useState("");
 
-  //Delete store if logged in
-  const deleteStore = async () => {
+  //Delete order if logged in
+  const deleteorder = async () => {
     try {
       const token = Auth.loggedIn()
         ? Auth.getToken()
         : window.location.replace("/login");
 
-      const response = await fetch(`/api/stores/delete/${store._id}`, {
+      const response = await fetch(`/api/orders/delete/${order._id}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
@@ -26,67 +25,39 @@ const Store = ({ store }) => {
       });
 
       if (!response.ok) {
-        throw new Error("something went wrong with deleting store!");
+        throw new Error("something went wrong with deleting order!");
       }
 
-      //Delete store account, destroy access token and redirect to signup page if successful
-      setInfoMessage("Store deleted!");
-      console.log("store deleted");
-      window.location.replace("/mystores");
+      //Delete order account, destroy access token and redirect to signup page if successful
+      setInfoMessage("order deleted!");
+      console.log("order deleted");
+      window.location.replace("/myorders");
     } catch (err) {
       console.error(err);
     }
   };
 
-  function editStore() {
-    window.location.replace(`/stores/${store._id}`);
-  }
-
-  function createProduct() {
-    window.location.replace(`/products/create`);
-  }
-
   return (
     <Container fluid>
-      <Card key={store._id} className={`m-1 p-2`}>
-        <Link to={`/stores/${store._id}`}>
-          <img
-            className="card-img-top"
-            src={store.storeImage}
-            alt={store.storeName}
-          />
-        </Link>
+      <Card key={order._id} className={`m-1 p-2`}>
         <Card.Body>
-          <Link to={`/stores/${store._id}`} store={store}>
-            <Card.Title>{store.storeName}</Card.Title>
+          <Link to={`/orders/${order._id}`} order={order}>
+            <Card.Title>{order.orderName}</Card.Title>
           </Link>
 
-          {/*link to store*/}
-          <Card.Subtitle>{store.storeDescription}</Card.Subtitle>
-          <Rating rating={store.storeRating} />
+          {/*link to order*/}
+          <Card.Subtitle>{order.orderDescription}</Card.Subtitle>
 
-          <Card.Text>Products: {store.products?.length}</Card.Text>
-
-          <div className="text-center">
-            <Button type="button" className="my-2 w-75" onClick={createProduct}>
-              Create A Product
-            </Button>
-          </div>
-
-          <div className="text-center">
-            <Button type="button" className="my-2 w-75" onClick={editStore}>
-              Edit {store.storeName} <i className="fas fa-pen"></i>
-            </Button>
-          </div>
+          <Card.Text>Orders: {order.orders?.length}</Card.Text>
 
           <div className="text-center">
             <Button
               variant="danger"
               type="button"
               className="my-2 w-75"
-              onClick={deleteStore}
+              onClick={deleteorder}
             >
-              Delete {store.storeName} <i className="fas fa-trash-alt"></i>
+              Delete {order.orderName} <i className="fas fa-trash-alt"></i>
             </Button>
           </div>
         </Card.Body>
@@ -95,4 +66,4 @@ const Store = ({ store }) => {
   );
 };
 
-export default Store;
+export default Order;

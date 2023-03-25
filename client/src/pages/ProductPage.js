@@ -16,6 +16,7 @@ const ProductPage = () => {
       price: 0,
       numberinStock: 0,
       limit: 0,
+      store: "",
     },
   });
 
@@ -92,6 +93,13 @@ const ProductPage = () => {
                     >
                       {product.product.name}
                     </Card.Title>
+
+                    <Card.Subtitle
+                      className="mx-auto w-75 text-center"
+                      tabIndex="0"
+                    >
+                      Store {product.product.store._id}
+                    </Card.Subtitle>
 
                     <Card.Text className="mx-auto w-75">
                       <span className="sr-only sr-only-focusable" tabIndex="0">
