@@ -3,11 +3,10 @@ import React, { useEffect, useState } from "react";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import { Loading } from "../components/Loading";
 import Auth from "../utils/auth";
-import Product from "../components/Product";
+import ProductInfo from "../components/ProductInfo";
 
 const ProductsPage = () => {
   const [stores, setStoreData] = useState([]);
-  const [products, setProductData] = useState([]);
 
   //loading state
   const [loading, setLoading] = useState(false);
@@ -102,33 +101,41 @@ const ProductsPage = () => {
             ) : (
               <Row>
                 {stores.length > 0 &&
-                  stores.map(
-                    (store) => (
-                      <p>
-                        <b>Store: {store.store.storeName}</b>
+                  stores.map((store) => (
+                    <>
+                      <p className="text-center">
+                        <b>Store:</b> {store.store.storeName}
                       </p>
-                    ),
-                    stores.products?.length > 0 ? (
-                      stores.products?.map((productInfo) => (
-                        <Col key={productInfo._id}>
-                          <Product
-                            product={productInfo}
-                            sm={12}
-                            md={6}
-                            lg={4}
-                          ></Product>
-                        </Col>
-                      ))
-                    ) : (
-                      <div>You don't have any products</div>
-                    )
-                  )}
+                      <p>
+                        <b>Products:</b> {store.store.products.length}
+                      </p>
+
+                      {store.store.products?.length > 0 ? (
+                        <>
+                          <div>
+                            {store.store.products?.map((products) => (
+                              <>
+                                <p>{products}</p>
+                                <ProductInfo
+                                  productInfo={products}
+                                  sm={12}
+                                  md={6}
+                                  lg={4}
+                                ></ProductInfo>
+                              </>
+                            ))}
+                          </div>
+                        </>
+                      ) : (
+                        <div>You don't have any products</div>
+                      )}
+                    </>
+                  ))}
               </Row>
             )}
           </div>
         </Container>
       )}
-      ;
     </>
   );
 };
