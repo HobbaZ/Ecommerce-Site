@@ -64,8 +64,8 @@ const Store = ({ store }) => {
           <Card.Text>Products: {store.products?.length}</Card.Text>
 
           <div className="text-center">
-            <Button type="button" className="my-2 w-75" onClick={editStore}>
-              Edit {store.storeName} <i className="fas fa-pen"></i>
+            <Button type="button" className="my-2 w-100" onClick={editStore}>
+              Edit Store <i className="fas fa-pen"></i>
             </Button>
           </div>
 
@@ -73,10 +73,10 @@ const Store = ({ store }) => {
             <Button
               variant="danger"
               type="button"
-              className="my-2 w-75"
+              className="my-2 w-100"
               onClick={deleteStore}
             >
-              Delete {store.storeName} <i className="fas fa-trash-alt"></i>
+              Delete Store <i className="fas fa-trash-alt"></i>
             </Button>
           </div>
         </Card.Body>

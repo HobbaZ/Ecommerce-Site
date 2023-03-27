@@ -74,7 +74,7 @@ const ProductPage = () => {
             </div>
           ) : (
             <Row>
-              <Col sm={12} md={6}>
+              <Col sm={12} md={6} lg={4}>
                 <div className="text-center">
                   <img
                     className="img-large mb-2 col-sm-12"
@@ -84,7 +84,7 @@ const ProductPage = () => {
                   />
                 </div>
               </Col>
-              <Col sm={12} md={6}>
+              <Col sm={12} md={6} lg={4}>
                 <Card>
                   <Card.Body className="w-100">
                     <Card.Title

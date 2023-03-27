@@ -74,34 +74,41 @@ function ProductInfo({ productInfo }) {
   };
 
   function editProduct() {
-    window.location.replace(`/products/${product.product._id}`);
+    window.location.replace(`/products/${product.product?._id}`);
   }
 
   return (
-    <Card key={product.product._id}>
-      <Card.Text>{product.name}</Card.Text>
-
-      <Link to={`/products/${productInfo}`}>
+    <Card key={product.product?._id}>
+      <Link to={`/products/${product.product?._id}`}>
         <img
-          className="card-img-top thumbnail"
-          src={product.image}
-          alt={product.name}
+          className="card-img-top"
+          src={product.product?.image}
+          alt={product.product?.name}
         />
       </Link>
       <Card.Body>
-        <Link to={`/products/${productInfo}`}>
-          <Card.Title>{product.name}</Card.Title>
+        <Link to={`/products/${product.product?._id}`}>
+          <Card.Title>{product.product?.name}</Card.Title>
         </Link>
 
         {/*link to product*/}
         <Rating
-          rating={product.product.rating}
-          numberofReviews={product.product.numberofReviews}
+          rating={product.product?.rating}
+          numberofReviews={product.product?.numberofReviews}
         />
-        <Card.Text>${product.product.price}</Card.Text>
+        <Card.Text>
+          <b>Price: </b>${product.product?.price}
+        </Card.Text>
+        <Card.Text>
+          <b>In Stock:</b> {product.product?.numberinStock}
+        </Card.Text>
+        <Card.Text>
+          <b>Reviews:</b> {product.product?.numberofReviews}
+        </Card.Text>
+
         <div className="text-center">
           <Button type="button" className="my-2 w-75" onClick={editProduct}>
-            Edit {product.product.name} <i className="fas fa-pen"></i>
+            Edit Product <i className="fas fa-pen"></i>
           </Button>
         </div>
 
@@ -112,7 +119,7 @@ function ProductInfo({ productInfo }) {
             className="my-2 w-75"
             onClick={deleteProduct}
           >
-            Delete {product.product.name} <i className="fas fa-trash-alt"></i>
+            Delete Product <i className="fas fa-trash-alt"></i>
           </Button>
         </div>
       </Card.Body>

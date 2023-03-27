@@ -73,7 +73,7 @@ const ProductsPage = () => {
   }, []);
 
   return (
-    <>
+    <Container fluid>
       {Auth.loggedIn() && Auth.getProfile().data.isAdmin && (
         <Container fluid>
           <h2 className="text-center" tabIndex="0">
@@ -82,7 +82,7 @@ const ProductsPage = () => {
 
           <div className="text-center">
             <a variant="primary" href="./productcreator">
-              <Button className="my-2 w-25">Create A Product</Button>
+              <Button className="my-2">Create A Product</Button>
             </a>
           </div>
 
@@ -103,32 +103,37 @@ const ProductsPage = () => {
                 {stores.length > 0 &&
                   stores.map((store) => (
                     <>
-                      <p className="text-center">
-                        <b>Store:</b> {store.store.storeName}
-                      </p>
-                      <p>
-                        <b>Products:</b> {store.store.products.length}
-                      </p>
+                      <div>
+                        <b>
+                          {store.store.storeName} -
+                          {store.store.products?.length > 1
+                            ? `   ${store.store.products.length} Products`
+                            : store.store.products?.length === 1
+                            ? `   ${store.store.products.length} Product`
+                            : "   You don't have any products"}
+                        </b>
+                      </div>
 
-                      {store.store.products?.length > 0 ? (
-                        <>
-                          <div>
-                            {store.store.products?.map((products) => (
-                              <>
-                                <p>{products}</p>
-                                <ProductInfo
-                                  productInfo={products}
-                                  sm={12}
-                                  md={6}
-                                  lg={4}
-                                ></ProductInfo>
-                              </>
-                            ))}
-                          </div>
-                        </>
-                      ) : (
-                        <div>You don't have any products</div>
-                      )}
+                      <div>
+                        {store.store.products?.length > 0 && (
+                          <>
+                            <Row>
+                              {store.store.products?.map((products) => (
+                                <>
+                                  <Col key={products} className="my-2">
+                                    <ProductInfo
+                                      sm={12}
+                                      md={6}
+                                      lg={4}
+                                      productInfo={products}
+                                    ></ProductInfo>
+                                  </Col>
+                                </>
+                              ))}
+                            </Row>
+                          </>
+                        )}
+                      </div>
                     </>
                   ))}
               </Row>
@@ -136,7 +141,7 @@ const ProductsPage = () => {
           </div>
         </Container>
       )}
-    </>
+    </Container>
   );
 };
 

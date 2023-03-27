@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
 
-import { Container, Row, Col } from "react-bootstrap";
+import { Container, Row, Col, Button } from "react-bootstrap";
 import { Loading } from "../components/Loading";
 import Auth from "../utils/auth";
 import Store from "../components/Store";
-import StoreCreatorButton from "../components/StoreCreatorButton";
 
 const StoresPage = () => {
   const [stores, setStoreData] = useState([]);
@@ -78,7 +77,11 @@ const StoresPage = () => {
           <h2 className="text-center" tabIndex="0">
             My Stores
           </h2>
-          <StoreCreatorButton isAdmin={Auth.getProfile().data.isAdmin} />
+          <div className="text-center">
+            <a variant="primary" href="./storecreator">
+              <Button className="my-2">Create A Store</Button>
+            </a>
+          </div>
           <div className="products">
             {loading ? (
               <div className="d-flex justify-content-center">
