@@ -1,11 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 
-import { Container, Row, Col, Button } from "react-bootstrap";
+import { Container, Button } from "react-bootstrap";
 import { Loading } from "../components/Loading";
 import Auth from "../utils/auth";
 import ProductInfo from "../components/ProductInfo";
+import { ThemeContext } from "../Theme";
 
 const ProductsPage = () => {
+  const { theme } = useContext(ThemeContext);
+
   const [stores, setStoreData] = useState([]);
 
   //loading state
@@ -99,7 +102,7 @@ const ProductsPage = () => {
                 {error}
               </div>
             ) : (
-              <Row>
+              <div>
                 {stores.length > 0 &&
                   stores.map((store) => (
                     <>
@@ -114,7 +117,44 @@ const ProductsPage = () => {
                         </b>
                       </div>
 
-                      <div>
+                      <div className="table-responsive-sm">
+                        <table className={`table table-${theme} `}>
+                          <caption>List of Products for each store</caption>
+                          <thead>
+                            <tr className={`background ${theme} table-sm`}>
+                              <th scope="col">Images</th>
+                              <th scope="col">Name</th>
+                              <th scope="col">Rating</th>
+                              <th scope="col">Price</th>
+                              <th scope="col">Stock</th>
+                              <th scope="col">Reviews</th>
+                              <th scope="col"></th>
+                              <th scope="col"></th>
+                            </tr>
+                          </thead>
+
+                          <tbody className="">
+                            {store.store.products?.length > 0 && (
+                              <>
+                                {store.store.products?.map((products) => (
+                                  <>
+                                    <tr
+                                      key={products}
+                                      className={`background ${theme}`}
+                                    >
+                                      <ProductInfo
+                                        productInfo={products}
+                                      ></ProductInfo>
+                                    </tr>
+                                  </>
+                                ))}
+                              </>
+                            )}
+                          </tbody>
+                        </table>
+                      </div>
+
+                      {/*<div>
                         {store.store.products?.length > 0 && (
                           <>
                             <Row>
@@ -133,10 +173,10 @@ const ProductsPage = () => {
                             </Row>
                           </>
                         )}
-                      </div>
+                              </div>*/}
                     </>
                   ))}
-              </Row>
+              </div>
             )}
           </div>
         </Container>

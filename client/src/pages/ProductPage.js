@@ -94,13 +94,6 @@ const ProductPage = () => {
                       {product.product.name}
                     </Card.Title>
 
-                    <Card.Subtitle
-                      className="mx-auto w-75 text-center"
-                      tabIndex="0"
-                    >
-                      Store {product.product.store._id}
-                    </Card.Subtitle>
-
                     <Card.Text className="mx-auto w-75">
                       <span className="sr-only sr-only-focusable" tabIndex="0">
                         Rating: {product.product.rating} out of 5 stars

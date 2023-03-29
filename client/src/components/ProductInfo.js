@@ -74,56 +74,55 @@ function ProductInfo({ productInfo }) {
   };
 
   function editProduct() {
-    window.location.replace(`/products/${product.product?._id}`);
+    window.location.replace(`/products/${productInfo}`);
   }
 
   return (
-    <Card key={product.product?._id}>
-      <Link to={`/products/${product.product?._id}`}>
-        <img
-          className="card-img-top"
-          src={product.product?.image}
-          alt={product.product?.name}
-        />
-      </Link>
-      <Card.Body>
+    <>
+      <td>
         <Link to={`/products/${product.product?._id}`}>
-          <Card.Title>{product.product?.name}</Card.Title>
+          <img
+            className="card-img-top"
+            src={product.product?.image}
+            alt={product.product?.name}
+          />
         </Link>
+      </td>
 
-        {/*link to product*/}
+      <td>
+        <Link to={`/products/${product.product?._id}`}>
+          <h6>{product.product?.name}</h6>
+        </Link>
+      </td>
+
+      <td>
         <Rating
           rating={product.product?.rating}
           numberofReviews={product.product?.numberofReviews}
         />
-        <Card.Text>
-          <b>Price: </b>${product.product?.price}
-        </Card.Text>
-        <Card.Text>
-          <b>In Stock:</b> {product.product?.numberinStock}
-        </Card.Text>
-        <Card.Text>
-          <b>Reviews:</b> {product.product?.numberofReviews}
-        </Card.Text>
+      </td>
 
-        <div className="text-center">
-          <Button type="button" className="my-2 w-75" onClick={editProduct}>
-            Edit Product <i className="fas fa-pen"></i>
-          </Button>
-        </div>
+      <td>${product.product?.price}</td>
+      <td>{product.product?.numberinStock}</td>
+      <td>{product.product?.numberofReviews}</td>
 
-        <div className="text-center">
-          <Button
-            variant="danger"
-            type="button"
-            className="my-2 w-75"
-            onClick={deleteProduct}
-          >
-            Delete Product <i className="fas fa-trash-alt"></i>
-          </Button>
-        </div>
-      </Card.Body>
-    </Card>
+      <td>
+        <Button type="button" className="my-2 w-100" onClick={editProduct}>
+          Edit Product <i className="fas fa-pen"></i>
+        </Button>
+      </td>
+
+      <td>
+        <Button
+          variant="danger"
+          type="button"
+          className="my-2 w-100"
+          onClick={deleteProduct}
+        >
+          Delete Product <i className="fas fa-trash-alt"></i>
+        </Button>
+      </td>
+    </>
   );
 }
 
