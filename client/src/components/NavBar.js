@@ -21,8 +21,8 @@ const AppNavbar = () => {
   }
 
   return (
-    <Container fluid>
-      <nav className={`navbar fixed-top navbar-expand-lg background ${theme}`}>
+    <nav className={`navbar fixed-top navbar-expand-lg background ${theme}`}>
+      <div className="container-md fluid">
         <a
           href="#maincontent"
           role="button"
@@ -31,7 +31,7 @@ const AppNavbar = () => {
         >
           Skip to main content
         </a>
-        <NavLink className={`ml-3 nav-brand nav-link `} to="/">
+        <NavLink className={`ms-3 nav-brand nav-link `} to="/">
           <NavbarBrand className={`background ${theme}`}>
             Ecommerce site
           </NavbarBrand>
@@ -40,8 +40,8 @@ const AppNavbar = () => {
         <Button
           className={`navbar-toggler background ${theme}`}
           variant={theme}
-          data-toggle="collapse"
-          data-target="#navbarNav"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
           aria-controls="navbarNav"
           aria-expanded="false"
           aria-label="Toggle navigation menu"
@@ -52,26 +52,26 @@ const AppNavbar = () => {
         </Button>
 
         <div className="collapse navbar-collapse" id="navbarNav">
-          <nav className="navbar-nav ml-auto">
-            <form className="form-inline">
+          <nav className="navbar-nav me-auto mb-2 mb-lg-0">
+            <form className="d-flex form-inline">
               <input
-                className="ml-3 form-control search"
+                className="ms-3 form-control search"
                 type="search"
                 placeholder="Search"
                 aria-label="Search for a product"
               />
               <Button
                 variant={theme}
-                className={`btn-primary searchButton`}
+                className="btn-primary searchButton"
                 type="submit"
                 aria-label="search"
               >
-                <i className="fas fa-search"></i>
+                <i className="fas fa-search"></i> Search
               </Button>
             </form>
 
             <a
-              className={`ml-3 nav-link background ${
+              className={`ms-3 nav-link background ${
                 theme === "Dark" ? "text-white" : ""
               }`}
               href="/stores"
@@ -80,7 +80,7 @@ const AppNavbar = () => {
             </a>
 
             <a
-              className={`ml-3 nav-link background ${
+              className={`ms-3 nav-link background ${
                 theme === "Dark" ? "text-white" : ""
               }`}
               href="/contactus"
@@ -90,7 +90,7 @@ const AppNavbar = () => {
 
             <Button
               onClick={toggleTheme}
-              className={` ml-3 nav-link background ${theme} themebutton`}
+              className={` ms-3 nav-link background ${theme} themebutton`}
             >
               {theme + " theme "}
               {theme === "Dark" ? (
@@ -103,7 +103,7 @@ const AppNavbar = () => {
             {Auth.loggedIn() ? (
               <>
                 <a
-                  className={`ml-3 nav-link background ${
+                  className={`ms-3 nav-link background ${
                     theme === "Dark" ? "text-white" : ""
                   }`}
                   href="/cart"
@@ -112,7 +112,7 @@ const AppNavbar = () => {
                 </a>
 
                 <div
-                  className={`ml-3 mr-5 nav-item dropdown background ${
+                  className={`ms-3 mr-5 nav-item dropdown background ${
                     theme === "Dark" ? "text-white" : ""
                   }`}
                 >
@@ -120,7 +120,7 @@ const AppNavbar = () => {
                     className={` mr-5 nav-link btn dropdown-toggle background ${theme} themebutton`}
                     id="navbarDropdown"
                     tabIndex="0"
-                    data-toggle="dropdown"
+                    data-bs-toggle="dropdown"
                     aria-haspopup="true"
                     aria-expanded="false"
                   >
@@ -193,7 +193,7 @@ const AppNavbar = () => {
               <>
                 <NavLink
                   to="/login"
-                  className={`ml-3 nav-link background ${
+                  className={`ms-3 nav-link background ${
                     theme === "Dark" ? "text-white" : ""
                   }`}
                 >
@@ -202,7 +202,7 @@ const AppNavbar = () => {
 
                 <NavLink
                   to="/signup"
-                  className={`ml-3 nav-link background ${
+                  className={`ms-3 nav-link background ${
                     theme === "Dark" ? "text-white" : ""
                   }`}
                 >
@@ -212,8 +212,8 @@ const AppNavbar = () => {
             )}
           </nav>
         </div>
-      </nav>
-    </Container>
+      </div>
+    </nav>
   );
 };
 

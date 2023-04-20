@@ -1,6 +1,7 @@
-import { Button, Card } from "react-bootstrap";
+import { Button, Card, Badge } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import Rating from "./Rating";
+import Auth from "../utils/auth";
 
 function Product({ product }) {
   return (
@@ -19,7 +20,21 @@ function Product({ product }) {
           rating={product.rating}
           numberofReviews={product.numberofReviews}
         />
-        <Card.Text>${product.price}</Card.Text>
+
+        <Card.Text>
+          <b>Stock: </b>
+          <span>
+            {product.numberinStock > 0 ? (
+              <Badge bg="success">{product.numberinStock} Available</Badge>
+            ) : (
+              <Badge bg="danger">Unavailable</Badge>
+            )}
+          </span>
+        </Card.Text>
+
+        <Card.Text>
+          <b>Price:</b> ${product.price}
+        </Card.Text>
         <Button>Add to Cart</Button>
       </Card.Body>
     </Card>

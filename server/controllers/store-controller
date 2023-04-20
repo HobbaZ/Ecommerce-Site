@@ -109,7 +109,7 @@ module.exports = {
       res.status(200).json(deleteStore);
 
       const updatedUser = await User.findOneAndUpdate(
-        { _id: req.user_id },
+        { _id: storeOwner },
         { $pull: { stores: deleteStore._id } },
         { new: true }
       );

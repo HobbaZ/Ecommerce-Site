@@ -117,63 +117,43 @@ const ProductsPage = () => {
                         </b>
                       </div>
 
-                      <div className="table-responsive-sm">
-                        <table className={`table table-${theme} `}>
-                          <caption>List of Products for each store</caption>
-                          <thead>
-                            <tr className={`background ${theme} table-sm`}>
-                              <th scope="col">Images</th>
-                              <th scope="col">Name</th>
-                              <th scope="col">Rating</th>
-                              <th scope="col">Price</th>
-                              <th scope="col">Stock</th>
-                              <th scope="col">Reviews</th>
-                              <th scope="col"></th>
-                              <th scope="col"></th>
-                            </tr>
-                          </thead>
+                      {store.store.products?.length > 0 && (
+                        <div className="productTable">
+                          <table className={`table table-${theme} `}>
+                            <thead>
+                              <tr className={`background ${theme}`}>
+                                <th scope="col">Images</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Rating</th>
+                                <th scope="col">Price</th>
+                                <th scope="col">Stock</th>
+                                <th scope="col">Reviews</th>
+                                <th scope="col"></th>
+                                <th scope="col"></th>
+                              </tr>
+                            </thead>
 
-                          <tbody className="">
-                            {store.store.products?.length > 0 && (
-                              <>
-                                {store.store.products?.map((products) => (
-                                  <>
-                                    <tr
-                                      key={products}
-                                      className={`background ${theme}`}
-                                    >
-                                      <ProductInfo
-                                        productInfo={products}
-                                      ></ProductInfo>
-                                    </tr>
-                                  </>
-                                ))}
-                              </>
-                            )}
-                          </tbody>
-                        </table>
-                      </div>
-
-                      {/*<div>
-                        {store.store.products?.length > 0 && (
-                          <>
-                            <Row>
-                              {store.store.products?.map((products) => (
+                            <tbody className="">
+                              {store.store.products?.length > 0 && (
                                 <>
-                                  <Col key={products} className="my-2">
-                                    <ProductInfo
-                                      sm={12}
-                                      md={6}
-                                      lg={4}
-                                      productInfo={products}
-                                    ></ProductInfo>
-                                  </Col>
+                                  {store.store.products?.map((products) => (
+                                    <>
+                                      <tr
+                                        key={products}
+                                        className={`background ${theme}`}
+                                      >
+                                        <ProductInfo
+                                          productInfo={products}
+                                        ></ProductInfo>
+                                      </tr>
+                                    </>
+                                  ))}
                                 </>
-                              ))}
-                            </Row>
-                          </>
-                        )}
-                              </div>*/}
+                              )}
+                            </tbody>
+                          </table>
+                        </div>
+                      )}
                     </>
                   ))}
               </div>

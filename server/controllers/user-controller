@@ -110,7 +110,7 @@ module.exports = {
     }
   },
   // remove a product from `savedProducts`
-  async deleteProduct({ params }, req, res) {
+  async deleteSavedProduct({ params }, req, res) {
     const updatedUser = await User.findOneAndUpdate(
       { _id: req.user._id },
       { $pull: { savedProducts: { _id: params.id } } },

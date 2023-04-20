@@ -63,6 +63,7 @@ html {
   border-radius: 50%;
   padding: 5px;
   pointer-events: none;
+  color: var(--white);
   border: var(--white) 1px solid;
 }
 
@@ -85,6 +86,19 @@ html {
 .dropdown-toggle:focus,
 h1:focus {
   outline: 2px solid var(--black);
+}
+
+.editProductModal {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: auto;
+  height: auto;
+  background-color: var(--invalid);
+  border-radius: 10px;
+  border: 3px solid black;
+  z-index: 10;
 }
 
 footer {
@@ -148,6 +162,10 @@ main {
   object-fit: cover;
 }
 
+.productTable {
+  overflow-x: auto;
+}
+
 .products {
   display: flex;
   flex-wrap: wrap;
@@ -176,6 +194,7 @@ main {
   border: 1px var(--buttons) solid;
   border-top-right-radius: 5px;
   border-bottom-right-radius: 5px;
+  width: 150px;
 }
 
 .site-container {

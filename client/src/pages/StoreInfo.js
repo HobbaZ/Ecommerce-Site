@@ -125,7 +125,7 @@ const StoreInfo = () => {
       console.log(store);
       setInfoMessage("Details updated!");
       setStoreData(store);
-      window.location.replace(`stores/${id}`);
+      window.location.replace(`/mystores`);
       setFormInput("");
     } catch (err) {
       console.error(err);
