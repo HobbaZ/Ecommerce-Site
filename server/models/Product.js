@@ -34,6 +34,8 @@ const productSchema = new Schema(
 
     store: {
       type: String,
+      //type: Schema.Types.ObjectId,
+      //ref: "Store",
     },
 
     category: {

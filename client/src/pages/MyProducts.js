@@ -85,7 +85,9 @@ const ProductsPage = () => {
 
           <div className="text-center">
             <a variant="primary" href="./productcreator">
-              <Button className="my-2">Create A Product</Button>
+              <Button className="my-2" disabled={!stores.length > 0}>
+                Create A Product
+              </Button>
             </a>
           </div>
 
@@ -103,7 +105,7 @@ const ProductsPage = () => {
               </div>
             ) : (
               <div>
-                {stores.length > 0 &&
+                {stores.length > 0 ? (
                   stores.map((store) => (
                     <>
                       <div>
@@ -124,6 +126,7 @@ const ProductsPage = () => {
                               <tr className={`background ${theme}`}>
                                 <th scope="col">Images</th>
                                 <th scope="col">Name</th>
+                                <th scope="col">Category</th>
                                 <th scope="col">Rating</th>
                                 <th scope="col">Price</th>
                                 <th scope="col">Stock</th>
@@ -155,7 +158,12 @@ const ProductsPage = () => {
                         </div>
                       )}
                     </>
-                  ))}
+                  ))
+                ) : (
+                  <p className="text-danger text-center">
+                    Need to create a store first before you can create products
+                  </p>
+                )}
               </div>
             )}
           </div>

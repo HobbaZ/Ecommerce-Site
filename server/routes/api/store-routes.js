@@ -18,9 +18,9 @@ router.route("/:id").get(getSingleStore);
 
 router.route("/:id").get(authMiddleware, getSingleStore);
 
-router.route("/delete/:id").delete(authMiddleware, deleteStore);
+router.route("/:id").delete(authMiddleware, deleteStore);
 
-router.route("/update/:id").put(authMiddleware, updateStore);
+router.route("/:id").put(authMiddleware, updateStore);
 
 router.route("/").get(allStores);
 

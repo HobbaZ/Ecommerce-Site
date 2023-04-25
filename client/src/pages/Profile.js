@@ -240,7 +240,7 @@ const Profile = () => {
                       <h3 className="text-center">Update Your Details</h3>
                       <Form onSubmit={handleSubmit} className="mx-auto">
                         <Form.Group className="mb-3">
-                          <Form.Label>Update First Name</Form.Label>
+                          <Form.Label>Update Name</Form.Label>
                           <Form.Control
                             type="text"
                             name="name"
@@ -260,11 +260,12 @@ const Profile = () => {
                           </p>
                         )}
 
-                        {formInput.name !== "" && formInput.name.length < 2 && (
-                          <p className="text-center text-danger" role="alert">
-                            Name needs to be at least 2 characters
-                          </p>
-                        )}
+                        {formInput.name !== "" &&
+                          formInput.name?.length < 2 && (
+                            <p className="text-center text-danger" role="alert">
+                              Name needs to be at least 2 characters
+                            </p>
+                          )}
 
                         <Form.Group className="mb-3">
                           <Form.Label>Update Username</Form.Label>
@@ -288,7 +289,7 @@ const Profile = () => {
                         )}
 
                         {formInput.username !== "" &&
-                          formInput.username.length < 2 && (
+                          formInput.username?.length < 2 && (
                             <p className="text-center text-danger" role="alert">
                               Username needs to be at least 2 characters
                             </p>
@@ -307,10 +308,7 @@ const Profile = () => {
                         </Form.Group>
 
                         {formInput.email === "" && (
-                          <p
-                            className=" sr-only text-center text-danger"
-                            role="alert"
-                          >
+                          <p className=" sr-only" role="alert">
                             Entered Email address is invalid
                           </p>
                         )}
@@ -368,10 +366,10 @@ const Profile = () => {
                         </div>
                       </Form>
                     </div>
-                    <hr />
                   </Container>
                 </>
               )}
+              <hr />
               <div className="text-center">
                 <Button
                   variant="danger"

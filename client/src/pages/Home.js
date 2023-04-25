@@ -63,7 +63,7 @@ const Home = () => {
                   </Col>
                 ))
               ) : (
-                <div>no products</div>
+                <div>No products yet</div>
               )}
             </Row>
           )}

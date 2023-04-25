@@ -6,13 +6,14 @@ import Signup from "./pages/Signup";
 import Login from "./pages/Login";
 import Profile from "./pages/Profile";
 import Product from "./pages/ProductPage";
+import ProductEdit from "./pages/ProductEdit";
 import Footer from "./components/Footer";
 import StoreCreator from "./pages/StoreCreator";
 import ProductCreator from "./pages/ProductCreator";
 import ContactMe from "./pages/ContactMe";
 import MyOrders from "./pages/MyOrders";
 import MyStores from "./pages/MyStores";
-import StoreInfo from "./pages/StoreInfo";
+import StoreEdit from "./pages/StoreEdit";
 import Cart from "./pages/Cart";
 import MyProducts from "./pages/MyProducts";
 
@@ -44,12 +45,17 @@ function App() {
                   path="/productcreator"
                   element={<ProductCreator />}
                 />
+                <Route
+                  exact
+                  path="/products/edit/:id"
+                  element={<ProductEdit />}
+                />
                 <Route exact path="/products/:id" element={<Product />} />
                 <Route exact path="/storecreator" element={<StoreCreator />} />
                 <Route exact path="/contactus" element={<ContactMe />} />
                 <Route exact path="/mystores" element={<MyStores />} />
                 <Route exact path="/myproducts" element={<MyProducts />} />
-                <Route exact path="/stores/:id" element={<StoreInfo />} />
+                <Route exact path="/stores/:id" element={<StoreEdit />} />
                 <Route exact path="/myorders" element={<MyOrders />} />
 
                 <Route exact path="/cart" element={<Cart />} />

@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { Container, Button, Form } from "react-bootstrap";
 
 import Auth from "../utils/auth";
+import CategoryOptions from "../components/CategoryOptions";
 
 const ProductCreator = () => {
   const [stores, setStoreData] = useState([]);
@@ -33,7 +34,7 @@ const ProductCreator = () => {
       return false;
     }
 
-    //Send data to create user endpoint
+    //Send data to create product endpoint
     try {
       const token = Auth.loggedIn()
         ? Auth.getToken()
@@ -71,7 +72,11 @@ const ProductCreator = () => {
         (store) => store.store.storeName === value
       );
       // Set the store field to the selected store's ID
-      setFormInput({ ...formInput, [name]: selectedStore.store._id });
+      setFormInput({
+        ...formInput,
+        [name]: selectedStore.store._id.toString(),
+      });
+      console.log(formInput.store);
     } else {
       setFormInput({ ...formInput, [name]: value });
     }
@@ -134,7 +139,7 @@ const ProductCreator = () => {
 
   return (
     <>
-      {Auth.loggedIn() ? (
+      {Auth.loggedIn() && Auth.getProfile().data.isAdmin ? (
         <Container fluid>
           <div className="col-sm-8 col-md-4 mt-5 mx-auto">
             <div>
@@ -166,16 +171,18 @@ const ProductCreator = () => {
                   </Form.Label>
                   <Form.Select
                     name="store"
-                    placeholder="Which store does this product belong to?"
                     onChange={handleChange}
                     required
                     tabIndex="0"
                   >
                     {stores.length > 0 &&
                       stores.map((store) => (
-                        <option key={store.id} value={store.id}>
-                          {store.store.storeName}
-                        </option>
+                        <>
+                          <option value="None">None</option>
+                          <option key={store.id} value={store.id}>
+                            {store.store.storeName}
+                          </option>
+                        </>
                       ))}
                   </Form.Select>
                 </Form.Group>
@@ -285,10 +292,7 @@ const ProductCreator = () => {
                     required
                     tabIndex="0"
                   >
-                    <option value="1">Clothing</option>
-                    <option value="2">Memorabilia</option>
-                    <option value="3">Trades/Services</option>
-                    <option value="4">Vehicles</option>
+                    <CategoryOptions />
                   </Form.Select>
                 </Form.Group>
 

@@ -47,8 +47,8 @@ module.exports = {
         rating: req.body.rating,
         numberinStock: req.body.numberinStock,
         numberOfReviews: req.body.numberOfReviews,
+        store: req.body.store,
         date_added: req.body.date_added,
-        store: req.body.store._id,
       });
 
       console.log("Product variables are ", createproduct);
@@ -74,7 +74,7 @@ module.exports = {
       );
 
       if (!updatedStore) {
-        return res.status(404).json({ message: "No store with that ID" });
+        return res.status(400).json({ message: "No store with that ID" });
       }
 
       res.status(200).json({
@@ -90,16 +90,20 @@ module.exports = {
 
   async updateProduct(req, res) {
     try {
-      const updateproduct = Product.findByIdAndUpdate(
+      const updateproduct = await Product.findByIdAndUpdate(
         { _id: req.params.id },
-        req.body
+        { $set: req.body },
+        { new: true, runValidators: true }
       );
       if (!updateproduct) {
         return res
           .status(400)
           .json({ message: "Error with updating the product" });
       }
-      res.json("Updated the product", updateproduct);
+      res
+        .status(200)
+        .json({ message: "Updated the product", product: updateproduct });
+      console.log("_id:", req.params.id);
     } catch (err) {
       console.log(err);
       return res
@@ -110,15 +114,34 @@ module.exports = {
 
   async deleteProduct(req, res) {
     try {
-      const deleteproduct = Product.findByIdAndDelete({ _id: req.params.id });
+      const deleteproduct = await Product.findByIdAndDelete(
+        { _id: req.params.id.toString() },
+        { new: true, runValidators: true }
+      );
+
       if (!deleteproduct) {
-        return res.status(400).json({ message: "Error deleting the product" });
+        return res
+          .status(400)
+          .json({ message: "Error deleting the product, no product Id" });
       }
-      res.json("Deleted the product", deleteproduct);
+
+      const updatedStore = await Store.findOneAndUpdate(
+        { _id: req.body.store },
+        { $pull: { products: deleteproduct } },
+        { new: true }
+      );
+
+      if (!updatedStore) {
+        return res.status(400).json({ message: "No store with that ID" });
+      }
+
+      res.status(200).json("Deleted the product", deleteproduct);
+      console.log("Deleted the product ,store has been updated", updatedStore);
     } catch (err) {
       console.log(err);
+      console.log("_id:", req.params.id);
       return res
-        .status(500)
+        .status(400)
         .json({ message: "Error deleting the product", err });
     }
   },

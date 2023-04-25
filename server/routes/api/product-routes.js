@@ -3,7 +3,6 @@ const router = require("express").Router();
 const {
   createProduct,
   allProducts,
-  deleteAllProducts,
   getSingleProduct,
   deleteProduct,
   updateProduct,
@@ -19,8 +18,8 @@ router.route("/").get(allProducts);
 
 router.route("/:id").get(getSingleProduct);
 
-router.route("delete/:id").delete(authMiddleware, deleteProduct);
+router.route("/:id").delete(authMiddleware, deleteProduct);
 
-router.route("update/:id").put(authMiddleware, updateProduct);
+router.route("/:id").put(authMiddleware, updateProduct);
 
 module.exports = router;

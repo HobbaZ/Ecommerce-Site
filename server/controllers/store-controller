@@ -86,14 +86,14 @@ module.exports = {
       );
 
       if (!updateStore) {
-        return res.status(404).json({ message: "Store not found" });
+        return res.status(400).json({ message: "Store not found" });
       }
 
-      return res.json(updateStore);
+      return res.status(200).json(updateStore);
     } catch (err) {
       console.error(err);
       return res
-        .status(400)
+        .status(500)
         .json({ message: "Error updating store", error: err });
     }
   },
@@ -101,11 +101,15 @@ module.exports = {
   // Delete a store
   async deleteStore(req, res) {
     try {
-      const deleteStore = await Store.findByIdAndDelete(req.params.id);
+      const deleteStore = await Store.findByIdAndDelete({ _id: req.params.id });
 
       if (!deleteStore) {
         return res.status(400).json({ message: "Error deleting the store!" });
       }
+
+      // delete all products of the store
+      await Product.deleteMany({ store: deleteStore._id });
+
       res.status(200).json(deleteStore);
 
       const updatedUser = await User.findOneAndUpdate(
@@ -127,45 +131,5 @@ module.exports = {
       console.log(err);
       return res.status(400).json({ message: "Error deleting the store", err });
     }
-  },
-
-  //Add product to store
-  addProduct(req, res) {
-    Store.findOneAndUpdate(
-      //add product to store
-      { _id: req.params.id },
-      { $push: { products: req.body } },
-      { new: true }
-    )
-      .then((product) =>
-        !product
-          ? res.status(404).json({ message: "No store with that id!" })
-          : res
-              .status(200)
-              .json({ message: `added a product to the store`, product })
-      )
-      .catch((err) =>
-        res.status(400).json({ message: "Error adding product", err })
-      );
-  },
-
-  //delete product from store
-  deleteProduct(req, res) {
-    Store.findOneAndUpdate(
-      //delete product from store
-      { _id: req.params.id },
-      { $pull: { products: { _id: req.params.productId } } },
-      { new: true }
-    )
-      .then((product) =>
-        !product
-          ? res.status(404).json({ message: "No store with that id!" })
-          : res
-              .status(200)
-              .json({ message: `removed a product from the store`, product })
-      )
-      .catch((err) =>
-        res.status(400).json({ message: "Error removing product", err })
-      );
   },
 };
