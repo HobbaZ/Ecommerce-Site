@@ -6,7 +6,6 @@ import { Loading } from "../components/Loading";
 
 const Home = () => {
   const [products, setProducts] = useState([]);
-  //const [users, setUsers] = useState([]);
 
   //loading state
   const [loading, setLoading] = useState(false);

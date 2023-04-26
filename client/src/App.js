@@ -16,6 +16,7 @@ import MyStores from "./pages/MyStores";
 import StoreEdit from "./pages/StoreEdit";
 import Cart from "./pages/Cart";
 import MyProducts from "./pages/MyProducts";
+import SavedProducts from "./pages/SavedProducts";
 
 import "./App.css";
 import { Container } from "react-bootstrap";
@@ -57,7 +58,11 @@ function App() {
                 <Route exact path="/myproducts" element={<MyProducts />} />
                 <Route exact path="/stores/:id" element={<StoreEdit />} />
                 <Route exact path="/myorders" element={<MyOrders />} />
-
+                <Route
+                  exact
+                  path="/savedproducts"
+                  element={<SavedProducts />}
+                />
                 <Route exact path="/cart" element={<Cart />} />
                 <Route render={() => <h1>404! This page doesn't exist</h1>} />
               </Routes>

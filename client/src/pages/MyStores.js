@@ -115,7 +115,6 @@ const StoresPage = () => {
           </div>
         </Container>
       )}
-      ;
     </>
   );
 };

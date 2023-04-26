@@ -1,6 +1,6 @@
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
-import { Container, Button, NavbarBrand } from "react-bootstrap";
+import { Container, Button, NavbarBrand, Badge } from "react-bootstrap";
 import Auth from "../utils/auth";
 
 import { useTheme, ThemeContext } from "../Theme";
@@ -8,11 +8,37 @@ import { useTheme, ThemeContext } from "../Theme";
 const AppNavbar = () => {
   const { toggleTheme } = useTheme();
   const { theme } = useContext(ThemeContext);
+  // state for messages
+  const [infoMessage, setInfoMessage] = useState("");
+
+  //loading state
+  const [loading, setLoading] = useState(false);
+
+  // state for messages
+  const [error, setError] = useState("");
+
+  const [cartProducts, setCartProducts] = useState([]);
+  const [cartItemCount, setCartItemCount] = useState(cartProducts.length);
+
+  /*useEffect(() => {
+    const getData = async () => {
+      setLoading(true);
+      try {
+        const products = JSON.parse(localStorage.getItem("cartProducts")) || [];
+        setCartProducts(products);
+        setCartItemCount(products.length);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+    getData();
+  }, [cartProducts]);*/
 
   useEffect(() => {
     document.body.style.backgroundColor =
-      theme === "Light" ? "#ffffff" : "#000000";
-    document.body.style.color = theme === "Light" ? "#000000" : "#ffffff";
+      theme === "Light" ? "#ffffff" : "rgb(29, 29, 29)";
+    document.body.style.color =
+      theme === "Light" ? "rgb(29, 29, 29)" : "#ffffff";
   }, [theme]);
 
   //Gets the logged in user's name, displays the first and second letter of the first word
@@ -22,7 +48,7 @@ const AppNavbar = () => {
 
   return (
     <nav className={`navbar fixed-top navbar-expand-lg background ${theme}`}>
-      <div className="container-md fluid">
+      <div className="container-lg fluid">
         <a
           href="#maincontent"
           role="button"
@@ -37,9 +63,8 @@ const AppNavbar = () => {
           </NavbarBrand>
         </NavLink>
 
-        <Button
+        <button
           className={`navbar-toggler background ${theme}`}
-          variant={theme}
           data-bs-toggle="collapse"
           data-bs-target="#navbarNav"
           aria-controls="navbarNav"
@@ -49,46 +74,22 @@ const AppNavbar = () => {
           <span className={`navbarToggler`}>
             <i className="fas fa-bars"></i>
           </span>
-        </Button>
+        </button>
 
         <div className="collapse navbar-collapse" id="navbarNav">
           <nav className="navbar-nav me-auto mb-2 mb-lg-0">
-            <form className="d-flex form-inline">
-              <input
-                className="ms-3 form-control search"
-                type="search"
-                placeholder="Search"
-                aria-label="Search for a product"
-              />
-              <Button
-                variant={theme}
-                className="btn-primary searchButton"
-                type="submit"
-                aria-label="search"
-              >
-                <i className="fas fa-search"></i> Search
-              </Button>
-            </form>
-
-            <a
-              className={`ms-3 nav-link background ${
-                theme === "Dark" ? "text-white" : ""
-              }`}
-              href="/stores"
-            >
+            <a className={`ms-3 nav-link background ${theme}`} href="/stores">
               Stores <i className={`fas fa-store-alt`}></i>
             </a>
 
             <a
-              className={`ms-3 nav-link background ${
-                theme === "Dark" ? "text-white" : ""
-              }`}
+              className={`ms-3 nav-link background ${theme}`}
               href="/contactus"
             >
               Contact Us <i className={`fas fa-comment-alt`}></i>
             </a>
 
-            <Button
+            <button
               onClick={toggleTheme}
               className={` ms-3 nav-link background ${theme} themebutton`}
             >
@@ -98,26 +99,40 @@ const AppNavbar = () => {
               ) : (
                 <i className="fas fa-adjust"></i>
               )}
-            </Button>
+            </button>
+
+            {Auth.loggedIn() && (
+              <a className={`ms-3 nav-link background ${theme}`} href="/cart">
+                Cart{" "}
+                <i className={`fas fa-shopping-cart`}>
+                  {cartItemCount > 0 && (
+                    <Badge bg="success">{cartItemCount}</Badge>
+                  )}
+                </i>
+              </a>
+            )}
+
+            <form className="ms-3 d-flex form-inline">
+              <input
+                className="form-control me-sm-1"
+                type="search"
+                placeholder="Search"
+                aria-label="Search for a product"
+              />
+              <button
+                className={`btn btn-outline-success my-sm-0 background ${theme}`}
+                type="submit"
+                aria-label="search button"
+              >
+                <i className="fas fa-search"></i>
+              </button>
+            </form>
 
             {Auth.loggedIn() ? (
               <>
-                <a
-                  className={`ms-3 nav-link background ${
-                    theme === "Dark" ? "text-white" : ""
-                  }`}
-                  href="/cart"
-                >
-                  Cart <i className={`fas fa-shopping-cart`}></i>
-                </a>
-
-                <div
-                  className={`ms-3 mr-5 nav-item dropdown background ${
-                    theme === "Dark" ? "text-white" : ""
-                  }`}
-                >
-                  <Button
-                    className={` mr-5 nav-link btn dropdown-toggle background ${theme} themebutton`}
+                <div className={`ms-3 nav-item dropdown background ${theme}`}>
+                  <button
+                    className={` me-5 my-2 nav-link btn dropdown-toggle background ${theme} themebutton`}
                     id="navbarDropdown"
                     tabIndex="0"
                     data-bs-toggle="dropdown"
@@ -129,18 +144,18 @@ const AppNavbar = () => {
                     </span>
 
                     {Auth.getProfile().data.name}
-                  </Button>
+                  </button>
                   <div
                     className={`background ${theme} dropdown-menu`}
                     aria-labelledby="navbarDropdown"
                   >
                     <NavLink
-                      className={`dropdown-item nav-link background ${
-                        theme === "Dark" ? "text-white" : ""
-                      }`}
-                      to="/saved"
+                      className={`dropdown-item nav-link`}
+                      to="/savedproducts"
                     >
-                      Saved Products <i className="fas fa-heart"></i>
+                      <div className={`background ${theme}`}>
+                        Saved Products <i className="fas fa-heart"></i>
+                      </div>
                     </NavLink>
                     <NavLink to="/profile" className={`dropdown-item nav-link`}>
                       <div className={`background ${theme}`}>
@@ -193,18 +208,14 @@ const AppNavbar = () => {
               <>
                 <NavLink
                   to="/login"
-                  className={`ms-3 nav-link background ${
-                    theme === "Dark" ? "text-white" : ""
-                  }`}
+                  className={`ms-3 nav-link background ${theme}`}
                 >
                   Login <i className="fas fa-sign-in-alt"></i>
                 </NavLink>
 
                 <NavLink
                   to="/signup"
-                  className={`ms-3 nav-link background ${
-                    theme === "Dark" ? "text-white" : ""
-                  }`}
+                  className={`ms-3 nav-link background ${theme}`}
                 >
                   Signup <i className="fas fa-user"></i>
                 </NavLink>

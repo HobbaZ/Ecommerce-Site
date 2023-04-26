@@ -44,7 +44,7 @@ const Store = ({ store }) => {
 
   return (
     <Container fluid>
-      <Card key={store._id} className={`m-1 p-2`}>
+      <Card key={store._id} className={`m-1 p-2 cards`}>
         <Link to={`/stores/${store._id}`}>
           <img
             className="card-img-top"

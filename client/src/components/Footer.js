@@ -11,7 +11,7 @@ const Footer = () => {
   const { theme } = useContext(ThemeContext);
   return (
     <>
-      <footer className={` mt-5 background ${theme} text-center`}>
+      <footer className={` mt-5 text-center`}>
         <p>
           Ecommerce Site, {year()}
           <a
